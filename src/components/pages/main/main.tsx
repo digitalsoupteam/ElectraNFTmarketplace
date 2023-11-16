@@ -9,8 +9,6 @@ import PromisingMarket from '../../blocks/promising-market/promising-market';
 import Micromobility from '../../blocks/micromobility/micromobility';
 import BottomCta from '../../blocks/bottom-cta/bottom-cta';
 
-// import { useContractWrite } from 'wagmi';
-
 interface IMain {
   isLoggedIn: boolean;
   connectWallet: () => void;
@@ -19,7 +17,6 @@ interface IMain {
 const Main: React.FC<IMain> = ({ isLoggedIn, connectWallet }) => {
   return (
     <main>
-      {/* <button onClick={() => write()}>action</button> */}
       <Hero isLoggedIn={isLoggedIn} connectWallet={connectWallet} />
       <HowItWorks />
       <IncomeChoices />

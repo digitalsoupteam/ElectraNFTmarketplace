@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useContractRead, useWalletClient } from 'wagmi';
+// import { useState } from 'react';
+import { useContractRead, useContractReads, useWalletClient } from 'wagmi';
 import Wrapper from '../../layout/wrapper/wrapper';
 
 const mopedABI = [
@@ -708,10 +708,11 @@ interface IMyElectra {
 }
 
 const MyElecrta: React.FC<IMyElectra> = () => {
-  const [userTokens, setUserTokens] = useState([]);
+  // const [userTokens, setUserTokens] = useState([]);
 
   const mopedContractAddress = '0x0216cF364F2C7C9699089C0499506e9964AD5d64';
   const userWalletAddress = useWalletClient().data?.account.address;
+
   // Используйте useContractRead для получения количества NFT пользователя
   const { data: userNFTCount } = useContractRead({
     address: mopedContractAddress,
@@ -719,29 +720,39 @@ const MyElecrta: React.FC<IMyElectra> = () => {
     functionName: 'balanceOf',
     args: [userWalletAddress],
   });
-  console.log(userNFTCount);
-  // Состояние для хранения информации о токенах пользователя
+
+  console.log('userNFTCount: ', userNFTCount);
 
   // Получите информацию о каждом токене пользователя
-  const { data: tokenId } = useContractRead({
-    address: mopedContractAddress,
-    abi: mopedABI,
-    functionName: 'tokenOfOwnerByIndex',
-    args: [userWalletAddress, 0],
+  const createPropContractByCount = (count: number) => {
+    const contracts = [];
+    for (let i = 0; i < count; i++) {
+      contracts.push({
+        address: mopedContractAddress,
+        abi: mopedABI,
+        functionName: 'tokenOfOwnerByIndex',
+        args: [userWalletAddress, i],
+      });
+    }
+
+    return contracts;
+  };
+
+  const { data: userTokens } = useContractReads({
+    contracts: createPropContractByCount(userNFTCount),
   });
+  console.log('userTokens: ', userTokens);
 
-  useEffect(() => {
-    setUserTokens((prevTokens) =>
-      tokenId ? [...prevTokens, tokenId] : prevTokens
-    );
-    console.log('id', tokenId);
-  }, [tokenId]);
-
-  const { data: tokenStakingStrategy } = useContractRead({
-    address: mopedContractAddress,
-    abi: mopedABI,
-    functionName: 'tokenStakingStrategy',
-    args: [tokenId],
+  const { data: tokenStakingStrategy } = useContractReads({
+    contracts:
+      userTokens?.map((tokenId) => {
+        return {
+          address: mopedContractAddress,
+          abi: mopedABI,
+          functionName: 'tokenStakingStrategy',
+          args: [tokenId.result],
+        };
+      }) || [],
   });
 
   const { data: totalMintedAmount } = useContractRead({
@@ -756,9 +767,17 @@ const MyElecrta: React.FC<IMyElectra> = () => {
   return (
     <main>
       <Wrapper>
-        {userTokens &&
-          userTokens.length &&
-          userTokens.map((item, index) => <div key={index}>{item}</div>)}
+        <p style={{ color: '#000' }}>
+          Количество токенов {Number(userNFTCount)}
+        </p>
+        <p style={{ color: '#000' }}>
+          Стратегия стейкинга{' '}
+          {tokenStakingStrategy?.map((strategy, index) => (
+            <p style={{ color: '#000' }} key={index}>
+              {strategy.result ? strategy.result : 'no strategy'}
+            </p>
+          ))}
+        </p>
       </Wrapper>
     </main>
   );
