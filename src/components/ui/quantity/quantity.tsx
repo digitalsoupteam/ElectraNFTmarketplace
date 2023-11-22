@@ -24,12 +24,25 @@ const Quantity: React.FC<IQuantity> = ({ setExternalState }) => {
     setExternalState(newQuantity);
   };
 
+  const handleOnChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const value = evt.target.value;
+    const parsedValue = parseInt(value);
+    if (parsedValue > 0) {
+      setQuantity(parsedValue);
+      setExternalState(parsedValue);
+    }
+  };
+
   return (
     <StyledQuantity>
       <QuantityButton $isLeft={true} onClick={handleDecrease}>
         <MinusIco />
       </QuantityButton>
-      <QuantityInput type={'number'} value={quantity} />
+      <QuantityInput
+        type={'number'}
+        value={quantity}
+        onChange={handleOnChange}
+      />
       <QuantityButton onClick={handleIncrease}>
         <PlusIco />
       </QuantityButton>

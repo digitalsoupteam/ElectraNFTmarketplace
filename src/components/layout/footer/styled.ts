@@ -80,6 +80,8 @@ const Copyright = styled(P)`
 
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
     margin-right: auto;
+    flex-basis: 33%;
+    text-align: left;
   }
 `;
 

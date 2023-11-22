@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Accordion from '../../ui/accordion/accordion';
+import Communication from '../../blocks/communication/communication';
 
 const StyledAccordion = styled(Accordion)`
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
@@ -10,4 +11,8 @@ const StyledAccordion = styled(Accordion)`
   }
 `;
 
-export { StyledAccordion };
+const StyledCommunication = styled(Communication)`
+  background-color: ${(props) => props.theme.white};
+`;
+
+export { StyledAccordion, StyledCommunication };

@@ -41,7 +41,7 @@ const menuItems: ImenuItems[] = [
   },
   {
     title: 'EXCHANGE',
-    to: '/',
+    to: 'exchange',
   },
   {
     title: 'MyElectra',

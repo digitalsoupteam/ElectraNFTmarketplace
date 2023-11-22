@@ -8,9 +8,11 @@ const StyledDropdown = styled.div`
 
 interface IDropdownToggler {
   $isOpened: boolean;
+  isValid: boolean;
 }
 
 const DropdownToggler = styled(Button)<IDropdownToggler>`
+  color: ${(props) => (props.isValid ? 'initial' : props.theme.crimson)};
   background-color: ${(props) => props.theme.white};
   border-radius: ${(props) => props.theme.borderRadiusMobileSmall};
   padding: 12px 20px;

@@ -18,21 +18,25 @@ interface ISocialItem {
 const socials: ISocialItem[] = [
   {
     img: SocialIcons.TELEGRAM,
-    link: '/',
+    link: 'https://t.me/electra_nft',
   },
   {
     img: SocialIcons.TWITTER,
-    link: '/',
+    link: 'https://twitter.com/Electra__NFT',
   },
   {
     img: SocialIcons.DISCORD,
-    link: '/',
+    link: 'https://discord.gg/rFkgyXpB',
   },
 ];
 
-const Communication: React.FC = () => {
+interface ICommunication {
+  className?: string;
+}
+
+const Communication: React.FC<ICommunication> = ({ className }) => {
   return (
-    <StyledCommunication>
+    <StyledCommunication className={className}>
       <Wrapper>
         <CommunicationInner>
           <CommnunicationTitle size={TitleSize.SMALL} as={'h2'}>

@@ -70,7 +70,9 @@ const IncomeChoices: React.FC = () => {
               </StableInvestmentItem>
             </StableInvestmentList>
             <ButtonContainer>
-              <Button isSmall={true}>Buy NFT</Button>
+              <Button isSmall={true} to={'/market'}>
+                Buy NFT
+              </Button>
               <Button isSmall={true} isAlt={true}>
                 Video guide
               </Button>

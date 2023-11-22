@@ -4,6 +4,9 @@ import MarketNftItem from '../../ui/market-nft-item/market-nft-item';
 interface IMarketLoopItem {
   image: string;
   title: string;
+  address?: `0x${string}`;
+  abi?: any;
+  disabled?: boolean;
 }
 
 interface IMarketLoop {
@@ -16,7 +19,14 @@ const MarketLoop: React.FC<IMarketLoop> = ({ items }) => {
       {items &&
         items.length &&
         items.map((item, index) => (
-          <MarketNftItem title={item.title} image={item.image} key={index} />
+          <MarketNftItem
+            title={item.title}
+            image={item.image}
+            address={item.address}
+            abi={item.abi}
+            key={index}
+            disabled={item.disabled}
+          />
         ))}
     </StyledMarketLoop>
   );

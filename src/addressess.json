@@ -1,48 +1,47 @@
 {
-  "addressBook": "0xEa439e0C9EA630685b78628846535672E7dD94B2",
-  "multicall": "0x1aa43c68E7E9Cf1669EcCF5f8F704F766128d466",
-  "treasury": "0xBBAe4344F71C0fFBBdA6d2f4Dee813ebb982EB2b",
+  "addressBook": "0xC373Bd9a46df0946Dd2b8f52bFC8f4f5BC95c6dA",
+  "treasury": "0xEa439e0C9EA630685b78628846535672E7dD94B2",
   "tokens": [
     {
       "name": "USDT",
       "token": "0x55d398326f99059fF775485246999027B3197955",
-      "pricer": "0x94B53793cf1BCb4C0a26885C3091345347113019"
+      "pricer": "0xEaE2f21073290ec7Cba7C6140352A805dd9678ce"
     },
     {
       "name": "ELCT",
       "token": "0x2a89e4F630D2a1a93Ab4D85230737C43f118E0fB",
-      "pricer": "0x285dc067d22C55B12ADC5E4fB73B886873925dEa"
+      "pricer": "0xeB6032426EA61f65321A95C21432f4E19fC961B6"
     }
   ],
   "items": [
     {
       "name": "MopedItem",
-      "address": "0x0216cF364F2C7C9699089C0499506e9964AD5d64"
+      "address": "0xdb266AC6e143Bf7124018792414B497E0eBC1aF7"
     },
     {
       "name": "MopedSparePartItem",
-      "address": "0x571072dAAacf225e5d7Ea6816985DDBd53cb5226"
+      "address": "0xDF83Ef7D43148ad74fBc6F250c5E742d22D380D3"
     }
   ],
   "stakingStartegies": {
     "fix": [
       {
         "name": "TwoYearsFixStakingStrategy",
-        "address": "0xB5B975d8B6Cc55C9015723EF616fE1B6f920F6BF"
+        "address": "0x0E01d5cb9e4209FF6363f8D34C6c5E93606426c1"
       },
       {
         "name": "ThreeYearsFixStakingStrategy",
-        "address": "0x3118369Dbcf48AA4700091Cd56D30521025adae3"
+        "address": "0xC07Ceb2388dc531B95872165Ea52a35135CA7281"
       },
       {
         "name": "FiveYearsFixStakingStrategy",
-        "address": "0xEeAE996434eA62Cbe46fEa73D7172AdC069882De"
+        "address": "0xB5B975d8B6Cc55C9015723EF616fE1B6f920F6BF"
       }
     ],
     "flex": [
       {
         "name": "FiveYearsFlexStakingStrategy",
-        "address": "0xA7067fA3Eb56984549A67cdE1b73054c03854aE1"
+        "address": "0x0d68B752F019B8766173c3965Bd6a0970f6FD331"
       }
     ]
   }

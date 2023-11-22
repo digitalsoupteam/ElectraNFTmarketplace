@@ -12,1371 +12,105 @@ import {
   PriceTitle,
   PriceButton,
   PriceButtonToken,
-  PriceSeparator,
   NftBuyButton,
   USTax,
+  OutOfStock,
 } from './styled';
-import { useContractRead, useContractWrite, useWalletClient } from 'wagmi';
+import {
+  useContractRead,
+  useContractWrite,
+  // usePrepareContractWrite,
+  useWalletClient,
+} from 'wagmi';
 import { TitleSize } from '../title/title';
 import Quantity from '../quantity/quantity';
-import AddressData from '../../../addressess.json';
+import Tokens from '../../../contracts/tokens.json';
+import Treasury from '../../../contracts/treasury.json';
+import StakingStrategies from '../../../contracts/stakingStrategies.json';
+import { encodeFunctionData } from 'viem';
 
 interface IMarketNftItem {
   image: string;
   title: string;
+  address?: `0x${string}`;
+  abi: any;
+  disabled?: boolean;
 }
 
-const MarketNftItem: React.FC<IMarketNftItem> = ({ image, title }) => {
-  const { data: walletClient } = useWalletClient();
+const MarketNftItem: React.FC<IMarketNftItem> = ({
+  image,
+  title,
+  address,
+  abi,
+  disabled,
+}) => {
   const [currentIvnestmentType, setCurrentIvnestmentType] = useState('');
+  const [isInvestmentTypeValid, setIsInvestmentTypeValid] = useState(false);
+  const [isUSTaxChecked, setIsUSTaxChecked] = useState(false);
+  const [mintButtonFirstClick, setMintButtonFirstClick] = useState(false);
   const [USDPrice, setUSDPrice] = useState(0n);
   const [USDTPrice, setUSDTPrice] = useState(0n);
-  const [USDTTotalPrice, setUSDTotalPrice] = useState(0);
+  const [USDTTotalPrice, setUSDTotalPrice] = useState(0n);
   const [ELECTPrice, setELECTPrice] = useState(0n);
-  const [ELECTTotalPrice, setELECTotalPrice] = useState(0);
+  const [ELECTTotalPrice, setELECTotalPrice] = useState(0n);
   const [quantity, setQuantity] = useState(1);
-  // const [currentToken, setCurrentToken] = useState('');
+  const [currentTokenIndex, setCurrentTokenIndex] = useState(0);
+  const [encodedMintMulticallData, setEncodedMintMulticallData] = useState<
+    `0x${string}`[] | string
+  >('0x');
+
+  const { data: walletClient } = useWalletClient();
+
   useEffect(() => {
-    setUSDTotalPrice(quantity * (Number(USDTPrice) / 1e18));
-    setELECTotalPrice(quantity * (Number(ELECTPrice) / 1e18));
+    setUSDTotalPrice(BigInt(quantity) * USDTPrice);
+    setELECTotalPrice(BigInt(quantity) * ELECTPrice);
   }, [quantity, USDTPrice, ELECTPrice]);
 
   const handlerQuantity = (quantity: number) => {
     setQuantity(quantity);
   };
 
-  const tokens = AddressData.tokens;
-
   const investmentTypes = {
     toggler: 'Choose the Investment type',
     items: [
       {
         type: '50% flex',
-        address: AddressData.stakingStartegies.fix[0].address,
-        onClick: () =>
-          setCurrentIvnestmentType(
-            AddressData.stakingStartegies.fix[0].address
-          ),
+        address: StakingStrategies[3].address,
+        onClick: () => {
+          setIsInvestmentTypeValid(true);
+          setCurrentIvnestmentType(StakingStrategies[3].address);
+        },
       },
       {
         type: '4% stable for 2 years',
-        address: AddressData.stakingStartegies.fix[0].address,
-        onClick: () =>
-          setCurrentIvnestmentType(
-            AddressData.stakingStartegies.fix[0].address
-          ),
+        address: StakingStrategies[0].address,
+        onClick: () => {
+          setIsInvestmentTypeValid(true);
+          setCurrentIvnestmentType(StakingStrategies[0].address);
+        },
       },
       {
         type: '4% stable for 3 years',
-        address: AddressData.stakingStartegies.fix[1].address,
-        onClick: () =>
-          setCurrentIvnestmentType(
-            AddressData.stakingStartegies.fix[1].address
-          ),
+        address: StakingStrategies[1].address,
+        onClick: () => {
+          setIsInvestmentTypeValid(true);
+          setCurrentIvnestmentType(StakingStrategies[1].address);
+        },
       },
       {
         type: '4% stable for 5 years',
-        address: AddressData.stakingStartegies.fix[2].address,
-        onClick: () =>
-          setCurrentIvnestmentType(
-            AddressData.stakingStartegies.fix[2].address
-          ),
+        address: StakingStrategies[2].address,
+        onClick: () => {
+          setIsInvestmentTypeValid(true);
+          setCurrentIvnestmentType(StakingStrategies[2].address);
+        },
       },
     ],
   };
 
-  const tokenABI = [
-    {
-      constant: true,
-      inputs: [],
-      name: 'name',
-      outputs: [
-        {
-          name: '',
-          type: 'string',
-        },
-      ],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          name: '_spender',
-          type: 'address',
-        },
-        {
-          name: '_value',
-          type: 'uint256',
-        },
-      ],
-      name: 'approve',
-      outputs: [
-        {
-          name: '',
-          type: 'bool',
-        },
-      ],
-      payable: false,
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: 'totalSupply',
-      outputs: [
-        {
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          name: '_from',
-          type: 'address',
-        },
-        {
-          name: '_to',
-          type: 'address',
-        },
-        {
-          name: '_value',
-          type: 'uint256',
-        },
-      ],
-      name: 'transferFrom',
-      outputs: [
-        {
-          name: '',
-          type: 'bool',
-        },
-      ],
-      payable: false,
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: 'decimals',
-      outputs: [
-        {
-          name: '',
-          type: 'uint8',
-        },
-      ],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          name: '_owner',
-          type: 'address',
-        },
-      ],
-      name: 'balanceOf',
-      outputs: [
-        {
-          name: 'balance',
-          type: 'uint256',
-        },
-      ],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: 'symbol',
-      outputs: [
-        {
-          name: '',
-          type: 'string',
-        },
-      ],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          name: '_to',
-          type: 'address',
-        },
-        {
-          name: '_value',
-          type: 'uint256',
-        },
-      ],
-      name: 'transfer',
-      outputs: [
-        {
-          name: '',
-          type: 'bool',
-        },
-      ],
-      payable: false,
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          name: '_owner',
-          type: 'address',
-        },
-        {
-          name: '_spender',
-          type: 'address',
-        },
-      ],
-      name: 'allowance',
-      outputs: [
-        {
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      payable: true,
-      stateMutability: 'payable',
-      type: 'fallback',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          name: 'owner',
-          type: 'address',
-        },
-        {
-          indexed: true,
-          name: 'spender',
-          type: 'address',
-        },
-        {
-          indexed: false,
-          name: 'value',
-          type: 'uint256',
-        },
-      ],
-      name: 'Approval',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          name: 'from',
-          type: 'address',
-        },
-        {
-          indexed: true,
-          name: 'to',
-          type: 'address',
-        },
-        {
-          indexed: false,
-          name: 'value',
-          type: 'uint256',
-        },
-      ],
-      name: 'Transfer',
-      type: 'event',
-    },
-  ];
-
-  const mopedABI = [
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: false,
-          internalType: 'address',
-          name: 'previousAdmin',
-          type: 'address',
-        },
-        {
-          indexed: false,
-          internalType: 'address',
-          name: 'newAdmin',
-          type: 'address',
-        },
-      ],
-      name: 'AdminChanged',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'owner',
-          type: 'address',
-        },
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'approved',
-          type: 'address',
-        },
-        {
-          indexed: true,
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'Approval',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'owner',
-          type: 'address',
-        },
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'operator',
-          type: 'address',
-        },
-        {
-          indexed: false,
-          internalType: 'bool',
-          name: 'approved',
-          type: 'bool',
-        },
-      ],
-      name: 'ApprovalForAll',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'beacon',
-          type: 'address',
-        },
-      ],
-      name: 'BeaconUpgraded',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: false,
-          internalType: 'uint8',
-          name: 'version',
-          type: 'uint8',
-        },
-      ],
-      name: 'Initialized',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'owner',
-          type: 'address',
-        },
-        {
-          indexed: true,
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'stakingStartegy',
-          type: 'address',
-        },
-        {
-          indexed: false,
-          internalType: 'address',
-          name: 'payToken',
-          type: 'address',
-        },
-      ],
-      name: 'Mint',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'from',
-          type: 'address',
-        },
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'to',
-          type: 'address',
-        },
-        {
-          indexed: true,
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'Transfer',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'implementation',
-          type: 'address',
-        },
-      ],
-      name: 'Upgraded',
-      type: 'event',
-    },
-    {
-      inputs: [],
-      name: 'addressBook',
-      outputs: [
-        {
-          internalType: 'address',
-          name: '',
-          type: 'address',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'to',
-          type: 'address',
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'approve',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'owner',
-          type: 'address',
-        },
-      ],
-      name: 'balanceOf',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'uint256',
-          name: '_tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'burn',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'getApproved',
-      outputs: [
-        {
-          internalType: 'address',
-          name: '',
-          type: 'address',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: '_addressBook',
-          type: 'address',
-        },
-        {
-          internalType: 'string',
-          name: '_name',
-          type: 'string',
-        },
-        {
-          internalType: 'string',
-          name: '_symbol',
-          type: 'string',
-        },
-        {
-          internalType: 'uint256',
-          name: '_price',
-          type: 'uint256',
-        },
-        {
-          internalType: 'uint256',
-          name: '_maxSupply',
-          type: 'uint256',
-        },
-        {
-          internalType: 'string',
-          name: '_uri',
-          type: 'string',
-        },
-      ],
-      name: 'initialize',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'owner',
-          type: 'address',
-        },
-        {
-          internalType: 'address',
-          name: 'operator',
-          type: 'address',
-        },
-      ],
-      name: 'isApprovedForAll',
-      outputs: [
-        {
-          internalType: 'bool',
-          name: '',
-          type: 'bool',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'maxSupply',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: '_stakingStrategy',
-          type: 'address',
-        },
-        {
-          internalType: 'address',
-          name: '_payToken',
-          type: 'address',
-        },
-        {
-          internalType: 'bytes',
-          name: '_payload',
-          type: 'bytes',
-        },
-      ],
-      name: 'mint',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'name',
-      outputs: [
-        {
-          internalType: 'string',
-          name: '',
-          type: 'string',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'nextTokenId',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'ownerOf',
-      outputs: [
-        {
-          internalType: 'address',
-          name: '',
-          type: 'address',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'price',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'proxiableUUID',
-      outputs: [
-        {
-          internalType: 'bytes32',
-          name: '',
-          type: 'bytes32',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'from',
-          type: 'address',
-        },
-        {
-          internalType: 'address',
-          name: 'to',
-          type: 'address',
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'safeTransferFrom',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'from',
-          type: 'address',
-        },
-        {
-          internalType: 'address',
-          name: 'to',
-          type: 'address',
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-        {
-          internalType: 'bytes',
-          name: 'data',
-          type: 'bytes',
-        },
-      ],
-      name: 'safeTransferFrom',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'operator',
-          type: 'address',
-        },
-        {
-          internalType: 'bool',
-          name: 'approved',
-          type: 'bool',
-        },
-      ],
-      name: 'setApprovalForAll',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'uint256',
-          name: '_maxSupply',
-          type: 'uint256',
-        },
-      ],
-      name: 'setNewMaxSupply',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'stopSell',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'bytes4',
-          name: 'interfaceId',
-          type: 'bytes4',
-        },
-      ],
-      name: 'supportsInterface',
-      outputs: [
-        {
-          internalType: 'bool',
-          name: '',
-          type: 'bool',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'symbol',
-      outputs: [
-        {
-          internalType: 'string',
-          name: '',
-          type: 'string',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'uint256',
-          name: 'index',
-          type: 'uint256',
-        },
-      ],
-      name: 'tokenByIndex',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'owner',
-          type: 'address',
-        },
-        {
-          internalType: 'uint256',
-          name: 'index',
-          type: 'uint256',
-        },
-      ],
-      name: 'tokenOfOwnerByIndex',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'tokenStakingStrategy',
-      outputs: [
-        {
-          internalType: 'address',
-          name: '',
-          type: 'address',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'tokenURI',
-      outputs: [
-        {
-          internalType: 'string',
-          name: '',
-          type: 'string',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'totalMintedAmount',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'totalSupply',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'from',
-          type: 'address',
-        },
-        {
-          internalType: 'address',
-          name: 'to',
-          type: 'address',
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'transferFrom',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'newImplementation',
-          type: 'address',
-        },
-      ],
-      name: 'upgradeTo',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'newImplementation',
-          type: 'address',
-        },
-        {
-          internalType: 'bytes',
-          name: 'data',
-          type: 'bytes',
-        },
-      ],
-      name: 'upgradeToAndCall',
-      outputs: [],
-      stateMutability: 'payable',
-      type: 'function',
-    },
-  ];
-
-  const treasuryABI = [
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: false,
-          internalType: 'address',
-          name: 'previousAdmin',
-          type: 'address',
-        },
-        {
-          indexed: false,
-          internalType: 'address',
-          name: 'newAdmin',
-          type: 'address',
-        },
-      ],
-      name: 'AdminChanged',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'beacon',
-          type: 'address',
-        },
-      ],
-      name: 'BeaconUpgraded',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'implementation',
-          type: 'address',
-        },
-      ],
-      name: 'Upgraded',
-      type: 'event',
-    },
-    {
-      stateMutability: 'payable',
-      type: 'fallback',
-    },
-    {
-      stateMutability: 'payable',
-      type: 'receive',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: false,
-          internalType: 'uint8',
-          name: 'version',
-          type: 'uint8',
-        },
-      ],
-      name: 'Initialized',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'from',
-          type: 'address',
-        },
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'to',
-          type: 'address',
-        },
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'token',
-          type: 'address',
-        },
-        {
-          indexed: false,
-          internalType: 'uint256',
-          name: 'amount',
-          type: 'uint256',
-        },
-      ],
-      name: 'Withdraw',
-      type: 'event',
-    },
-    {
-      inputs: [],
-      name: 'PRICERS_DECIMALS',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'USD_DECIMALS',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: '_token',
-          type: 'address',
-        },
-        {
-          internalType: 'address',
-          name: '_pricer',
-          type: 'address',
-        },
-      ],
-      name: 'addToken',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'addressBook',
-      outputs: [
-        {
-          internalType: 'address',
-          name: '',
-          type: 'address',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: '_token',
-          type: 'address',
-        },
-      ],
-      name: 'deleteToken',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: '_token',
-          type: 'address',
-        },
-      ],
-      name: 'enforceIsSupportedToken',
-      outputs: [],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: '_addressBook',
-          type: 'address',
-        },
-      ],
-      name: 'initialize',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'onlyGovernanceWithdrawn',
-      outputs: [
-        {
-          internalType: 'bool',
-          name: '',
-          type: 'bool',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: '',
-          type: 'address',
-        },
-      ],
-      name: 'pricers',
-      outputs: [
-        {
-          internalType: 'address',
-          name: '',
-          type: 'address',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'proxiableUUID',
-      outputs: [
-        {
-          internalType: 'bytes32',
-          name: '',
-          type: 'bytes32',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'bool',
-          name: '_value',
-          type: 'bool',
-        },
-      ],
-      name: 'setOnlyProductOwnerWithdrawn',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: '_token',
-          type: 'address',
-        },
-        {
-          internalType: 'address',
-          name: '_pricer',
-          type: 'address',
-        },
-      ],
-      name: 'updateTokenPricer',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'newImplementation',
-          type: 'address',
-        },
-      ],
-      name: 'upgradeTo',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'newImplementation',
-          type: 'address',
-        },
-        {
-          internalType: 'bytes',
-          name: 'data',
-          type: 'bytes',
-        },
-      ],
-      name: 'upgradeToAndCall',
-      outputs: [],
-      stateMutability: 'payable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'uint256',
-          name: '_usdAmount',
-          type: 'uint256',
-        },
-        {
-          internalType: 'address',
-          name: '_token',
-          type: 'address',
-        },
-      ],
-      name: 'usdAmountToToken',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: '_token',
-          type: 'address',
-        },
-        {
-          internalType: 'uint256',
-          name: '_amount',
-          type: 'uint256',
-        },
-        {
-          internalType: 'address',
-          name: '_recipient',
-          type: 'address',
-        },
-      ],
-      name: 'withdraw',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: '_logic',
-          type: 'address',
-        },
-        {
-          internalType: 'bytes',
-          name: '_data',
-          type: 'bytes',
-        },
-      ],
-      stateMutability: 'payable',
-      type: 'constructor',
-    },
-  ];
-
   const { data: price } = useContractRead({
-    address: '0x0216cF364F2C7C9699089C0499506e9964AD5d64',
-    abi: mopedABI,
+    address: address,
+    abi: abi,
     functionName: 'price',
     onSuccess: () => {
       if (typeof price === 'bigint') {
@@ -1386,10 +120,10 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({ image, title }) => {
   });
 
   const { data: fetchedUSDTPrice } = useContractRead({
-    address: AddressData.treasury as `0x${string}`,
-    abi: treasuryABI,
+    address: Treasury.address as `0x${string}`,
+    abi: Treasury.abi,
     functionName: 'usdAmountToToken',
-    args: [USDPrice, tokens[0].token],
+    args: [USDPrice, Tokens[0].address],
     onSuccess: () => {
       if (typeof fetchedUSDTPrice === 'bigint') {
         setUSDTPrice(fetchedUSDTPrice);
@@ -1398,10 +132,10 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({ image, title }) => {
   });
 
   const { data: fetchedELECTPrice } = useContractRead({
-    address: AddressData.treasury as `0x${string}`,
-    abi: treasuryABI,
+    address: Treasury.address as `0x${string}`,
+    abi: Treasury.abi,
     functionName: 'usdAmountToToken',
-    args: [USDPrice, tokens[1].token],
+    args: [USDPrice, Tokens[1].address],
     onSuccess: () => {
       if (typeof fetchedELECTPrice === 'bigint') {
         setELECTPrice(fetchedELECTPrice);
@@ -1409,78 +143,201 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({ image, title }) => {
     },
   });
 
-  const { write: approveWrite } = useContractWrite({
-    address: '0x55d398326f99059fF775485246999027B3197955',
-    abi: tokenABI,
-    functionName: 'approve',
-    account: walletClient?.account,
-    onSuccess: () => {
-      mintWrite({
-        args: [
-          currentIvnestmentType,
-          '0x55d398326f99059fF775485246999027B3197955',
-          '0x',
-        ],
-      });
-    },
-  });
+  // const { config: mintConfig } = usePrepareContractWrite();
 
-  const { write: mintWrite } = useContractWrite({
-    address: '0x0216cF364F2C7C9699089C0499506e9964AD5d64',
-    abi: mopedABI,
+  const {
+    write: mintWrite,
+    isLoading: isMinting,
+    isSuccess: mintSuccess,
+  } = useContractWrite({
+    address: address,
+    abi: abi,
     functionName: 'mint',
     account: walletClient?.account,
+    args: [currentIvnestmentType, Tokens[currentTokenIndex].address, '0x'],
   });
 
+  // const { config: mintMulticallConfig } = usePrepareContractWrite();
+
+  const {
+    write: mintMulticall,
+    isLoading: isMulticallMinting,
+    isSuccess: multicallMintSuccess,
+  } = useContractWrite({
+    address: address,
+    abi: abi,
+    functionName: 'multicall',
+    account: walletClient?.account,
+    args: [encodedMintMulticallData],
+  });
+
+  const { data: checkAllowance } = useContractRead({
+    address: Tokens[currentTokenIndex].address as `0x${string}`,
+    abi: Tokens[currentTokenIndex].abi,
+    functionName: 'allowance',
+    args: [walletClient?.account.address, address],
+    onError: (error) => {
+      console.error(error);
+    },
+    watch: true,
+  });
+
+  const { write: approveWrite, isLoading: isApproveLoading } = useContractWrite(
+    {
+      address: Tokens[currentTokenIndex].address as `0x${string}`,
+      abi: Tokens[currentTokenIndex].abi,
+      functionName: 'approve',
+      account: walletClient?.account,
+      onSuccess: () => {
+        if (quantity > 1) {
+          mintMulticall ? mintMulticall() : alert(`mintMulticall is undefined`);
+        } else {
+          mintWrite ? mintWrite() : alert(`mintWrite is undefined`);
+        }
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (currentIvnestmentType) {
+      setIsInvestmentTypeValid(true);
+    } else {
+      setIsInvestmentTypeValid(false);
+    }
+  }, [currentIvnestmentType]);
+
   const handleMint = async () => {
-    try {
-      await approveWrite({
-        args: ['0x0216cF364F2C7C9699089C0499506e9964AD5d64', price],
-      });
-    } catch (error) {
-      console.error('mint error: ', error);
+    setMintButtonFirstClick(true);
+
+    const currentTokenPrice =
+      currentTokenIndex === 0 ? USDTTotalPrice : ELECTTotalPrice;
+
+    if (isInvestmentTypeValid && isUSTaxChecked) {
+      if (quantity > 1) {
+        const encodedMintMulticallArray = Array.from({ length: quantity }, () =>
+          encodeFunctionData({
+            abi: abi,
+            functionName: 'mint',
+            args: [
+              currentIvnestmentType,
+              Tokens[currentTokenIndex].address,
+              '0x',
+            ],
+          })
+        );
+
+        setEncodedMintMulticallData(encodedMintMulticallArray);
+      }
+
+      if (
+        typeof checkAllowance === 'bigint'
+          ? checkAllowance >= currentTokenPrice
+          : false
+      ) {
+        try {
+          // Если есть апрув и количество > 1
+          if (quantity > 1) {
+            mintMulticall?.();
+            // Если есть апрув и количество < 1
+          } else {
+            mintWrite ? mintWrite() : alert(`mintWrite is undefined`);
+          }
+        } catch (error) {
+          console.log(`error while minting:  ${error}`);
+        }
+      } else {
+        try {
+          // Если апрува нет
+          approveWrite({
+            args: [address, currentTokenPrice],
+          });
+        } catch (error) {
+          console.error('mint error: ', error);
+        }
+      }
     }
   };
 
   return (
     <StyledNft>
-      <NftImage src={image} />
+      <NftImage src={image} outOfStock={disabled ? true : false} />
       <NftTitle size={TitleSize.MEDIUM} as={'h3'}>
         {title}
       </NftTitle>
       <NftContent>
-        <NftProperties>
-          <PropertiesItem>
-            <PropertiesItemTitle>Investment Type</PropertiesItemTitle>
-            <StyledDropdown
-              toggler={investmentTypes.toggler}
-              items={investmentTypes.items}
-            />
-          </PropertiesItem>
-          <PropertiesItem>
-            <PropertiesItemTitle>Quantity</PropertiesItemTitle>
-            <Quantity setExternalState={handlerQuantity} />
-          </PropertiesItem>
-        </NftProperties>
-        <NftPrice>
-          <PriceTitle>Total price</PriceTitle>
-          {tokens &&
-            tokens.length &&
-            tokens.map((token, index) => (
-              <>
-                <PriceButton key={index}>
-                  {token.name === 'USDT' ? USDTTotalPrice : null}
-                  {token.name === 'ELCT' ? ELECTTotalPrice : null}
-                  <PriceButtonToken>{token.name}</PriceButtonToken>
-                </PriceButton>
-                <PriceSeparator> / </PriceSeparator>
-              </>
-            ))}
-        </NftPrice>
-        <NftBuyButton onClick={handleMint} isSmall={true}>
-          Buy
+        {disabled ? (
+          <OutOfStock>Out of stock</OutOfStock>
+        ) : (
+          <>
+            <NftProperties>
+              <PropertiesItem>
+                <PropertiesItemTitle>Investment Type</PropertiesItemTitle>
+                <StyledDropdown
+                  toggler={investmentTypes.toggler}
+                  items={investmentTypes.items}
+                  isValid={mintButtonFirstClick ? isInvestmentTypeValid : true}
+                />
+              </PropertiesItem>
+              <PropertiesItem>
+                <PropertiesItemTitle>Quantity</PropertiesItemTitle>
+                <Quantity setExternalState={handlerQuantity} />
+              </PropertiesItem>
+            </NftProperties>
+            <NftPrice>
+              <PriceTitle>Total price</PriceTitle>
+              {Tokens &&
+                Tokens.length &&
+                Tokens.map((token, index) => (
+                  <PriceButton
+                    key={index}
+                    onClick={() => setCurrentTokenIndex(index)}
+                    isActive={currentTokenIndex === index}
+                  >
+                    {token.name === 'USDT'
+                      ? Number(USDTTotalPrice) / 1e18
+                      : null}
+                    {token.name === 'ELCT'
+                      ? Number(ELECTTotalPrice) / 1e18
+                      : null}
+                    <PriceButtonToken>{token.name}</PriceButtonToken>
+                  </PriceButton>
+                ))}
+            </NftPrice>
+          </>
+        )}
+        <NftBuyButton
+          onClick={handleMint}
+          isSmall={true}
+          disabled={isApproveLoading || isMinting}
+          outOfStock={disabled ? true : false}
+        >
+          {isApproveLoading ? 'Approving..' : ''}
+          {isMinting || isMulticallMinting ? 'Minting..' : ''}
+          {(mintSuccess || multicallMintSuccess) && !isApproveLoading
+            ? 'Success'
+            : ''}
+          {!isApproveLoading &&
+          !isMinting &&
+          !mintSuccess &&
+          !isMulticallMinting &&
+          !multicallMintSuccess &&
+          !disabled
+            ? 'Buy'
+            : ''}
+          {disabled ? 'Soon' : ''}
         </NftBuyButton>
-        <USTax>I am not a US tax resident</USTax>
+        {disabled ? null : (
+          <USTax
+            $isUSTaxChecked={isUSTaxChecked}
+            $isUsTaxValid={mintButtonFirstClick ? isUSTaxChecked : true}
+          >
+            <input
+              type={'checkbox'}
+              onChange={() => setIsUSTaxChecked(!isUSTaxChecked)}
+            />
+            I am not a US tax resident
+          </USTax>
+        )}
       </NftContent>
     </StyledNft>
   );

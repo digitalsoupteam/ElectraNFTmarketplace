@@ -13,7 +13,7 @@ interface ISocialItem {
 }
 
 interface ISocials {
-  socials: ISocialItem[];
+  socials?: ISocialItem[];
   currentColor: string;
   className?: string;
   light?: boolean;

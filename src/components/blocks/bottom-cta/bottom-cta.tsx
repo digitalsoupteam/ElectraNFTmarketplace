@@ -42,6 +42,8 @@ const ctaItems: ICtaItems[] = [
 ];
 
 const BottomCta: React.FC = () => {
+  const buttonsLinks = ['/market', '/', '/exchange'];
+
   return (
     <StyledBottomCta>
       <Wrapper>
@@ -56,7 +58,14 @@ const BottomCta: React.FC = () => {
                 <CtaItemTitle size={TitleSize.SMALL} as={'h3'}>
                   {item.title}
                 </CtaItemTitle>
-                <Button isSmall={true}>{item.button_text}</Button>
+                <Button
+                  isSmall={true}
+                  {...(index === 1
+                    ? { link: buttonsLinks[index] }
+                    : { to: buttonsLinks[index] })}
+                >
+                  {item.button_text}
+                </Button>
               </CtaItem>
             ))}
         </CtaList>

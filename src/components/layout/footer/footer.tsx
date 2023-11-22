@@ -9,32 +9,34 @@ import {
 } from './styled';
 import Wrapper from '../../layout/wrapper/wrapper';
 import AppButton from '../../ui/app-button/app-button';
-import { Socials, SocialIcons } from '../../ui/socials/socials';
+import { Socials } from '../../ui/socials/socials';
+// import { Socials, SocialIcons } from '../../ui/socials/socials';
 import AppStoreIco from '../../../assets/appstore.svg?react';
 import GooglePlayIco from '../../../assets/googleplay.svg?react';
 
-const socials = [
-  {
-    img: SocialIcons.INSTAGRAM,
-    link: '/',
-  },
-  {
-    img: SocialIcons.FACEBOOK,
-    link: '/',
-  },
-  {
-    img: SocialIcons.TWITTER,
-    link: '/',
-  },
-  {
-    img: SocialIcons.TIKTOK,
-    link: '/',
-  },
-];
+// const socials = [
+//   {
+//     img: SocialIcons.INSTAGRAM,
+//     link: '/',
+//   },
+//   {
+//     img: SocialIcons.FACEBOOK,
+//     link: '/',
+//   },
+//   {
+//     img: SocialIcons.TWITTER,
+//     link: '/',
+//   },
+//   {
+//     img: SocialIcons.TIKTOK,
+//     link: '/',
+//   },
+// ];
 
 interface ImenuItems {
   title: React.ReactNode;
-  link: string;
+  link?: string;
+  to?: string;
   isDecorated?: boolean;
 }
 
@@ -45,16 +47,8 @@ const menuItems: ImenuItems[] = [
     isDecorated: true,
   },
   {
-    title: 'Terms of Service',
-    link: '/',
-  },
-  {
     title: 'Privacy policy',
-    link: '/',
-  },
-  {
-    title: 'Company details',
-    link: '/',
+    to: '/',
   },
 ];
 
@@ -65,15 +59,29 @@ const Footer: React.FC = () => {
         <FooterInner>
           <FooterLogo isLink />
           <FooterAppButtons>
-            <AppButton link={'/'}>
+            <AppButton
+              link={'https://apps.apple.com/kg/app/electra/id1548675057'}
+              target={'_blank'}
+            >
               <AppStoreIco />
             </AppButton>
-            <AppButton link={'/'}>
+            <AppButton
+              link={
+                'https://play.google.com/store/apps/details?id=space.electra&hl=en&gl=US'
+              }
+              target={'_blank'}
+            >
               <GooglePlayIco />
             </AppButton>
           </FooterAppButtons>
-          <Socials socials={socials} currentColor={'#000'} light />
-          <FooterButton>Support chat</FooterButton>
+          {/* <Socials socials={socials} currentColor={'#000'} light /> */}
+          <Socials currentColor={'#000'} light />
+          <FooterButton
+            link={'https://t.me/+dGR6vwpEbRNlMTU6'}
+            target={'_blank'}
+          >
+            Support chat
+          </FooterButton>
           <FooterNav menuItems={menuItems} isDark={true} />
           <Copyright>Electra © 2023 — All rights reserved</Copyright>
         </FooterInner>

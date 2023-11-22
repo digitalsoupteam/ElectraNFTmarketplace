@@ -15,10 +15,16 @@ interface IDropdownItem {
 interface IDropdown {
   toggler: React.ReactNode;
   items: IDropdownItem[];
+  isValid: boolean;
   className?: string;
 }
 
-const Dropdown: React.FC<IDropdown> = ({ toggler, items, className }) => {
+const Dropdown: React.FC<IDropdown> = ({
+  toggler,
+  items,
+  isValid,
+  className,
+}) => {
   const [isOpened, setIsOpened] = useState(false);
   const [height, setHeight] = useState(0);
   const [currentText, setCurrentText] = useState(toggler);
@@ -35,6 +41,7 @@ const Dropdown: React.FC<IDropdown> = ({ toggler, items, className }) => {
       <DropdownToggler
         $isOpened={isOpened}
         onClick={() => setIsOpened(!isOpened)}
+        isValid={isValid}
       >
         {currentText}
       </DropdownToggler>

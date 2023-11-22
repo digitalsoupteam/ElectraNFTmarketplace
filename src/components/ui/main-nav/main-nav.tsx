@@ -3,7 +3,8 @@ import MenuItem from '../menu-item/menu-item';
 
 interface ImenuItems {
   title: React.ReactNode;
-  to: string;
+  link?: string;
+  to?: string;
   isDecorated?: boolean;
 }
 
@@ -28,6 +29,7 @@ const MainNav: React.FC<IMainNav> = ({
           return (
             <MenuItem
               to={item.to}
+              link={item.link}
               key={index}
               onClick={onClick}
               isDark={isDark ? isDark : false}

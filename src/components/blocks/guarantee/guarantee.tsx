@@ -22,7 +22,7 @@ const Guarantee: React.FC = () => {
               but we guarantee stable profits derived from real business
             </GuranteeText>
           </TextContainer>
-          <GuarenteeButton>Buy NFTs</GuarenteeButton>
+          <GuarenteeButton to={'/market'}>Buy NFTs</GuarenteeButton>
         </GuaranteeInner>
       </Wrapper>
     </StyledGuarantee>

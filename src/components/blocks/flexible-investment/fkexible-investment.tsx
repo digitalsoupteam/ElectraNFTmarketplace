@@ -46,7 +46,9 @@ const FlexibleInvestment: React.FC = () => {
             </FlexibleInvestmentItem>
           </FlexibleInvestmentList>
           <ButtonContainer>
-            <StyledBuyButton isSmall={true}>Buy NFT</StyledBuyButton>
+            <StyledBuyButton isSmall={true} to={'/market'}>
+              Buy NFT
+            </StyledBuyButton>
             <StyledMoreButton isSmall={true}>Video guide</StyledMoreButton>
           </ButtonContainer>
         </FlexibleInvestmentInner>

@@ -158,8 +158,8 @@ const HowItWorks: React.FC = () => {
           )}
 
           <ButtonContainer>
-            <Button>Buy NFTs</Button>
-            <MoreButton isAlt={true}>
+            <Button to={'/market'}>Buy NFTs</Button>
+            <MoreButton isAlt={true} to={'/market'}>
               More details in the NFT marketplace
             </MoreButton>
           </ButtonContainer>

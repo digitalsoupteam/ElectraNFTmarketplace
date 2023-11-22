@@ -21,15 +21,15 @@ interface ISocialItem {
 const socials: ISocialItem[] = [
   {
     img: SocialIcons.TELEGRAM,
-    link: '/',
+    link: 'https://t.me/electra_nft',
   },
   {
     img: SocialIcons.TWITTER,
-    link: '/',
+    link: 'https://twitter.com/Electra__NFT',
   },
   {
     img: SocialIcons.DISCORD,
-    link: '/',
+    link: 'https://discord.gg/rFkgyXpB',
   },
 ];
 
@@ -61,7 +61,7 @@ const Hero: React.FC<IHero> = ({ isLoggedIn, connectWallet }) => {
               <HeroText>
                 An NFT platform for investing in an operational sharing business
               </HeroText>
-              <Button>Buy NFT</Button>
+              <Button to={'/market'}>Buy NFT</Button>
               <HeroSocials socials={socials} currentColor={'#323232'} />
             </>
           ) : (

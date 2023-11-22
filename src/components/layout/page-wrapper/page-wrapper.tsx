@@ -6,6 +6,7 @@ import Market from '../../pages/market/market';
 import MyElecrta from '../../pages/my-electra/my-electra';
 import Footer from '../../layout/footer/footer';
 import { useAccount } from 'wagmi';
+import Exchange from '../../pages/exchange/exchange';
 
 interface IPageWrapper {
   connectWallet: () => void;
@@ -33,6 +34,15 @@ const PageWrapper: React.FC<IPageWrapper> = ({ connectWallet }) => {
             path='market'
             element={
               <Market isLoggedIn={isConnected} connectWallet={connectWallet} />
+            }
+          />
+          <Route
+            path='exchange'
+            element={
+              <Exchange
+                isLoggedIn={isConnected}
+                connectWallet={connectWallet}
+              />
             }
           />
           <Route

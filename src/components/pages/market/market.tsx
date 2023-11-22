@@ -1,10 +1,12 @@
-import { StyledAccordion } from './styled';
+import { StyledAccordion, StyledCommunication } from './styled';
 import MartketHero from '../../blocks/market-hero/market-hero';
-import Communication from '../../blocks/communication/communication';
 import MarketArchive from '../../blocks/market-archive/market-archive';
 import MarketLoop from '../../blocks/market-loop/market-loop';
 import NftMopedImage from '../../../assets/nft-moped.png';
 import NftCar from '../../../assets/nft-car.png';
+import NftBike from '../../../assets/nft-bike.png';
+import NftScooter from '../../../assets/nft-scooter.png';
+import MopedNFT from '../../../contracts/moped.json';
 
 const accordionItems = [
   {
@@ -40,8 +42,33 @@ const accordionItems = [
 ];
 
 const marketItems = [
-  { title: 'E-Moped', image: NftMopedImage },
-  { title: 'E-Car', image: NftCar },
+  {
+    title: 'E-Moped',
+    image: NftMopedImage,
+    address: MopedNFT.address as `0x${string}`,
+    abi: MopedNFT.abi,
+  },
+  {
+    title: 'E-Bike',
+    image: NftBike,
+    // address: MopedNFT.address as `0x${string}`,
+    // abi: MopedNFT.abi,
+    disabled: true,
+  },
+  {
+    title: 'E-Car',
+    image: NftCar,
+    // address: MopedNFT.address as `0x${string}`,
+    // abi: MopedNFT.abi,
+    disabled: true,
+  },
+  {
+    title: 'E-Scooter',
+    image: NftScooter,
+    // address: MopedNFT.address as `0x${string}`,
+    // abi: MopedNFT.abi,
+    disabled: true,
+  },
 ];
 
 interface IMarket {
@@ -57,7 +84,7 @@ const Market: React.FC<IMarket> = ({ isLoggedIn, connectWallet }) => {
         <StyledAccordion accordionItems={accordionItems} />
         <MarketLoop items={marketItems} />
       </MarketArchive>
-      <Communication />
+      <StyledCommunication />
     </main>
   );
 };
