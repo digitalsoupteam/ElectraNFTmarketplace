@@ -73,8 +73,12 @@ const IncomeChoices: React.FC = () => {
               <Button isSmall={true} to={'/market'}>
                 Buy NFT
               </Button>
-              <Button isSmall={true} isAlt={true}>
-                Video guide
+              <Button
+                isSmall={true}
+                isAlt={true}
+                link={'https://discord.gg/rFkgyXpB'}
+              >
+                Get help
               </Button>
             </ButtonContainer>
           </StableInvestment>

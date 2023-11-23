@@ -17,21 +17,23 @@ import { MetaMaskAvatar } from 'react-metamask-avatar';
 const socials = [
   {
     img: SocialIcons.TELEGRAM,
-    link: '/',
+    link: 'https://t.me/electra_nft',
   },
   {
     img: SocialIcons.DISCORD,
-    link: '/',
+    link: 'https://discord.gg/rFkgyXpB',
   },
   {
     img: SocialIcons.TWITTER,
-    link: '/',
+    link: 'https://twitter.com/Electra__NFT',
   },
 ];
 
 interface ImenuItems {
   title: string;
-  to: string;
+  to?: string;
+  link?: string;
+  mobileInvisible?: boolean;
 }
 
 const menuItems: ImenuItems[] = [
@@ -49,7 +51,8 @@ const menuItems: ImenuItems[] = [
   },
   {
     title: 'Contact us',
-    to: '/',
+    link: 'mailto:support@electra.space',
+    mobileInvisible: true,
   },
 ];
 

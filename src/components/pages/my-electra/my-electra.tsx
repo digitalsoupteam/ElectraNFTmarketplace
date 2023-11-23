@@ -1,31 +1,40 @@
-import { useState, useEffect } from 'react';
-import { StyledCommunication } from './styled';
+import { useState, useEffect, useCallback } from 'react';
+import {
+  StyledMyElectra,
+  MyElectraTitle,
+  TitleLogo,
+  TotalEarnings,
+  TotalEarningsAmount,
+  StyledCommunication,
+  NoNfts,
+  NoNftsText,
+} from './styled';
+import MyElectraHero from '../../blocks/my-electra-hero/my-electra-hero';
 import { useContractRead, useContractReads, useWalletClient } from 'wagmi';
 import MyElectraTokensList from '../../blocks/my-electra-tokens-list/my-electra-tokens-list';
 import Moped from '../../../contracts/moped.json';
 import StakingStrategiesData from '../../../contracts/stakingStrategies.json';
+import { TitleSize } from '../../ui/title/title';
+import ElectraLogo from '../../../assets/logo-gradient.svg';
+import Wrapper from '../../layout/wrapper/wrapper';
+import Button from '../../ui/button/button';
 
 interface IMyElectra {
   isLoggedIn: boolean;
   connectWallet: () => void;
 }
 
-const MyElecrta: React.FC<IMyElectra> = () => {
-  const [sortedData, setSortedData] = useState([]);
-
+const MyElecrta: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
+  const [sortedData, setSortedData] = useState<any>([]);
+  const [totalEarnings, setTotalEarnings] = useState(0);
   const userWalletAddress = useWalletClient().data?.account.address;
-
-  const { data: totalMintedAmount } = useContractRead({
-    address: Moped.address as `0x${string}`,
-    abi: Moped.abi,
-    functionName: 'totalMintedAmount',
-  });
 
   const { data: userNFTCount } = useContractRead({
     address: Moped.address as `0x${string}`,
     abi: Moped.abi,
     functionName: 'balanceOf',
     args: [userWalletAddress],
+    watch: true,
   });
 
   interface IContract {
@@ -134,93 +143,155 @@ const MyElecrta: React.FC<IMyElectra> = () => {
 
   const { data: tokensData } = useContractReads({
     contracts: createConfigGetTokenData(),
+    watch: true,
   });
 
-  const sortTokensData = (data) => {
-    // Разбиваем на массивы по 6 объектов
-    const reducedData = data?.reduce((acc, curr, index) => {
-      const groupSize = 6;
-      const chunkIndex = Math.floor(index / groupSize);
+  interface IMyElectraItem {
+    date: number;
+    nft: string;
+    tokenId: number;
+    investmentType: string;
+    earned: number;
+    canClaim: any[];
+    canSell: boolean;
+    sellingPrice: number;
+  }
 
-      if (!acc[chunkIndex]) {
-        acc[chunkIndex] = [];
-      }
+  const sortTokensData = useCallback<
+    (data: ITokensDataItem[] | []) => IMyElectraItem[][]
+  >(
+    (data: any) => {
+      // Разбиваем на массивы по 6 объектов
+      const reducedData = data?.reduce((acc: any, curr: any, index: any) => {
+        const groupSize = 6;
+        const chunkIndex = Math.floor(index / groupSize);
 
-      acc[chunkIndex].push(curr);
-
-      return acc;
-    }, [] as any[][]);
-
-    // Структурируем объекты
-    const structuredData = [];
-
-    reducedData?.forEach((item, index) => {
-      const structuredItem = {
-        date: item[0].result,
-        nft: item[1].result,
-        earned: item[2].result,
-        canClaim: item[3].result,
-        canSell: item[4].result,
-        sellingPrice: item[5].result,
-        tokenId: userTokens?.[index].result,
-        investmentType: tokensStakingStrategies?.[index].result || null,
-        quantity: 1,
-      };
-
-      structuredData.push(structuredItem);
-    });
-
-    // группируем нфт по дате и стратегии стекинга
-    const stackedData = [];
-    const stackedIDs = [];
-
-    structuredData?.forEach((firstItem) => {
-      if (!stackedIDs?.includes(firstItem.tokenId)) {
-        const stackedItem = structuredData.filter((secondItem) => {
-          if (
-            firstItem.date === secondItem.date &&
-            firstItem.investmentType === secondItem.investmentType
-          ) {
-            stackedIDs.push(secondItem.tokenId);
-            return secondItem;
-          } else {
-            return;
-          }
-        });
-
-        if (stackedItem) {
-          stackedData.push(stackedItem);
-        } else {
-          stackedData.push(firstItem);
+        if (!acc[chunkIndex]) {
+          acc[chunkIndex] = [];
         }
-      }
-    });
 
-    return stackedData;
-  };
+        acc[chunkIndex].push(curr);
+
+        return acc;
+      }, [] as any[][]);
+
+      // Структурируем объекты
+      const structuredData: any = [];
+
+      reducedData?.forEach((item: any, index: any) => {
+        const structuredItem = {
+          date: item[0].result,
+          nft: item[1].result,
+          earned: item[2].result,
+          canClaim: item[3].result,
+          canSell: item[4].result,
+          sellingPrice: item[5].result,
+          tokenId: userTokens?.[index].result,
+          investmentType: tokensStakingStrategies?.[index].result || null,
+          quantity: 1,
+        };
+
+        structuredData.push(structuredItem);
+      });
+
+      // группируем нфт по дате и стратегии стекинга
+      const stackedData: any = [];
+      const stackedIDs: any = [];
+
+      structuredData?.forEach((firstItem: any) => {
+        if (!stackedIDs?.includes(firstItem.tokenId)) {
+          const stackedItem = structuredData.filter((secondItem: any) => {
+            if (
+              firstItem.date === secondItem.date &&
+              firstItem.investmentType === secondItem.investmentType
+            ) {
+              stackedIDs.push(secondItem.tokenId);
+              return secondItem;
+            } else {
+              return;
+            }
+          });
+
+          if (stackedItem) {
+            stackedData.push(stackedItem);
+          } else {
+            stackedData.push(firstItem);
+          }
+        }
+      });
+
+      return stackedData;
+    },
+    [tokensStakingStrategies, userTokens]
+  );
+
+  interface ITokensDataItem {
+    error?: Error | undefined;
+    result?:
+      | string
+      | number
+      | boolean
+      | string[]
+      | number[]
+      | boolean[]
+      | undefined;
+    status: string;
+  }
 
   useEffect(() => {
-    setSortedData(sortTokensData(tokensData));
-  }, [tokensData]);
+    const sortedData = sortTokensData(tokensData || []);
+    setSortedData(sortedData);
+  }, [tokensData, sortTokensData]);
+
+  useEffect(() => {
+    let total = 0;
+
+    sortedData.forEach((itemsGroups: IMyElectraItem[]) => {
+      itemsGroups.forEach((item) => {
+        total += Number(item.earned) / 1e18;
+      });
+    });
+
+    setTotalEarnings(total);
+  }, [sortedData]);
 
   return (
     <main>
-      <MyElectraTokensList items={sortedData} />
-      <div
-        style={{
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          backgroundColor: 'grey',
-          padding: '20px',
-        }}
-      >
-        <p>Total tokens minted {Number(totalMintedAmount)}</p>
-        <p>Total tokens minted by user {Number(userNFTCount)}</p>
-      </div>
-
-      <p style={{ color: '#000' }}></p>
-      <StyledCommunication />
+      {isLoggedIn ? (
+        <StyledMyElectra>
+          <Wrapper>
+            <MyElectraTitle size={TitleSize.BIG} as={'h1'}>
+              My
+              <TitleLogo src={ElectraLogo} alt='Electra' />
+            </MyElectraTitle>
+            {sortedData && sortedData.length ? (
+              <TotalEarnings>
+                Total earnings:{' '}
+                <TotalEarningsAmount>
+                  {totalEarnings.toFixed(2)} $
+                </TotalEarningsAmount>
+              </TotalEarnings>
+            ) : (
+              ''
+            )}
+          </Wrapper>
+          {sortedData && sortedData.length ? (
+            <MyElectraTokensList items={sortedData} />
+          ) : (
+            <Wrapper>
+              <NoNfts>
+                <NoNftsText>You have no NFts yet</NoNftsText>
+                <Button to={'/market'} isSmall={true}>
+                  Go to moraket
+                </Button>
+              </NoNfts>
+            </Wrapper>
+          )}
+          <StyledCommunication />
+        </StyledMyElectra>
+      ) : (
+        <MyElectraHero connectWallet={connectWallet} />
+      )}
     </main>
   );
 };

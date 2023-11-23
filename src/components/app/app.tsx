@@ -10,7 +10,7 @@ import { WagmiConfig } from 'wagmi';
 import { hardhat } from 'wagmi/chains';
 
 const App: React.FC = () => {
-  const projectId = '123';
+  const projectId = '684956a0b7b16b469e61304ae24288ab';
   const metadata = {
     name: 'Web3Modal',
     description: 'Web3Modal Example',

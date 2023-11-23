@@ -6,6 +6,7 @@ interface IMenuLink {
   onClick?: () => void;
   isDark: boolean;
   isDecorated?: boolean;
+  $mobileInvisible?: boolean;
 }
 
 const MenuLink = styled(Button)<IMenuLink>`
@@ -18,6 +19,7 @@ const MenuLink = styled(Button)<IMenuLink>`
   background-color: transparent;
   border: none;
   text-decoration: ${(props) => (props.isDecorated ? 'underline' : null)};
+  display: ${(props) => (props.$mobileInvisible ? 'none' : 'block')};
 
   &:hover {
     background-color: transparent;
@@ -25,6 +27,7 @@ const MenuLink = styled(Button)<IMenuLink>`
   }
 
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
+    display: block;
     font-size: ${(props) => (props.isDark ? '16px' : '20px')};
     &:hover {
       text-decoration: underline;

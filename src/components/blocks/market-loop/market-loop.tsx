@@ -11,9 +11,15 @@ interface IMarketLoopItem {
 
 interface IMarketLoop {
   items: IMarketLoopItem[];
+  isLoggedIn: boolean;
+  connectWallet: () => void;
 }
 
-const MarketLoop: React.FC<IMarketLoop> = ({ items }) => {
+const MarketLoop: React.FC<IMarketLoop> = ({
+  items,
+  isLoggedIn,
+  connectWallet,
+}) => {
   return (
     <StyledMarketLoop>
       {items &&
@@ -26,6 +32,8 @@ const MarketLoop: React.FC<IMarketLoop> = ({ items }) => {
             abi={item.abi}
             key={index}
             disabled={item.disabled}
+            isLoggedIn={isLoggedIn}
+            connectWalltet={connectWallet}
           />
         ))}
     </StyledMarketLoop>

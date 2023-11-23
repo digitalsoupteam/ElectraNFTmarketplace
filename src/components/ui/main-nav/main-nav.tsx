@@ -6,6 +6,7 @@ interface ImenuItems {
   link?: string;
   to?: string;
   isDecorated?: boolean;
+  mobileInvisible?: boolean;
 }
 
 interface IMainNav {
@@ -34,6 +35,7 @@ const MainNav: React.FC<IMainNav> = ({
               onClick={onClick}
               isDark={isDark ? isDark : false}
               isDecorated={item.isDecorated}
+              $mobileInvisible={item.mobileInvisible}
             >
               {item.title}
             </MenuItem>

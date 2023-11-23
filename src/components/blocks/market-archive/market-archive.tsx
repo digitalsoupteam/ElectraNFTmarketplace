@@ -1,7 +1,7 @@
 import {
   StyledMarketArchive,
-  MarketArchiveInner,
   MarketArchiveTitle,
+  MarketArchiveInner,
 } from './styled';
 import Wrapper from '../../layout/wrapper/wrapper';
 import { TitleSize } from '../../ui/title/title';
@@ -15,12 +15,10 @@ const MarketArchive: React.FC<IMarketArchive> = ({ children }) => {
   return (
     <StyledMarketArchive>
       <Wrapper>
-        <MarketArchiveInner>
-          <MarketArchiveTitle size={TitleSize.MEDIUM} $isDark={true}>
-            Buy NFT and earn <ColoredText>passive income</ColoredText>
-          </MarketArchiveTitle>
-          {children}
-        </MarketArchiveInner>
+        <MarketArchiveTitle size={TitleSize.MEDIUM} $isDark={true}>
+          Buy NFT and earn <ColoredText>passive income</ColoredText>
+        </MarketArchiveTitle>
+        <MarketArchiveInner>{children}</MarketArchiveInner>
       </Wrapper>
     </StyledMarketArchive>
   );

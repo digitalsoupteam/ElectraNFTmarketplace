@@ -35,6 +35,8 @@ interface IMarketNftItem {
   address?: `0x${string}`;
   abi: any;
   disabled?: boolean;
+  isLoggedIn: boolean;
+  connectWalltet?: () => void;
 }
 
 const MarketNftItem: React.FC<IMarketNftItem> = ({
@@ -43,6 +45,8 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
   address,
   abi,
   disabled,
+  isLoggedIn,
+  connectWalltet,
 }) => {
   const [currentIvnestmentType, setCurrentIvnestmentType] = useState('');
   const [isInvestmentTypeValid, setIsInvestmentTypeValid] = useState(false);
@@ -306,7 +310,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
           </>
         )}
         <NftBuyButton
-          onClick={handleMint}
+          onClick={isLoggedIn ? handleMint : connectWalltet}
           isSmall={true}
           disabled={isApproveLoading || isMinting}
           outOfStock={disabled ? true : false}

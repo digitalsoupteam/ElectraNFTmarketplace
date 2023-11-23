@@ -14,7 +14,8 @@ const StyledConnect = styled(Button)<IStyledConnect>`
   background-color: transparent;
   background-size: 25px;
   background-image: url(${(props) => (props.isConnected ? null : LoginImg)});
-  padding: 13px 12px;
+  padding: ${(props) =>
+    props.isConnected ? '13px 12px' : '13px 12px 13px 30px'};
   background-repeat: no-repeat;
   background-position: 0 center;
   width: fit-content;

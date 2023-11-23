@@ -82,7 +82,11 @@ const Market: React.FC<IMarket> = ({ isLoggedIn, connectWallet }) => {
       <MartketHero isLoggedIn={isLoggedIn} connectWallet={connectWallet} />
       <MarketArchive>
         <StyledAccordion accordionItems={accordionItems} />
-        <MarketLoop items={marketItems} />
+        <MarketLoop
+          items={marketItems}
+          isLoggedIn={isLoggedIn}
+          connectWallet={connectWallet}
+        />
       </MarketArchive>
       <StyledCommunication />
     </main>

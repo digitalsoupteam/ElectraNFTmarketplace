@@ -49,7 +49,12 @@ const FlexibleInvestment: React.FC = () => {
             <StyledBuyButton isSmall={true} to={'/market'}>
               Buy NFT
             </StyledBuyButton>
-            <StyledMoreButton isSmall={true}>Video guide</StyledMoreButton>
+            <StyledMoreButton
+              isSmall={true}
+              link={'https://discord.gg/rFkgyXpB'}
+            >
+              Get help
+            </StyledMoreButton>
           </ButtonContainer>
         </FlexibleInvestmentInner>
       </Wrapper>

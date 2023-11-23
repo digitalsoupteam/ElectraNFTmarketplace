@@ -4,10 +4,12 @@ import Communication from '../../blocks/communication/communication';
 
 const StyledAccordion = styled(Accordion)`
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
-    position: absolute;
-    top: 93px;
+    position: sticky;
+    top: 28px;
     right: 0;
     width: 400px;
+    order: 1;
+    height: fit-content;
   }
 `;
 

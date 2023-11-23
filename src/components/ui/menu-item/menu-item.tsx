@@ -7,6 +7,7 @@ interface IMenuItem {
   onClick?: () => void;
   isDark: boolean;
   isDecorated?: boolean;
+  $mobileInvisible?: boolean;
 }
 
 const MenuItem: React.FC<IMenuItem> = ({
@@ -16,6 +17,7 @@ const MenuItem: React.FC<IMenuItem> = ({
   onClick,
   isDark,
   isDecorated,
+  $mobileInvisible,
 }) => {
   return (
     <li>
@@ -25,6 +27,7 @@ const MenuItem: React.FC<IMenuItem> = ({
         onClick={onClick}
         isDark={isDark}
         isDecorated={isDecorated}
+        $mobileInvisible={$mobileInvisible}
       >
         {children}
       </MenuLink>
