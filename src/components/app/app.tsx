@@ -8,9 +8,10 @@ import {
 import { WagmiConfig } from 'wagmi';
 // import { mainnet } from 'wagmi/chains';
 import { hardhat } from 'wagmi/chains';
+import config from '../../../config.json';
 
 const App: React.FC = () => {
-  const projectId = '684956a0b7b16b469e61304ae24288ab';
+  const projectId = config.projectId;
   const metadata = {
     name: 'Web3Modal',
     description: 'Web3Modal Example',
