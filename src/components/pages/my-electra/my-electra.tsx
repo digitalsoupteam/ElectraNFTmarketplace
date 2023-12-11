@@ -141,10 +141,12 @@ const MyElecrta: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
     return contractSettings.flat() as IContract[];
   };
 
-  const { data: tokensData } = useContractReads({
-    contracts: createConfigGetTokenData(),
-    watch: true,
-  });
+  const { data: tokensData, isLoading: isTokensDataLoading } = useContractReads(
+    {
+      contracts: createConfigGetTokenData(),
+      watch: true,
+    }
+  );
 
   interface IMyElectraItem {
     date: number;
@@ -264,29 +266,27 @@ const MyElecrta: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
               My
               <TitleLogo src={ElectraLogo} alt='Electra' />
             </MyElectraTitle>
-            {sortedData && sortedData.length ? (
-              <TotalEarnings>
-                Total earnings:{' '}
-                <TotalEarningsAmount>
-                  {totalEarnings.toFixed(2)} $
-                </TotalEarningsAmount>
-              </TotalEarnings>
+            {isTokensDataLoading ? (
+              'Loading..'
+            ) : sortedData && sortedData.length ? (
+              <>
+                <TotalEarnings>
+                  Total earnings:{' '}
+                  <TotalEarningsAmount>
+                    {totalEarnings.toFixed(2)} $
+                  </TotalEarningsAmount>
+                </TotalEarnings>
+                <MyElectraTokensList items={sortedData} />
+              </>
             ) : (
-              ''
-            )}
-          </Wrapper>
-          {sortedData && sortedData.length ? (
-            <MyElectraTokensList items={sortedData} />
-          ) : (
-            <Wrapper>
               <NoNfts>
                 <NoNftsText>You have no NFts yet</NoNftsText>
                 <Button to={'/market'} isSmall={true}>
                   Go to moraket
                 </Button>
               </NoNfts>
-            </Wrapper>
-          )}
+            )}
+          </Wrapper>
           <StyledCommunication />
         </StyledMyElectra>
       ) : (
