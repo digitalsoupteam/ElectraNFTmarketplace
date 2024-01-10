@@ -62,6 +62,35 @@ const NoNftsText = styled.div`
   margin-right: 15px;
 `;
 
+// const MultiClaim = styled.div`
+//   display: flex;
+//   gap: 27px;
+// `;
+
+// const MultiClaimInner = styled.div`
+//   flex-grow: 1;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   background-color: ${(props) => props.theme.lightGrey};
+//   border-radius: ${(props) => props.theme.borderRadiusDesktopSmall};
+//   padding: 12px 20px;
+// `;
+
+// const MultiClaimText = styled(P)`
+//   color: ${(props) => props.theme.grey};
+//   font-size: 24px;
+//   font-weight: 600;
+//   line-height: 130%;
+// `;
+
+// const MultiClaimAmount = styled(P)`
+//   color: ${(props) => props.theme.diamond};
+//   font-size: 24px;
+//   font-weight: 600;
+//   line-height: 130%;
+// `;
+
 export {
   StyledMyElectra,
   MyElectraTitle,
@@ -71,4 +100,8 @@ export {
   StyledCommunication,
   NoNfts,
   NoNftsText,
+  // MultiClaim,
+  // MultiClaimInner,
+  // MultiClaimText,
+  // MultiClaimAmount,
 };

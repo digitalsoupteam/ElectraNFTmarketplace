@@ -8,16 +8,28 @@ import {
   StyledCommunication,
   NoNfts,
   NoNftsText,
+  // MultiClaim,
+  // MultiClaimInner,
+  // MultiClaimText,
+  // MultiClaimAmount,
 } from './styled';
 import MyElectraHero from '../../blocks/my-electra-hero/my-electra-hero';
-import { useContractRead, useContractReads, useWalletClient } from 'wagmi';
+import {
+  useContractRead,
+  useContractReads,
+  // useContractWrite,
+  useWalletClient,
+} from 'wagmi';
 import MyElectraTokensList from '../../blocks/my-electra-tokens-list/my-electra-tokens-list';
-import Moped from '../../../contracts/moped.json';
 import StakingStrategiesData from '../../../contracts/stakingStrategies.json';
 import { TitleSize } from '../../ui/title/title';
 import ElectraLogo from '../../../assets/logo-gradient.svg';
 import Wrapper from '../../layout/wrapper/wrapper';
 import Button from '../../ui/button/button';
+// import { encodeFunctionData } from 'viem';
+// import StakingStrategies from '../../../contracts/stakingStrategies.json';
+import Moped from '../../../contracts/moped.json';
+// import Tokens from '../../../contracts/tokens.json';
 
 interface IMyElectra {
   isLoggedIn: boolean;
@@ -27,7 +39,13 @@ interface IMyElectra {
 const MyElecrta: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
   const [sortedData, setSortedData] = useState<any>([]);
   const [totalEarnings, setTotalEarnings] = useState(0);
+  // const [totalForClaim, setTotalForClaim] = useState(0);
+  // const [encodedMulicallClaimData, setEncodedMulicallClaimData] = useState<
+  //   string | `0x${string}`[]
+  // >('');
+
   const userWalletAddress = useWalletClient().data?.account.address;
+  // const { data: walletClient } = useWalletClient();
 
   const { data: userNFTCount } = useContractRead({
     address: Moped.address as `0x${string}`,
@@ -240,6 +258,18 @@ const MyElecrta: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
     status: string;
   }
 
+  // const estimateTotalClaim = () => {
+  //   let total = 0;
+
+  //   sortedData.forEach((itemsGroups: IMyElectraItem[]) => {
+  //     itemsGroups.forEach((item) => {
+  //       total += Number(item.canClaim[0]) / 1e18;
+  //     });
+  //   });
+
+  //   return total;
+  // };
+
   useEffect(() => {
     const sortedData = sortTokensData(tokensData || []);
     setSortedData(sortedData);
@@ -255,7 +285,38 @@ const MyElecrta: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
     });
 
     setTotalEarnings(total);
+    // setTotalForClaim(estimateTotalClaim());
+    console.log(sortedData);
+
+    // const getStakingStrategyABI = (address: string): any[] => {
+    //   const findedItem = StakingStrategies.find((itemStrategy) =>
+    //     itemStrategy.address === address ? itemStrategy.abi : []
+    //   );
+    //   const findedABI = findedItem?.abi;
+    //   return findedABI ? findedABI : [];
+    // };
+
+    // sortedData?.forEach((itemGroup: IMyElectraItem[]) => {
+    //   itemGroup.forEach((item: IMyElectraItem) => {
+    //     const encodedData = encodeFunctionData({
+    //       abi: getStakingStrategyABI(item.investmentType),
+    //       functionName: 'claim',
+    //       args: [Moped.address, item.tokenId, Tokens[0].address],
+    //     });
+    //     setEncodedMulicallClaimData([...encodedMulicallClaimData, encodedData]);
+    //     console.log('encMCD', encodedMulicallClaimData);
+    //   });
+    // });
   }, [sortedData]);
+
+  // const { write: multicallClaim, isLoading: multicallClaiming } =
+  //   useContractWrite({
+  //     address: item[0].investmentType as `0x${string}`,
+  //     abi: getStakingStrategyABI(item[0].investmentType),
+  //     functionName: 'multicall',
+  //     account: walletClient?.account,
+  //     args: [encodedMulicallClaimData],
+  //   });
 
   return (
     <main>
@@ -277,6 +338,17 @@ const MyElecrta: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
                   </TotalEarningsAmount>
                 </TotalEarnings>
                 <MyElectraTokensList items={sortedData} />
+                {/* <MultiClaim>
+                  <MultiClaimInner>
+                    <MultiClaimText>
+                      Claim all rewards from all your vehicles:
+                    </MultiClaimText>
+                    <MultiClaimAmount>
+                      {totalForClaim.toFixed(2)} $
+                    </MultiClaimAmount>
+                  </MultiClaimInner>
+                  <Button isSmall={true}>Claim</Button>
+                </MultiClaim> */}
               </>
             ) : (
               <NoNfts>

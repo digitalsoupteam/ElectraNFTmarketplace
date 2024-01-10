@@ -15,6 +15,19 @@ const fadeout = keyframes`
 const StyledMyElectraNftItem = styled.tr`
   color: ${(props) => props.theme.black};
   margin-bottom: 20px;
+
+  &:last-child {
+    position: relative;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      right: 0;
+      width: 100%;
+      border-bottom: 1px dashed ${(props) => props.theme.diamond};
+    }
+  }
 `;
 
 const ItemCell = styled.td`
