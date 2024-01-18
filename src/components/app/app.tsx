@@ -6,8 +6,9 @@ import {
   useWeb3Modal,
 } from '@web3modal/wagmi/react';
 import { WagmiConfig } from 'wagmi';
+// import { hardhat } from 'wagmi/chains';
 // import { mainnet } from 'wagmi/chains';
-import { hardhat } from 'wagmi/chains';
+import { bsc } from 'wagmi/chains';
 import config from '../../../config.json';
 
 const App: React.FC = () => {
@@ -19,8 +20,9 @@ const App: React.FC = () => {
     icons: ['https://avatars.githubusercontent.com/u/37784886'],
   };
 
-  const chains = [hardhat];
+  // const chains = [hardhat];
   // const chains = [mainnet];
+  const chains = [bsc];
   const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 
   createWeb3Modal({ wagmiConfig, projectId, chains });

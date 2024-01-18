@@ -20,11 +20,11 @@ const StyledNft = styled.div`
 `;
 
 interface INftImage {
-  outOfStock: boolean;
+  $outOfStock: boolean;
 }
 const NftImage = styled(Image)<INftImage>`
   border-radius: ${(props) => props.theme.borderRadiusMobileSmall};
-  filter: ${(props) => (props.outOfStock ? 'grayscale(1)' : null)};
+  filter: ${(props) => (props.$outOfStock ? 'grayscale(1)' : null)};
 `;
 
 const NftTitle = styled(Title)`

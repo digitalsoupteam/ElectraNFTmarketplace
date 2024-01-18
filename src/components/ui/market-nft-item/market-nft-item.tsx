@@ -116,6 +116,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
     address: address,
     abi: abi,
     functionName: 'price',
+    watch: true,
     onSuccess: () => {
       if (typeof price === 'bigint') {
         setUSDPrice(price);
@@ -128,6 +129,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
     abi: Treasury.abi,
     functionName: 'usdAmountToToken',
     args: [USDPrice, Tokens[0].address],
+    watch: true,
     onSuccess: () => {
       if (typeof fetchedUSDTPrice === 'bigint') {
         setUSDTPrice(fetchedUSDTPrice);
@@ -140,13 +142,13 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
     abi: Treasury.abi,
     functionName: 'usdAmountToToken',
     args: [USDPrice, Tokens[1].address],
+    watch: true,
     onSuccess: () => {
       if (typeof fetchedELECTPrice === 'bigint') {
         setELECTPrice(fetchedELECTPrice);
       }
     },
   });
-
   // const { config: mintConfig } = usePrepareContractWrite();
 
   const {
@@ -183,7 +185,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
     onError: (error) => {
       console.error(error);
     },
-    watch: true,
+    // watch: true,
   });
 
   const { write: approveWrite, isLoading: isApproveLoading } = useContractWrite(
@@ -264,7 +266,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
 
   return (
     <StyledNft>
-      <NftImage src={image} outOfStock={disabled ? true : false} />
+      <NftImage src={image} $outOfStock={disabled ? true : false} />
       <NftTitle size={TitleSize.MEDIUM} as={'h3'}>
         {title}
       </NftTitle>
