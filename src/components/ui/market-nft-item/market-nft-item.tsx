@@ -185,7 +185,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
     onError: (error) => {
       console.error(error);
     },
-    // watch: true,
+    watch: true,
   });
 
   const { write: approveWrite, isLoading: isApproveLoading } = useContractWrite(
