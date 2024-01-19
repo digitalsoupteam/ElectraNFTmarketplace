@@ -21,15 +21,15 @@ interface ISocialItem {
 const socials: ISocialItem[] = [
   {
     img: SocialIcons.TELEGRAM,
-    link: 'https://t.me/electra_nft',
+    link: 'https://t.me/+dGR6vwpEbRNlMTU6',
   },
   {
     img: SocialIcons.TWITTER,
-    link: 'https://twitter.com/Electra__NFT',
+    link: 'https://twitter.com/electra_elct',
   },
   {
     img: SocialIcons.DISCORD,
-    link: 'https://discord.gg/rFkgyXpB',
+    link: 'https://discord.gg/PgpMjgTJ',
   },
 ];
 

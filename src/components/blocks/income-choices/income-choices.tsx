@@ -76,7 +76,8 @@ const IncomeChoices: React.FC = () => {
               <Button
                 isSmall={true}
                 isAlt={true}
-                link={'https://discord.gg/rFkgyXpB'}
+                link={'https://discord.gg/PgpMjgTJ'}
+                target={'_blank'}
               >
                 Get help
               </Button>

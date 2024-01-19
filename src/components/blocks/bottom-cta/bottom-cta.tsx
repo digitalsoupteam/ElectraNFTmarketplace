@@ -42,7 +42,11 @@ const ctaItems: ICtaItems[] = [
 ];
 
 const BottomCta: React.FC = () => {
-  const buttonsLinks = ['/market', '/', '/exchange'];
+  const buttonsLinks = [
+    '/market',
+    'https://discord.com/invite/PgpMjgTJ',
+    '/exchange',
+  ];
 
   return (
     <StyledBottomCta>

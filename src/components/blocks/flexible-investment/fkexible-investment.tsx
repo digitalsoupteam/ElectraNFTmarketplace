@@ -51,7 +51,8 @@ const FlexibleInvestment: React.FC = () => {
             </StyledBuyButton>
             <StyledMoreButton
               isSmall={true}
-              link={'https://discord.gg/rFkgyXpB'}
+              link={'https://discord.gg/PgpMjgTJ'}
+              target={'_blank'}
             >
               Get help
             </StyledMoreButton>
