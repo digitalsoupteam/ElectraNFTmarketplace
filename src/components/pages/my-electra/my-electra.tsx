@@ -354,7 +354,7 @@ const MyElecrta: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
               <NoNfts>
                 <NoNftsText>You have no NFts yet</NoNftsText>
                 <Button to={'/market'} isSmall={true}>
-                  Go to moraket
+                  Go to market
                 </Button>
               </NoNfts>
             )}
