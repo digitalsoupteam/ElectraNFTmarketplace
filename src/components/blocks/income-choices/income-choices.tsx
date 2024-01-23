@@ -105,7 +105,7 @@ const IncomeChoices: React.FC = () => {
               </PlansItem>
               <PlansItem>
                 <PlanItemHeader>
-                  <PlanTitle>5 years</PlanTitle>
+                  <PlanTitle>3 years</PlanTitle>
                   <PlanSubTitle>gives you</PlanSubTitle>
                 </PlanItemHeader>
                 <PlanAnnum>
@@ -115,7 +115,7 @@ const IncomeChoices: React.FC = () => {
               </PlansItem>
               <PlansItem>
                 <PlanItemHeader>
-                  <PlanTitle>8 years</PlanTitle>
+                  <PlanTitle>5 years</PlanTitle>
                   <PlanSubTitle>gives you</PlanSubTitle>
                 </PlanItemHeader>
                 <PlanAnnum>
