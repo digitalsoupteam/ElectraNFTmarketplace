@@ -15,11 +15,19 @@ import { TitleSize } from '../../ui/title/title';
 import ColoredText from '../../ui/colored-text/colored-text';
 import { Swiper } from 'swiper';
 import { SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
 import EcoIco from '../../../assets/eco-ico.png';
 import ScooterIco from '../../../assets/scooter-ico.png';
 import UmbrellaIco from '../../../assets/umbrella-ico.png';
 import ChatIco from '../../../assets/chat-ico.png';
 import StarCardList from '../../ui/star-card-list/star-card-list';
+
+const breakpoints = {
+  768: {
+    slidesPerView: 2,
+    spaceBetween: -35,
+  },
+};
 
 interface ITrustFactor {
   ico: string;
@@ -124,7 +132,15 @@ const Trust: React.FC = () => {
           </CardsList>
         ) : (
           <SliderContainer>
-            <StyledSwiper>
+            <StyledSwiper
+              onBeforeInit={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              spaceBetween={5}
+              slidesPerView={1}
+              breakpoints={breakpoints}
+              modules={[Navigation]}
+            >
               {trustFactors &&
                 trustFactors.length &&
                 trustFactors.map((item, index) => (
