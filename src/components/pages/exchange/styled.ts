@@ -12,6 +12,8 @@ const ExchangeHeader = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 35px;
+  flex-wrap: wrap;
+  row-gap: 20px;
 
   @media (min-width: ${(props) => props.theme.desktopWidth}) {
     align-items: center;
