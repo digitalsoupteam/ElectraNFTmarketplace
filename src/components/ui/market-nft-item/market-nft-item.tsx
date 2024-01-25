@@ -300,10 +300,10 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
                     isActive={currentTokenIndex === index}
                   >
                     {token.name === 'USDT'
-                      ? Number(USDTTotalPrice) / 1e18
+                      ? Math.floor(Number(USDTTotalPrice) / 1e18)
                       : null}
                     {token.name === 'ELCT'
-                      ? Number(ELECTTotalPrice) / 1e18
+                      ? Math.floor(Number(ELECTTotalPrice) / 1e18)
                       : null}
                     <PriceButtonToken>{token.name}</PriceButtonToken>
                   </PriceButton>
