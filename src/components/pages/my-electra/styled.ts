@@ -6,11 +6,10 @@ import P from '../../../elements/p';
 
 const MyElectraTitle = styled(Title)`
   color: ${(props) => props.theme.blackPrimary};
-  text-align: end;
+  text-align: start;
   margin-bottom: 15px;
 
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
-    text-align: start;
     margin-bottom: 0;
   }
 `;
@@ -41,8 +40,12 @@ const TotalEarningsAmount = styled.span`
 `;
 
 const StyledMyElectra = styled.div`
-  padding: 143px 0 55px;
+  padding: 55px 0 55px;
   background-color: ${(props) => props.theme.white};
+
+  @media screen and (min-width: ${(props) => props.theme.tabletWidth}) {
+    padding: 143px 0 55px;
+  }
 `;
 
 const StyledCommunication = styled(Communication)`
@@ -50,9 +53,15 @@ const StyledCommunication = styled(Communication)`
 `;
 
 const NoNfts = styled.div`
-  padding: 55px 0 55px;
+  padding: 20px 0 55px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  row-gap: 20px;
+
+  @media screen and (min-width: ${(props) => props.theme.tabletWidth}) {
+    padding: 55px 0 55px;
+  }
 `;
 
 const NoNftsText = styled.div`
