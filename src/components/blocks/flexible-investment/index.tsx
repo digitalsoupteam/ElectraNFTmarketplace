@@ -13,6 +13,7 @@ import {
 } from './styled';
 import Wrapper from '../../layout/wrapper/wrapper';
 import { TitleSize } from '../../ui/title/title';
+import { t } from 'i18next';
 
 const FlexibleInvestment: React.FC = () => {
   return (
@@ -20,51 +21,43 @@ const FlexibleInvestment: React.FC = () => {
       <Wrapper>
         <FlexibleInvestmentInner>
           <FlexibleInvestmentTitle size={TitleSize.MEDIUM} $isDark={true}>
-            Flexible <StyledColoredtext>Investment</StyledColoredtext>
+            {t('flexible-investment.t1')}{' '}
+            <StyledColoredtext>{t('flexible-investment.t2')}</StyledColoredtext>
           </FlexibleInvestmentTitle>
           <FlexibleInvestmentList>
             <FlexibleInvestmentItem>
-              Your income depends on how much the e-vehicle earns each month
+              {t('flexible-investment.list.i1')}
             </FlexibleInvestmentItem>
             <FlexibleInvestmentItem>
-              After choosing this type of investment, you receive 12% annual
-              returns for the first four months (during this time, we brand the
-              equipment, place it in profitable cities, and put it into
-              operation).
+              {t('flexible-investment.list.i2')}
             </FlexibleInvestmentItem>
             <FlexibleInvestmentItem>
-              When the equipment enters operation, you start receiving 50% of
-              its income every month
+              {t('flexible-investment.list.i3')}
             </FlexibleInvestmentItem>
             <FlexibleInvestmentItem>
-              This type of investment is riskier, but your annual income can
-              reach 100%
+              {t('flexible-investment.list.i4')}
             </FlexibleInvestmentItem>
             <FlexibleInvestmentItem>
-              If desired, you can sell your NFT, but unlike a fixed investment,
-              the selling price will be net of the maintenance costs
+              {t('flexible-investment.list.i5')}
             </FlexibleInvestmentItem>
           </FlexibleInvestmentList>
           <ButtonContainer>
             <StyledBuyButton isSmall={true} to={'/market'}>
-              Buy NFT
+              {t('buy-nft-one')}
             </StyledBuyButton>
             <StyledMoreButton
               isSmall={true}
               link={'https://discord.gg/PgpMjgTJ'}
               target={'_blank'}
             >
-              Get help
+              {t('get-help')}
             </StyledMoreButton>
           </ButtonContainer>
         </FlexibleInvestmentInner>
       </Wrapper>
       <BottomTextContainer>
         <Wrapper>
-          <BottomText>
-            In reality, all you need to do is buy an NFT to start receiving a
-            fixed income from a real business every month!
-          </BottomText>
+          <BottomText>{t('flexible-investment.p')}</BottomText>
         </Wrapper>
       </BottomTextContainer>
     </StyledFlexibleInvestment>

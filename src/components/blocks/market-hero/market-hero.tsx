@@ -7,6 +7,7 @@ import {
 import Wrapper from '../../layout/wrapper/wrapper';
 import { TitleSize } from '../../ui/title/title';
 import Button from '../../ui/button/button';
+import { t } from 'i18next';
 
 interface IMarketHero {
   isLoggedIn: boolean;
@@ -18,15 +19,10 @@ const MartketHero: React.FC<IMarketHero> = ({ isLoggedIn, connectWallet }) => {
     <StyledMarketHero>
       <Wrapper>
         <MarketHeroInner>
-          <MarketheroTitle size={TitleSize.BIG}>
-            Buy NFTs that represent real sharing vehicles
-          </MarketheroTitle>
-          <MarketSubtitle>
-            Earn money by investing in a real, operating business. Choose your
-            investment type and receive returns ranging from 4% to 100% annually
-          </MarketSubtitle>
+          <MarketheroTitle size={TitleSize.BIG}>{t('nft:t')}</MarketheroTitle>
+          <MarketSubtitle>{t('nft:d')}</MarketSubtitle>
           {isLoggedIn ? null : (
-            <Button onClick={connectWallet}>Connect wallet</Button>
+            <Button onClick={connectWallet}>{t('menu:c-w')}</Button>
           )}
         </MarketHeroInner>
       </Wrapper>

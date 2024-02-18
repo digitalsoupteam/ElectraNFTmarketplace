@@ -15,6 +15,7 @@ import { Navigation } from 'swiper/modules';
 import { Swiper } from 'swiper';
 import { SwiperSlide } from 'swiper/react';
 import ColoredText from '../../ui/colored-text/colored-text';
+import { t } from 'i18next';
 
 const breakpoints = {
   768: {
@@ -30,30 +31,30 @@ interface IItems {
   isCrimson?: boolean;
 }
 
-const items: IItems[] = [
-  {
-    colored_title: 'Personal cars',
-    title: ': expensive, polluting, out of trend',
-    text: 'Owning a car can be quite costly, considering maintenance, parking fees, and taxes. Plus, it takes longer to get around because of traffic jams.',
-    isCrimson: true,
-  },
-  {
-    colored_title: 'E-sharing',
-    title: ': lightning-fast & hassle-free',
-    text: 'People no longer want to spend time and money on taking care of their personal vehicles. Thus, sharing becomes the best solution.',
-  },
-  {
-    colored_title: 'State regulators',
-    title: ': support micromobility',
-    text: 'State regulators are paving the way for micromobility services to flourish by creating supportive legal frameworks and urban infrastructure.',
-  },
-];
-
 const Micromobility: React.FC = () => {
   const swiperRef = useRef<Swiper | null>(null);
   const [isDesktop, setIsDesktop] = useState<boolean>(
     window.matchMedia('(min-width: 1400px)').matches
   );
+
+  const items: IItems[] = [
+    {
+      colored_title: t('micromobility.list.i1.t1'),
+      title: ': ' + t('micromobility.list.i1.t2'),
+      text: t('micromobility.list.i1.d'),
+      isCrimson: true,
+    },
+    {
+      colored_title: t('micromobility.list.i2.t1'),
+      title: ': ' + t('micromobility.list.i2.t2'),
+      text: t('micromobility.list.i2.d'),
+    },
+    {
+      colored_title: t('micromobility.list.i3.t1'),
+      title: ': ' + t('micromobility.list.i3.t2'),
+      text: t('micromobility.list.i3.d'),
+    },
+  ];
 
   const handlerNextButton = () => {
     swiperRef.current ? swiperRef.current.slideNext() : null;
@@ -79,7 +80,7 @@ const Micromobility: React.FC = () => {
     <StyledMicromobility>
       <Wrapper>
         <MicromobilityTitle size={TitleSize.MEDIUM} $isDark={true}>
-          The decade of micromobility has come
+          {t('micromobility.t')}
         </MicromobilityTitle>
 
         {isDesktop ? (

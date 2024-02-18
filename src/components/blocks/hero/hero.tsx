@@ -12,6 +12,7 @@ import { TitleSize } from '../../ui/title/title';
 import Button from '../../ui/button/button';
 import { SocialIcons } from '../../ui/socials/socials';
 import Logo from '../../ui/logo/logo';
+import { useTranslation } from 'react-i18next';
 
 interface ISocialItem {
   img: string;
@@ -39,6 +40,7 @@ interface IHero {
 }
 
 const Hero: React.FC<IHero> = ({ isLoggedIn, connectWallet }) => {
+  const { t } = useTranslation();
   return (
     <StyledHero $isLoggedIn={isLoggedIn}>
       <Wrapper>
@@ -67,19 +69,16 @@ const Hero: React.FC<IHero> = ({ isLoggedIn, connectWallet }) => {
           ) : (
             <>
               <HeroTitle size={TitleSize.BIG}>
-                Log into the{' '}
+                {t('hero.t1')}{' '}
                 <Logo
                   isGradient
                   $width={{ mobile: '114px', desktop: '191px' }}
                   $height={{ mobile: '32px', desktop: '54px' }}
                 />{' '}
-                marketplace
+                {t('hero.marketplace')}
               </HeroTitle>
-              <HeroText>
-                NFT-platform of investing in the already working sharing
-                business
-              </HeroText>
-              <Button onClick={connectWallet}>Log in with Metamask</Button>
+              <HeroText>{t('hero.d')}</HeroText>
+              <Button onClick={connectWallet}>{t('hero.login-button')}</Button>
               <HeroSocials socials={socials} currentColor={'#323232'} />
             </>
           )}

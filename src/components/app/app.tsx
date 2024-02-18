@@ -1,39 +1,46 @@
-import GlobalStyle from './styled';
-import PageWrapper from '../layout/page-wrapper/page-wrapper';
 import {
   createWeb3Modal,
   defaultWagmiConfig,
   useWeb3Modal,
 } from '@web3modal/wagmi/react';
 import { WagmiConfig } from 'wagmi';
-// import { hardhat } from 'wagmi/chains';
-// import { mainnet } from 'wagmi/chains';
+import PageWrapper from '../layout/page-wrapper/page-wrapper';
+import GlobalStyle from './styled';
+
+// if you need[hardhat, mainnet] - just import here...
+// for example: import { bsc, hardhat, mainnet } from 'wagmi/chains';
 import { bsc } from 'wagmi/chains';
-import config from '../../../config.json';
+import { Suspense, StrictMode } from 'react';
+
+const getUrl = () =>
+  window.location.protocol +
+  window.location.hostname +
+  (window.location.port ? `:${window.location.port}` : '');
+
+const metadata = {
+  name: 'Web3Modal',
+  description: '',
+  url: String(getUrl),
+  icons: ['https://avatars.githubusercontent.com/u/37784886'],
+};
+const projectId = import.meta.env.VITE_WEB_3_MODAL_KEY;
+const chains = [bsc]; // [hardhat, mainnet];
+const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
+
+createWeb3Modal({ wagmiConfig, projectId, chains });
 
 const App: React.FC = () => {
-  const projectId = config.projectId;
-  const metadata = {
-    name: 'Web3Modal',
-    description: 'Web3Modal Example',
-    url: 'http://localhost:5173/',
-    icons: ['https://avatars.githubusercontent.com/u/37784886'],
-  };
-
-  // const chains = [hardhat];
-  // const chains = [mainnet];
-  const chains = [bsc];
-  const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
-
-  createWeb3Modal({ wagmiConfig, projectId, chains });
-
   const { open } = useWeb3Modal();
 
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <GlobalStyle />
-      <PageWrapper connectWallet={() => open()} />
-    </WagmiConfig>
+    <StrictMode>
+      <Suspense fallback="loading...">
+        <WagmiConfig config={wagmiConfig}>
+          <GlobalStyle />
+          <PageWrapper connectWallet={() => open()} />
+        </WagmiConfig>
+      </Suspense>
+    </StrictMode>
   );
 };
 

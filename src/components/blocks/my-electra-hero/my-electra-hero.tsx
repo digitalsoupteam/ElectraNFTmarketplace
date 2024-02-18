@@ -9,6 +9,7 @@ import Wrapper from '../../layout/wrapper/wrapper';
 import { TitleSize } from '../../ui/title/title';
 import Button from '../../ui/button/button';
 import { SocialIcons } from '../../ui/socials/socials';
+import { t } from 'i18next';
 
 interface ISocialItem {
   img: string;
@@ -40,13 +41,10 @@ const MyElectraHero: React.FC<IMyElectraHero> = ({ connectWallet }) => {
       <Wrapper>
         <MyElectraHeroInner>
           <MyElectraHeroTitle size={TitleSize.BIG}>
-            Welcome to your personal Electra account
+            {t('my-electra:t')}
           </MyElectraHeroTitle>
-          <MyElectraHeroText>
-            In this section you can track your income and collect profits from
-            your NFTs
-          </MyElectraHeroText>
-          <Button onClick={connectWallet}>Connect wallet</Button>
+          <MyElectraHeroText>{t('my-electra:d')}</MyElectraHeroText>
+          <Button onClick={connectWallet}>{t('menu:c-w')}</Button>
           <HeroSocials socials={socials} currentColor={'#323232'} />
         </MyElectraHeroInner>
       </Wrapper>

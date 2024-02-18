@@ -26,6 +26,7 @@ import { TitleSize } from '../../ui/title/title';
 import ColoredText from '../../ui/colored-text/colored-text';
 import IncomeChoiceTopImgSrc from '../../../assets/income-choices-moto.png';
 import Button from '../../ui/button/button';
+import { t } from 'i18next';
 
 const IncomeChoices: React.FC = () => {
   return (
@@ -33,8 +34,8 @@ const IncomeChoices: React.FC = () => {
       <Wrapper>
         <IncomeChoicesInner>
           <IncomeChoicesTitle size={TitleSize.MEDIUM} $isDark={true} as={'h2'}>
-            Purchasing NFTs allows you to{' '}
-            <ColoredText>select from various income options</ColoredText>
+            {t('income-choices.t1')}{' '}
+            <ColoredText>{t('income-choices.t2')}</ColoredText>
           </IncomeChoicesTitle>
           <IncomeChoiceTopImg src={IncomeChoiceTopImgSrc} />
           <StableInvestment>
@@ -43,35 +44,48 @@ const IncomeChoices: React.FC = () => {
               $isDark={true}
               as={'h3'}
             >
-              <ColoredText>Stable </ColoredText>Investment
+              <ColoredText>{t('income-choices.first-block.t1')} </ColoredText>
+              {t('income-choices.first-block.t2')}
             </StableInvestmentTitle>
             <StableInvestmentList>
               <StableInvestmentItem>
-                You choose a stable <ColoredText>fixed{'\n'}income</ColoredText>{' '}
-                from your e-vehicle.
+                {t('income-choices.first-block.list.i1.text1')}{' '}
+                <ColoredText>
+                  {t('income-choices.first-block.list.i1.text2')}
+                  {'\n'}
+                </ColoredText>
+                {t('income-choices.first-block.list.i1.text3')}.
               </StableInvestmentItem>
               <StableInvestmentItem>
-                This income is confirmed by a{'\n'}smart contract and provides
-                {'\n'}money <ColoredText>every month.</ColoredText>
+                {t('income-choices.first-block.list.i2.text1')}{' '}
+                <ColoredText>
+                  {t('income-choices.first-block.list.i2.text2')}.
+                </ColoredText>
               </StableInvestmentItem>
               <StableInvestmentItem>
-                You can buy multiple NFTs, selecting{'\n'}
-                <ColoredText>different investment types</ColoredText> for
-                various{'\n'}durations.
+                {t('income-choices.first-block.list.i3.text1')}
+                <ColoredText>
+                  {t('income-choices.first-block.list.i3.text2')}{' '}
+                </ColoredText>{' '}
+                {t('income-choices.first-block.list.i1.text3')}.
               </StableInvestmentItem>
               <StableInvestmentItem>
-                Afterward, you can{' '}
-                <ColoredText>withdraw your{'\n'}profit</ColoredText> from your
-                personal account{'\n'}on the website.
+                {t('income-choices.first-block.list.i4.text1')}{' '}
+                <ColoredText>
+                  {t('income-choices.first-block.list.i4.text2')}{' '}
+                </ColoredText>{' '}
+                {t('income-choices.first-block.list.i4.text3')}
               </StableInvestmentItem>
               <StableInvestmentItem>
-                Upon the expiration of the NFT,{'\n'}you receive the{' '}
-                <ColoredText>full value back.</ColoredText>
+                {t('income-choices.first-block.list.i5.text1')}{' '}
+                <ColoredText>
+                  {t('income-choices.first-block.list.i5.text2')}.
+                </ColoredText>
               </StableInvestmentItem>
             </StableInvestmentList>
             <ButtonContainer>
               <Button isSmall={true} to={'/market'}>
-                Buy NFT
+                {t('buy-nft-one')}
               </Button>
               <Button
                 isSmall={true}
@@ -79,54 +93,57 @@ const IncomeChoices: React.FC = () => {
                 link={'https://discord.gg/PgpMjgTJ'}
                 target={'_blank'}
               >
-                Get help
+                {t('get-help')}
               </Button>
             </ButtonContainer>
           </StableInvestment>
           <Lifespan>
             <LifespanTitle size={TitleSize.EXTRA_SMALL} $isDark={true}>
-              <ColoredText>You can choose</ColoredText> different returns based
-              on the lifespan of the NFT
+              <ColoredText>{t('income-choices.second-block.t1')}</ColoredText>{' '}
+              {t('income-choices.second-block.t2')}
             </LifespanTitle>
-            <LifespanText>
-              For example, buying an NFT for $10,000 can yield you $1,200
-              annually
-            </LifespanText>
+            <LifespanText>{t('income-choices.second-block.d')}</LifespanText>
             <PlansList>
               <PlansItem>
                 <PlanItemHeader>
-                  <PlanTitle>2 years</PlanTitle>
-                  <PlanSubTitle>gives you</PlanSubTitle>
+                  <PlanTitle>
+                    2 <br />
+                    {t('years')}
+                  </PlanTitle>
+                  <PlanSubTitle>{t('gives-you')}</PlanSubTitle>
                 </PlanItemHeader>
                 <PlanAnnum>
                   <PlanAnnumTitle>4%</PlanAnnumTitle>
-                  <PlanAnnumText>per annum</PlanAnnumText>
+                  <PlanAnnumText>{t('per-annum')}</PlanAnnumText>
                 </PlanAnnum>
               </PlansItem>
               <PlansItem>
                 <PlanItemHeader>
-                  <PlanTitle>3 years</PlanTitle>
-                  <PlanSubTitle>gives you</PlanSubTitle>
+                  <PlanTitle>
+                    3 <br /> {t('years')}
+                  </PlanTitle>
+                  <PlanSubTitle>{t('gives-you')}</PlanSubTitle>
                 </PlanItemHeader>
                 <PlanAnnum>
                   <PlanAnnumTitle>8%</PlanAnnumTitle>
-                  <PlanAnnumText>per annum</PlanAnnumText>
+                  <PlanAnnumText>{t('per-annum')}</PlanAnnumText>
                 </PlanAnnum>
               </PlansItem>
               <PlansItem>
                 <PlanItemHeader>
-                  <PlanTitle>5 years</PlanTitle>
-                  <PlanSubTitle>gives you</PlanSubTitle>
+                  <PlanTitle>
+                    5 <br /> {t('years-five')}
+                  </PlanTitle>
+                  <PlanSubTitle>{t('gives-you')}</PlanSubTitle>
                 </PlanItemHeader>
                 <PlanAnnum>
                   <PlanAnnumTitle>12%</PlanAnnumTitle>
-                  <PlanAnnumText>per annum</PlanAnnumText>
+                  <PlanAnnumText>{t('per-annum')}</PlanAnnumText>
                 </PlanAnnum>
               </PlansItem>
             </PlansList>
             <LifespanBottomText>
-              At the end of the NFT's lifespan, the money you spent on its
-              purchase is returned to you!
+              {t('income-choices.second-block.p')}
             </LifespanBottomText>
           </Lifespan>
         </IncomeChoicesInner>

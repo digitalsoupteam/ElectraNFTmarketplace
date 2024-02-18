@@ -18,7 +18,7 @@ const StyledHeader = styled.header`
 const HeaderInner = styled.div`
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   padding: 38px 13px 13px;
 

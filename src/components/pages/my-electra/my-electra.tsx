@@ -36,7 +36,7 @@ interface IMyElectra {
   connectWallet: () => void;
 }
 
-const MyElecrta: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
+const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
   const [sortedData, setSortedData] = useState<any>([]);
   const [totalEarnings, setTotalEarnings] = useState(0);
   // const [totalForClaim, setTotalForClaim] = useState(0);
@@ -325,7 +325,7 @@ const MyElecrta: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
           <Wrapper>
             <MyElectraTitle size={TitleSize.BIG} as={'h1'}>
               My
-              <TitleLogo src={ElectraLogo} alt='Electra' />
+              <TitleLogo src={ElectraLogo} alt="Electra" />
             </MyElectraTitle>
             {isTokensDataLoading ? (
               'Loading..'
@@ -368,4 +368,4 @@ const MyElecrta: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
   );
 };
 
-export default MyElecrta;
+export default MyElectra;

@@ -13,48 +13,16 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { SocialIcons } from '../../ui/socials/socials';
 import ConnectWallet from '../../ui/connect-wallet/connect-wallet';
 import { MetaMaskAvatar } from 'react-metamask-avatar';
+import { useTranslation } from 'react-i18next';
+import langs, { ILanguageOption } from '../../../i18n/langs';
+import Select from 'react-select';
 
-const socials = [
-  {
-    img: SocialIcons.TELEGRAM,
-    link: 'https://t.me/electra_nft',
-  },
-  {
-    img: SocialIcons.DISCORD,
-    link: 'https://discord.gg/rFkgyXpB',
-  },
-  {
-    img: SocialIcons.TWITTER,
-    link: 'https://twitter.com/Electra__NFT',
-  },
-];
-
-interface ImenuItems {
+interface IMenuItems {
   title: string;
   to?: string;
   link?: string;
   mobileInvisible?: boolean;
 }
-
-const menuItems: ImenuItems[] = [
-  {
-    title: 'NFT-Marketplace',
-    to: 'market',
-  },
-  {
-    title: 'EXCHANGE',
-    to: 'exchange',
-  },
-  {
-    title: 'MyElectra',
-    to: '/my-electra',
-  },
-  {
-    title: 'Contact us',
-    link: 'mailto:support@electra.space',
-    mobileInvisible: true,
-  },
-];
 
 interface IHeader {
   handlerConnect: () => void;
@@ -62,6 +30,7 @@ interface IHeader {
 }
 
 const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
+  const { t, i18n } = useTranslation();
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const formateAddress = (address: string) => {
     return `${address.slice(0, 4)}...${address.slice(-4)}`;
@@ -78,6 +47,41 @@ const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
   const toggleMenu = () => {
     setIsMenuOpened(!isMenuOpened);
   };
+
+  const menuItems: IMenuItems[] = [
+    {
+      title: t('menu:nft-marketplace'),
+      to: 'market',
+    },
+    {
+      title: t('menu:exchange'),
+      to: 'exchange',
+    },
+    {
+      title: 'MyElectra',
+      to: '/my-electra',
+    },
+    {
+      title: t('menu:contact'),
+      link: 'mailto:support@electra.space',
+      mobileInvisible: true,
+    },
+  ];
+
+  const socials = [
+    {
+      img: SocialIcons.TELEGRAM,
+      link: 'https://t.me/electra_nft',
+    },
+    {
+      img: SocialIcons.DISCORD,
+      link: 'https://discord.gg/rFkgyXpB',
+    },
+    {
+      img: SocialIcons.TWITTER,
+      link: 'https://twitter.com/Electra__NFT',
+    },
+  ];
 
   useEffect(() => {
     const body = document.querySelector('body');
@@ -113,9 +117,16 @@ const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
       isConnected={address ? true : false}
     >
       {address ? <MetaMaskAvatar address={address} size={46} /> : null}
-      {address ? formateAddress(address) : 'Connect wallet'}
+      {address ? formateAddress(address) : t('menu:c-w')}
     </ConnectWallet>
   );
+
+  const createLanguageOptions = (): ILanguageOption[] => {
+    return Object.keys(langs).map((lang) => ({
+      value: lang,
+      label: lang.toUpperCase(),
+    }));
+  };
 
   return (
     <StyledHeader>
@@ -136,5 +147,7 @@ const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
     </StyledHeader>
   );
 };
+
+
 
 export default Header;

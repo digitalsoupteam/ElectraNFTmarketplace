@@ -21,6 +21,7 @@ import ScooterIco from '../../../assets/scooter-ico.png';
 import UmbrellaIco from '../../../assets/umbrella-ico.png';
 import ChatIco from '../../../assets/chat-ico.png';
 import StarCardList from '../../ui/star-card-list/star-card-list';
+import { t } from 'i18next';
 
 const breakpoints = {
   768: {
@@ -35,58 +36,58 @@ interface ITrustFactor {
   text: string;
 }
 
-const trustFactors: ITrustFactor[] = [
-  {
-    ico: EcoIco,
-    title: 'Sustainable Business',
-    text: 'The environmentally friendly electric vehicle sector is gaining momentum all the time, meaning you are investing in a steadily growing industry',
-  },
-  {
-    ico: ScooterIco,
-    title: 'Real Business Income',
-    text: 'Unlike most crypto projects, the income from our NFTs is tied to a real business, making it more stable',
-  },
-  {
-    ico: UmbrellaIco,
-    title: 'Honest Collaboration',
-    text: 'We disclose all company income data, allowing you to see your earnings and the overall income of the Electra company',
-  },
-  {
-    ico: ChatIco,
-    title: 'Accessible Investments',
-    text: `This investment format is highly convenient because we've taken the best from cryptocurrency: investment accessibility from anywhere in the world and stability confirmed by smart contracts`,
-  },
-];
-
 interface IStarCards {
   title: string;
   text: string;
 }
-
-const starCards: IStarCards[] = [
-  {
-    title: '1,500 e-vehicles',
-    text: 'are already operating within our application',
-  },
-  {
-    title: '200,000 customers',
-    text: 'use our application annually',
-  },
-  {
-    title: '45% annual return',
-    text: 'is the average income for flexible investors',
-  },
-  {
-    title: '200% growth',
-    text: 'we anticipate the electric sharing market to grow in the next 5 years',
-  },
-];
 
 const Trust: React.FC = () => {
   const swiperRef = useRef<Swiper | null>(null);
   const [isDesktop, setIsDesktop] = useState<boolean>(
     window.matchMedia('(min-width: 1400px)').matches
   );
+
+  const starCards: IStarCards[] = [
+    {
+      title: t('trust.list2.i1.t'),
+      text: t('trust.list2.i1.d'),
+    },
+    {
+      title: t('trust.list2.i2.t'),
+      text: t('trust.list2.i2.d'),
+    },
+    {
+      title: t('trust.list2.i3.t'),
+      text: t('trust.list2.i3.d'),
+    },
+    {
+      title: t('trust.list2.i4.t'),
+      text: t('trust.list2.i4.d'),
+    },
+  ];
+
+  const trustFactors: ITrustFactor[] = [
+    {
+      ico: EcoIco,
+      title: t('trust.list1.i1.t'),
+      text: t('trust.list1.i1.d'),
+    },
+    {
+      ico: ScooterIco,
+      title: t('trust.list1.i2.t'),
+      text: t('trust.list1.i2.d'),
+    },
+    {
+      ico: UmbrellaIco,
+      title: t('trust.list1.i3.t'),
+      text: t('trust.list1.i3.d'),
+    },
+    {
+      ico: ChatIco,
+      title: t('trust.list1.i4.t'),
+      text: t('trust.list1.i4.d'),
+    },
+  ];
 
   const handlerNextButton = () => {
     swiperRef.current ? swiperRef.current.slideNext() : null;
@@ -113,7 +114,7 @@ const Trust: React.FC = () => {
     <StyledTrust>
       <Wrapper>
         <TrustTitle size={TitleSize.MEDIUM} $isDark={true}>
-          Why should I <ColoredText>trust you?</ColoredText>
+          {t('trust.t1')} <ColoredText> {t('trust.t2')}?</ColoredText>
         </TrustTitle>
         {isDesktop ? (
           <CardsList>

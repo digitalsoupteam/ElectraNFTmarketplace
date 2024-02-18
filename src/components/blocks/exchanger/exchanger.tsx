@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { StyledExchanger, ExchangeInner, ExchangeTitle } from './styled';
 // import Dropdown from '../../ui/dropdown/dropdown';
 // import Button from '../../ui/button/button';
@@ -19,7 +20,7 @@ const Exchanger: React.FC = () => {
       <ExchangeInner>
         {/* <ExchangeTitle>Exchange</ExchangeTitle> */}
         <ExchangeTitle>
-          Soon..
+          {t('exchange:soon')}...
           <br />
           <br />
           <br />

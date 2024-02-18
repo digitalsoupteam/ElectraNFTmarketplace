@@ -7,69 +7,7 @@ import NftCar from '../../../assets/nft-car.png';
 import NftBike from '../../../assets/nft-bike.png';
 import NftScooter from '../../../assets/nft-scooter.png';
 import MopedNFT from '../../../contracts/moped.json';
-
-const accordionItems = [
-  {
-    title: 'Investment Type',
-    content: (
-      <>
-        <b>Stable - </b>
-        Provides a consistent income based on the investment duration. The
-        longer the duration, the higher the annual percentage yield. After the
-        investment term ends, you receive 100% of the NFT value you purchased.
-        You can withdraw your earnings every month
-        <br />
-        <br />
-        <b>Flex - </b>
-        Offers 12% annual returns for the first four months. During this period,
-        the equipment is deployed in cities, and 50% of its income is paid to
-        you every month.You can purchase different types of equipment and
-        various investment types simultaneously, each providing its own income
-        stream in your personal account.
-      </>
-    ),
-  },
-  {
-    title: 'Project Summary',
-    content:
-      'We created this business and now invite people to become a part of it. Essentially, by buying NFTs, you invest in the purchase of a new electric vehicle that will operate and generate income for you while we handle its maintenance',
-  },
-  {
-    title: 'Income',
-    content:
-      'The level of income depends on the number of NFTs, the type of NFT, and the investment duration (for stable investments).',
-  },
-];
-
-const marketItems = [
-  {
-    title: 'E-Moped',
-    image: NftMopedImage,
-    address: MopedNFT.address as `0x${string}`,
-    abi: MopedNFT.abi,
-  },
-  {
-    title: 'E-Bike',
-    image: NftBike,
-    // address: MopedNFT.address as `0x${string}`,
-    // abi: MopedNFT.abi,
-    disabled: true,
-  },
-  {
-    title: 'E-Car',
-    image: NftCar,
-    // address: MopedNFT.address as `0x${string}`,
-    // abi: MopedNFT.abi,
-    disabled: true,
-  },
-  {
-    title: 'E-Scooter',
-    image: NftScooter,
-    // address: MopedNFT.address as `0x${string}`,
-    // abi: MopedNFT.abi,
-    disabled: true,
-  },
-];
+import { t } from 'i18next';
 
 interface IMarket {
   isLoggedIn: boolean;
@@ -77,6 +15,52 @@ interface IMarket {
 }
 
 const Market: React.FC<IMarket> = ({ isLoggedIn, connectWallet }) => {
+  const accordionItems = [
+    {
+      title: t('nft:i-type'),
+      content: (
+        <>
+          <b>{t('nft:stable')}</b> - {t('nft:type-stable')}.
+          <br />
+          <br />
+          <b>{t('nft:flex')}</b> - {t('nft:type-offers')}.
+        </>
+      ),
+    },
+    {
+      title: t('nft:p-summary'),
+      content: t('nft:p-summary-details') + '.',
+    },
+    {
+      title: t('nft:income'),
+      content: t('nft:income-details') + '.',
+    },
+  ];
+
+  const marketItems = [
+    {
+      title: 'E-Moped',
+      image: NftMopedImage,
+      address: MopedNFT.address as `0x${string}`,
+      abi: MopedNFT.abi,
+    },
+    {
+      title: 'E-Bike',
+      image: NftBike,
+      disabled: true,
+    },
+    {
+      title: 'E-Car',
+      image: NftCar,
+      disabled: true,
+    },
+    {
+      title: 'E-Scooter',
+      image: NftScooter,
+      disabled: true,
+    },
+  ];
+
   return (
     <main>
       <MartketHero isLoggedIn={isLoggedIn} connectWallet={connectWallet} />

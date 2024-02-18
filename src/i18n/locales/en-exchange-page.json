@@ -1,0 +1,18 @@
+{
+  "t": "token",
+  "soon": "Soon",
+  "list": {
+    "i1": {
+      "t": "Earn",
+      "d": "ELCT tokens using our NFT investment"
+    },
+    "i2": {
+      "t": "Exchange",
+      "d": "ELCT tokens in just three seconds"
+    },
+    "i3": {
+      "t": "Stake",
+      "d": "ELCT tokens for an increased income"
+    }
+  }
+}

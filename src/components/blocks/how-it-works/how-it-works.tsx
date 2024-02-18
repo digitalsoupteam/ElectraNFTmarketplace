@@ -27,6 +27,7 @@ import SlideImg2Desktop from '../../../assets/how-it-works-slide-2-desktop.png';
 import SlideImg3 from '../../../assets/how-it-works-slide-3.png';
 import SlideImg3Desktop from '../../../assets/how-it-works-slide-3-desktop.png';
 import SlideImg4 from '../../../assets/how-it-works-slide-4.png';
+import { t } from 'i18next';
 
 const breakpoints = {
   768: {
@@ -43,38 +44,38 @@ interface ISlide {
   isDark?: boolean;
 }
 
-const slides: ISlide[] = [
-  {
-    title: '1.  Getting started',
-    text: 'You purchase NFTs from our e-vehicle collection',
-    imgMobile: SlideImg1,
-  },
-  {
-    title: '2.  What do these NFTs offer?',
-    text: 'They represent real electric vehicles that will earn you money',
-    imgMobile: SlideImg2,
-    imgDesktop: SlideImg2Desktop,
-    isDark: true,
-  },
-  {
-    title: '3.  How is income generated?',
-    text: 'People from all over the world rent equipment on the Electra Sharing App and the profit is shared among investors and NFT buyers',
-    imgMobile: SlideImg3,
-    imgDesktop: SlideImg3Desktop,
-  },
-  {
-    title: '4.  Your profit',
-    text: 'You receive income every month based on the quantity and type of NFTs purchased',
-    imgMobile: SlideImg4,
-    imgDesktop: SlideImg4,
-  },
-];
-
 const HowItWorks: React.FC = () => {
   const swiperRef = useRef<Swiper | null>(null);
   const [isDesktop, setIsDesktop] = useState<boolean>(
     window.matchMedia('(min-width: 1400px)').matches
   );
+
+  const slides: ISlide[] = [
+    {
+      title: t('how-it-works.block1.t'),
+      text: t('how-it-works.block1.d'),
+      imgMobile: SlideImg1,
+    },
+    {
+      title: t('how-it-works.block2.t'),
+      text: t('how-it-works.block2.d'),
+      imgMobile: SlideImg2,
+      imgDesktop: SlideImg2Desktop,
+      isDark: true,
+    },
+    {
+      title: t('how-it-works.block3.t'),
+      text: t('how-it-works.block3.d'),
+      imgMobile: SlideImg3,
+      imgDesktop: SlideImg3Desktop,
+    },
+    {
+      title: t('how-it-works.block4.t'),
+      text: t('how-it-works.block4.d'),
+      imgMobile: SlideImg4,
+      imgDesktop: SlideImg4,
+    },
+  ];
 
   const handlerNextButton = () => {
     swiperRef.current ? swiperRef.current.slideNext() : null;
@@ -102,11 +103,12 @@ const HowItWorks: React.FC = () => {
       <Wrapper>
         <HowItWorksInner>
           <HowItWorksTitle size={TitleSize.MEDIUM}>
-            <TextGradient>Invest from anywhere</TextGradient>
-            {'\n'}in the world
+            <TextGradient>{t('how-it-works.t1')}</TextGradient>
+            {'\n'}
+            {t('how-it-works.t2')}
           </HowItWorksTitle>
           <HowItWorksSubtitle size={TitleSize.MEDIUM} as={'p'}>
-            How does it work?
+            {t('how-it-works.ts')}
           </HowItWorksSubtitle>
 
           {isDesktop ? (
@@ -158,9 +160,10 @@ const HowItWorks: React.FC = () => {
           )}
 
           <ButtonContainer>
-            <Button to={'/market'}>Buy NFTs</Button>
+            <Button to={'/market'}>{t('buy-nft-other')}</Button>
+
             <MoreButton isAlt={true} to={'/market'}>
-              More details in the NFT marketplace
+              {t('how-it-works.more-details-button')}
             </MoreButton>
           </ButtonContainer>
         </HowItWorksInner>

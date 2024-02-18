@@ -1,56 +1,58 @@
 import {
   StyledCommunication,
   CommunicationInner,
-  CommnunicationTitle,
-  CommuncationText,
+  CommunicationTitle,
+  CommunicationText,
   StyledSocials,
   CommunicationBottomText,
 } from './styled';
 import Wrapper from '../../layout/wrapper/wrapper';
 import { TitleSize } from '../../ui/title/title';
 import { SocialIcons } from '../../ui/socials/socials';
+import { t } from 'i18next';
 
 interface ISocialItem {
   img: string;
   link: string;
 }
 
-const socials: ISocialItem[] = [
-  {
-    img: SocialIcons.TELEGRAM,
-    link: 'https://t.me/+dGR6vwpEbRNlMTU6',
-  },
-  {
-    img: SocialIcons.TWITTER,
-    link: 'https://twitter.com/electra_elct',
-  },
-  {
-    img: SocialIcons.DISCORD,
-    link: 'https://discord.gg/PgpMjgTJ',
-  },
-];
-
 interface ICommunication {
   className?: string;
 }
 
 const Communication: React.FC<ICommunication> = ({ className }) => {
+  const socials: ISocialItem[] = [
+    {
+      img: SocialIcons.TELEGRAM,
+      link: 'https://t.me/+dGR6vwpEbRNlMTU6',
+    },
+    {
+      img: SocialIcons.TWITTER,
+      link: 'https://twitter.com/electra_elct',
+    },
+    {
+      img: SocialIcons.DISCORD,
+      link: 'https://discord.gg/PgpMjgTJ',
+    },
+  ];
+
   return (
     <StyledCommunication className={className}>
       <Wrapper>
         <CommunicationInner>
-          <CommnunicationTitle size={TitleSize.SMALL} as={'h2'}>
-            Do you have any questions?
-          </CommnunicationTitle>
-          <CommuncationText>
-            Feel free to ask:{'\n'}We are always open to communication
-          </CommuncationText>
+          <CommunicationTitle size={TitleSize.SMALL} as={'h2'}>
+            {t('communication.t1')}?
+          </CommunicationTitle>
+          <CommunicationText>
+            {t('communication.p1')}:{'\n'}
+            {t('communication.p2')}
+          </CommunicationText>
           <StyledSocials
             socials={socials}
             currentColor={'#161616'}
           ></StyledSocials>
           <CommunicationBottomText>
-            average response time is 5 min
+            {t('communication.average-response')}
           </CommunicationBottomText>
         </CommunicationInner>
       </Wrapper>

@@ -1,0 +1,209 @@
+{
+  "hero": {
+    "t1": "Log into the",
+    "marketplace": "marketplace",
+    "d": "NFT-platform of investing in the already working sharing business",
+    "login-button": "Log in with Metamask"
+  },
+
+  "how-it-works": {
+    "t1": "Invest from anywhere",
+    "t2": "in the world",
+    "ts": "How does it work",
+    "more-details-button": "More details in the NFT marketplace",
+    "block1": {
+      "t": "1. Getting started",
+      "d": "You purchase NFTs from our e-vehicle collection"
+    },
+    "block2": {
+      "t": "2. What do these NFTs offer",
+      "d": "They represent real electric vehicles that will earn you money"
+    },
+    "block3": {
+      "t": "3. How is income generated",
+      "d": "People from all over the world rent equipment on the Electra Sharing App and the profit is shared among investors and NFT buyers"
+    },
+    "block4": {
+      "t": "4. Your profit",
+      "d": "You receive income every month based on the quantity and type of NFTs purchased"
+    }
+  },
+
+  "income-choices": {
+    "t1": "Purchasing NFTs allows you to",
+    "t2": "select from various income options",
+    "first-block": {
+      "t1": "Stable",
+      "t2": "Investment",
+      "list": {
+        "i1": {
+          "text1": "You choose a stable",
+          "text2": "fixed income",
+          "text3": "from your e-vehicle"
+        },
+        "i2": {
+          "text1": "This income is confirmed by a smart contract and provides money",
+          "text2": "every month"
+        },
+        "i3": {
+          "text1": "You can buy multiple NFTs, selecting",
+          "text2": "different investment types",
+          "text3": "for various durations"
+        },
+        "i4": {
+          "text1": "Afterward, you can",
+          "text2": "withdraw your profit",
+          "text3": "from your personal account on the website"
+        },
+        "i5": {
+          "text1": "Upon the expiration of the NFT, you receive the",
+          "text2": "full value back"
+        }
+      }
+    },
+
+    "second-block": {
+      "t1": "You can choose",
+      "t2": "different returns based on the lifespan of the NFT",
+      "d": "For example, buying an NFT for $10,000 can yield you $1,200 annually",
+      "p": "At the end of the NFT's lifespan, the money you spent on its purchase is returned to you"
+    }
+  },
+
+  "flexible-investment": {
+    "t1": "Flexible",
+    "t2": "Investment",
+    "p": "In reality, all you need to do is buy an NFT to start receiving a fixed income from a real business every month",
+    "list": {
+      "i1": "Your income depends on how much the e-vehicle earns each month",
+      "i2": "After choosing this type of investment, you receive 12% annual returns for the first four months (during this time, we brand the equipment, place it in profitable cities, and put it into operation)",
+      "i3": "When the equipment enters operation, you start receiving 50% of its income every month",
+      "i4": "This type of investment is riskier, but your annual income can reach 100%",
+      "i5": "If desired, you can sell your NFT, but unlike a fixed investment, the selling price will be net of the maintenance costs"
+    }
+  },
+
+  "communication": {
+    "t1": "Do you have any questions",
+    "p1": "Feel free to ask",
+    "p2": "We are always open to communication",
+    "average-response": "average response time is 5 min"
+  },
+
+  "trust": {
+    "t1": "Why should I",
+    "t2": "trust you",
+    "list1": {
+      "i1": {
+        "t": "Sustainable Business",
+        "d": "The environmentally friendly electric vehicle sector is gaining momentum all the time, meaning you are investing in a steadily growing industry"
+      },
+      "i2": {
+        "t": "Real Business Income",
+        "d": "Unlike most crypto projects, the income from our NFTs is tied to a real business, making it more stable"
+      },
+      "i3": {
+        "t": "Honest Collaboration",
+        "d": "We disclose all company income data, allowing you to see your earnings and the overall income of the Electra company"
+      },
+      "i4": {
+        "t": "Accessible Investments",
+        "d": "This investment format is highly convenient because we've taken the best from cryptocurrency: investment accessibility from anywhere in the world and stability confirmed by smart contracts"
+      }
+    },
+    "list2": {
+      "i1": {
+        "t": "1,500 e-vehicles",
+        "d": "are already operating within our application"
+      },
+      "i2": {
+        "t": "200,000 customers",
+        "d": "use our application annually"
+      },
+      "i3": {
+        "t": "45% annual return",
+        "d": "is the average income for flexible investors"
+      },
+      "i4": {
+        "t": "200% growth",
+        "d": "we anticipate the electric sharing market to grow in the next 5 years"
+      }
+    }
+  },
+
+  "guarantee": {
+    "t": "We do not make unrealistic promises",
+    "d": "but we guarantee stable profits derived from real business"
+  },
+
+  "promising-market": {
+    "t1": "A",
+    "t2": "promising market",
+    "t3": "for investment",
+    "d": "Cities around the world are adopting greener and smarter transportation solutions. Sharing electric vehicles are quickly becoming the go-to choice for urban dwellers, creating a vast market for investors like you",
+    "cards-block-first": {
+      "i1": {
+        "t": "up to 70% urban population",
+        "d1": "uses micromobility sharing daily, according to",
+        "d2": "McKinsey research"
+      },
+      "i2": {
+        "t": "+61% rides growth per year",
+        "d1": "according to",
+        "d2": "National Association of City Transportation Officials"
+      }
+    },
+    "cards-block-second": {
+      "t": "Shared micromobility market expected growth"
+    }
+  },
+
+  "micromobility": {
+    "t": "The decade of micromobility has come",
+    "list": {
+      "i1": {
+        "t1": "Personal cars",
+        "t2": "expensive, polluting, out of trend",
+        "d": "Owning a car can be quite costly, considering maintenance, parking fees, and taxes. Plus, it takes longer to get around because of traffic jams"
+      },
+      "i2": {
+        "t1": "E-sharing",
+        "t2": "lightning-fast & hassle-free",
+        "d": "People no longer want to spend time and money on taking care of their personal vehicles. Thus, sharing becomes the best solution"
+      },
+      "i3": {
+        "t1": "State regulators",
+        "t2": "support micromobility",
+        "d": "State regulators are paving the way for micromobility services to flourish by creating supportive legal frameworks and urban infrastructure"
+      }
+    }
+  },
+
+  "bottom-cta": {
+    "t1": "What",
+    "t2": "can you do now",
+    "list": {
+      "i1": {
+        "t": "Buy NFTs and earn a profit",
+        "button": "Go to marketplace"
+      },
+      "i2": {
+        "t": "Join our community",
+        "button": "Let's go"
+      },
+      "i3": {
+        "t": "Purchase ELCT tokens and stake them",
+        "button": "Go to exchange"
+      }
+    }
+  },
+
+  "buy-nft-one": "Buy NFT",
+  "buy-nft-other": "Buy NFTs",
+  "get-help": "Get help",
+  "years": "years",
+  "years-five": "years",
+  "years-few": "years",
+  "gives-you": "gives you",
+  "per-annum": "per annum"
+}

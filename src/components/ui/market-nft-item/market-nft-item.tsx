@@ -28,6 +28,7 @@ import Tokens from '../../../contracts/tokens.json';
 import Treasury from '../../../contracts/treasury.json';
 import StakingStrategies from '../../../contracts/stakingStrategies.json';
 import { encodeFunctionData } from 'viem';
+import { t } from 'i18next';
 
 interface IMarketNftItem {
   image: string;
@@ -75,10 +76,10 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
   };
 
   const investmentTypes = {
-    toggler: 'Choose the Investment type',
+    toggler: t('nft:type-placeholder'),
     items: [
       {
-        type: '50% flex',
+        type: t('nft:types.t1'),
         address: StakingStrategies[3].address,
         onClick: () => {
           setIsInvestmentTypeValid(true);
@@ -86,7 +87,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
         },
       },
       {
-        type: '4% stable for 2 years',
+        type: t('nft:types.t2'),
         address: StakingStrategies[0].address,
         onClick: () => {
           setIsInvestmentTypeValid(true);
@@ -94,7 +95,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
         },
       },
       {
-        type: '4% stable for 3 years',
+        type: t('nft:types.t3'),
         address: StakingStrategies[1].address,
         onClick: () => {
           setIsInvestmentTypeValid(true);
@@ -102,7 +103,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
         },
       },
       {
-        type: '4% stable for 5 years',
+        type: t('nft:types.t4'),
         address: StakingStrategies[2].address,
         onClick: () => {
           setIsInvestmentTypeValid(true);
@@ -241,10 +242,8 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
           : false
       ) {
         try {
-          // Если есть апрув и количество > 1
           if (quantity > 1) {
             mintMulticall?.();
-            // Если есть апрув и количество < 1
           } else {
             mintWrite ? mintWrite() : alert(`mintWrite is undefined`);
           }
@@ -266,18 +265,18 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
 
   return (
     <StyledNft>
-      <NftImage src={image} $outOfStock={disabled ? true : false} />
+      <NftImage src={image} $outOfStock={!!disabled} />
       <NftTitle size={TitleSize.MEDIUM} as={'h3'}>
         {title}
       </NftTitle>
       <NftContent>
         {disabled ? (
-          <OutOfStock>Out of stock</OutOfStock>
+          <OutOfStock>{t('nft:oos')}</OutOfStock>
         ) : (
           <>
             <NftProperties>
               <PropertiesItem>
-                <PropertiesItemTitle>Investment Type</PropertiesItemTitle>
+                <PropertiesItemTitle>{t('nft:i-type')}</PropertiesItemTitle>
                 <StyledDropdown
                   toggler={investmentTypes.toggler}
                   items={investmentTypes.items}
@@ -285,12 +284,12 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
                 />
               </PropertiesItem>
               <PropertiesItem>
-                <PropertiesItemTitle>Quantity</PropertiesItemTitle>
+                <PropertiesItemTitle>{t('nft:quantity')}</PropertiesItemTitle>
                 <Quantity setExternalState={handlerQuantity} />
               </PropertiesItem>
             </NftProperties>
             <NftPrice>
-              <PriceTitle>Total price</PriceTitle>
+              <PriceTitle>{t('nft:t-price')}</PriceTitle>
               {Tokens &&
                 Tokens.length &&
                 Tokens.map((token, index) => (
@@ -315,7 +314,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
           onClick={isLoggedIn ? handleMint : connectWalltet}
           isSmall={true}
           disabled={isApproveLoading || isMinting}
-          outOfStock={disabled ? true : false}
+          outOfStock={!!disabled}
         >
           {isApproveLoading ? 'Approving..' : ''}
           {isMinting || isMulticallMinting ? 'Minting..' : ''}
@@ -328,9 +327,9 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
           !isMulticallMinting &&
           !multicallMintSuccess &&
           !disabled
-            ? 'Buy'
+            ? t('nft:buy')
             : ''}
-          {disabled ? 'Soon' : ''}
+          {disabled ? t('nft:soon') : ''}
         </NftBuyButton>
         {disabled ? null : (
           <USTax
@@ -341,7 +340,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
               type={'checkbox'}
               onChange={() => setIsUSTaxChecked(!isUSTaxChecked)}
             />
-            I am not a US tax resident
+            {t('nft:not-us-tax-resident')}
           </USTax>
         )}
       </NftContent>

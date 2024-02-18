@@ -13,24 +13,7 @@ import EarnIco from '../../../assets/earn-ico.png';
 import ExchangeIco from '../../../assets/exchange-ico.png';
 import StakeIco from '../../../assets/stake-ico.png';
 import Exchanger from '../../blocks/exchanger/exchanger';
-
-const features = [
-  {
-    title: 'Earn',
-    text: 'ELCT tokens using\nour NFT investment',
-    ico: EarnIco,
-  },
-  {
-    title: 'Exchange',
-    text: 'ELCT tokens in\njust three seconds',
-    ico: ExchangeIco,
-  },
-  {
-    title: 'Stake',
-    text: 'ELCT tokens for an\nincreased income',
-    ico: StakeIco,
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 interface IExchange {
   isLoggedIn: boolean;
@@ -38,16 +21,36 @@ interface IExchange {
 }
 
 const Exchange: React.FC<IExchange> = () => {
+  const { t } = useTranslation();
+
+  const features = [
+    {
+      title: t('exchange:list.i1.t'),
+      text: t('exchange:list.i1.d'),
+      ico: EarnIco,
+    },
+    {
+      title: t('exchange:list.i2.t'),
+      text: t('exchange:list.i2.t'),
+      ico: ExchangeIco,
+    },
+    {
+      title: t('exchange:list.i3.t'),
+      text: t('exchange:list.i3.t'),
+      ico: StakeIco,
+    },
+  ];
+
   return (
     <main>
       <Wrapper>
         <StyledExchange>
           <ExchangeHeader>
             <ExchangeTitle size={TitleSize.BIG}>
-              <TitleLogo src={ElectraLogo} /> token
+              <TitleLogo src={ElectraLogo} /> {t('exchange:t')}
             </ExchangeTitle>
             <Button isSmall={true} to={'/market'}>
-              NFT-Marketplace
+              {t('menu:nft-marketplace')}
             </Button>
           </ExchangeHeader>
           <ExchangeFeatureList features={features} />

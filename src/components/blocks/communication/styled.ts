@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import CommunicationBgMob from '../../../assets/commnunication.png';
+import CommunicationBgMob from '../../../assets/communication.png';
 import { Title } from '../../ui/title/title';
 import P from '../../../elements/p';
 import { Socials } from '../../ui/socials/socials';
-import CommunicationBgDesktop from '../../../assets/commnunication-desktop.png';
+import CommunicationBgDesktop from '../../../assets/communication-desktop.png';
 
 const StyledCommunication = styled.section`
   padding: 40px 0 30px;
@@ -34,7 +34,7 @@ const CommunicationInner = styled.div`
   }
 `;
 
-const CommnunicationTitle = styled(Title)`
+const CommunicationTitle = styled(Title)`
   margin-bottom: 18px;
 
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
@@ -42,7 +42,7 @@ const CommnunicationTitle = styled(Title)`
   }
 `;
 
-const CommuncationText = styled(P)`
+const CommunicationText = styled(P)`
   line-height: 130%;
   text-align: center;
   white-space: pre-wrap;
@@ -75,8 +75,8 @@ const CommunicationBottomText = styled(P)`
 export {
   StyledCommunication,
   CommunicationInner,
-  CommnunicationTitle,
-  CommuncationText,
+  CommunicationTitle,
+  CommunicationText,
   StyledSocials,
   CommunicationBottomText,
 };

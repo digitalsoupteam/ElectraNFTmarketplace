@@ -8,6 +8,7 @@ import {
 } from './styled';
 import Wrapper from '../../layout/wrapper/wrapper';
 import { TitleSize } from '../../ui/title/title';
+import { t } from 'i18next';
 
 const Guarantee: React.FC = () => {
   return (
@@ -16,13 +17,11 @@ const Guarantee: React.FC = () => {
         <GuaranteeInner>
           <TextContainer>
             <GuaranteeTitle size={TitleSize.SMALL}>
-              We do not make unrealistic promises
+              {t('guarantee.t')}
             </GuaranteeTitle>
-            <GuranteeText>
-              but we guarantee stable profits derived from real business
-            </GuranteeText>
+            <GuranteeText>{t('guarantee.d')}</GuranteeText>
           </TextContainer>
-          <GuarenteeButton to={'/market'}>Buy NFTs</GuarenteeButton>
+          <GuarenteeButton to={'/market'}>{t('buy-nft-other')}</GuarenteeButton>
         </GuaranteeInner>
       </Wrapper>
     </StyledGuarantee>

@@ -14,6 +14,7 @@ import Wrapper from '../../layout/wrapper/wrapper';
 import { TitleSize } from '../../ui/title/title';
 import ColoredText from '../../ui/colored-text/colored-text';
 import PromiseMarketImage from '../../../assets/promising-market-img.png';
+import { t } from 'i18next';
 
 interface IPromisingMarketItems {
   title: string;
@@ -21,20 +22,20 @@ interface IPromisingMarketItems {
   decorated_text: string;
 }
 
-const promisingMarketItems: IPromisingMarketItems[] = [
-  {
-    title: 'up to 70% urban population ',
-    text: 'uses micromobility sharing daily, according to ',
-    decorated_text: 'McKinsey research',
-  },
-  {
-    title: '+61% rides growth per year',
-    text: 'according to ',
-    decorated_text: 'National Association of City Transportation Officials',
-  },
-];
-
 const PromisingMarket: React.FC = () => {
+  const promisingMarketItems: IPromisingMarketItems[] = [
+    {
+      title: t('promising-market.cards-block-first.i1.t'),
+      text: t('promising-market.cards-block-first.i1.d1'),
+      decorated_text: t('promising-market.cards-block-first.i1.d2'),
+    },
+    {
+      title: t('promising-market.cards-block-first.i2.t'),
+      text: t('promising-market.cards-block-first.i2.d1'),
+      decorated_text: t('promising-market.cards-block-first.i2.d2'),
+    },
+  ];
+
   return (
     <StyledPromisingMarket>
       <Wrapper>
@@ -45,13 +46,12 @@ const PromisingMarket: React.FC = () => {
               $isDark={true}
               as={'h2'}
             >
-              A <ColoredText>promising market</ColoredText> for investment
+              {t('promising-market.t1')}{' '}
+              <ColoredText>{t('promising-market.t2')}</ColoredText>{' '}
+              {t('promising-market.t3')}
             </PromisingMarketTitle>
             <PromisingMarketText>
-              Cities around the world are adopting greener and smarter
-              transportation solutions. Sharing electric vehicles are quickly
-              becoming the go-to choice for urban dwellers, creating a vast
-              market for investors like you.
+              {t('promising-market.d')}.
             </PromisingMarketText>
             <PromisingMarketList>
               {promisingMarketItems &&
@@ -62,7 +62,7 @@ const PromisingMarket: React.FC = () => {
                       {item.title}
                     </CardTitle>
                     <CardText>
-                      {item.text}
+                      {item.text}{' '}
                       <CardTextDecorated>
                         {item.decorated_text}
                       </CardTextDecorated>

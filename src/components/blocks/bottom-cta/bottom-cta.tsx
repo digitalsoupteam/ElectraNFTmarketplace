@@ -12,6 +12,7 @@ import ScooterIco from '../../../assets/scooter-ico.png';
 import PuzzleIco from '../../../assets/puzzle-ico.png';
 import MoonIco from '../../../assets/moon-ico.png';
 import Button from '../../ui/button/button';
+import { t } from 'i18next';
 
 interface ICtaItems {
   ico: string;
@@ -20,27 +21,6 @@ interface ICtaItems {
   link: string;
 }
 
-const ctaItems: ICtaItems[] = [
-  {
-    ico: ScooterIco,
-    title: 'Buy NFTs\nand earn a profit',
-    button_text: 'Go to marketplace',
-    link: '#',
-  },
-  {
-    ico: PuzzleIco,
-    title: 'Join our community',
-    button_text: `Let's go!`,
-    link: '#',
-  },
-  {
-    ico: MoonIco,
-    title: 'Purchase ELCT\ntokens and stake\nthem',
-    button_text: 'Go to exchange',
-    link: '#',
-  },
-];
-
 const BottomCta: React.FC = () => {
   const buttonsLinks = [
     '/market',
@@ -48,11 +28,33 @@ const BottomCta: React.FC = () => {
     '/exchange',
   ];
 
+  const ctaItems: ICtaItems[] = [
+    {
+      ico: ScooterIco,
+      title: t('bottom-cta.list.i1.t'),
+      button_text: t('bottom-cta.list.i1.button'),
+      link: '#',
+    },
+    {
+      ico: PuzzleIco,
+      title: t('bottom-cta.list.i2.t'),
+      button_text: t('bottom-cta.list.i2.button'),
+      link: '#',
+    },
+    {
+      ico: MoonIco,
+      title: t('bottom-cta.list.i3.t'),
+      button_text: t('bottom-cta.list.i3.button'),
+      link: '#',
+    },
+  ];
+
   return (
     <StyledBottomCta>
       <Wrapper>
         <BottomCtaTitle size={TitleSize.MEDIUM}>
-          What <TextGradient>can you do now?</TextGradient>
+          {t('bottom-cta.t1')}{' '}
+          <TextGradient>{t('bottom-cta.t2')}?</TextGradient>
         </BottomCtaTitle>
         <CtaList>
           {ctaItems &&

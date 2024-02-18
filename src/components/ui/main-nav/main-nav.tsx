@@ -1,7 +1,7 @@
 import { StyledMainNav } from './styled';
 import MenuItem from '../menu-item/menu-item';
 
-interface ImenuItems {
+interface IMenuItems {
   title: React.ReactNode;
   link?: string;
   to?: string;
@@ -12,7 +12,7 @@ interface ImenuItems {
 interface IMainNav {
   className?: string;
   onClick?: () => void;
-  menuItems: ImenuItems[];
+  menuItems: IMenuItems[];
   isDark?: boolean;
 }
 

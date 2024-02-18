@@ -6,6 +6,7 @@ import {
 import Wrapper from '../../layout/wrapper/wrapper';
 import { TitleSize } from '../../ui/title/title';
 import ColoredText from '../../ui/colored-text/colored-text';
+import { t } from 'i18next';
 
 interface IMarketArchive {
   children?: React.ReactNode;
@@ -16,7 +17,7 @@ const MarketArchive: React.FC<IMarketArchive> = ({ children }) => {
     <StyledMarketArchive>
       <Wrapper>
         <MarketArchiveTitle size={TitleSize.MEDIUM} $isDark={true}>
-          Buy NFT and earn <ColoredText>passive income</ColoredText>
+          {t('nft:t2')} <ColoredText>{t('nft:pi')}</ColoredText>
         </MarketArchiveTitle>
         <MarketArchiveInner>{children}</MarketArchiveInner>
       </Wrapper>
