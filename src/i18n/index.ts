@@ -4,7 +4,16 @@ import { initReactI18next } from 'react-i18next';
 import resources from './locales';
 
 const detectionOptions = {
-  order: ['localStorage', 'htmlTag'],
+  order: [
+    'querystring',
+    'cookie',
+    'localStorage',
+    'sessionStorage',
+    'navigator',
+    'htmlTag',
+    'path',
+    'subdomain',
+  ],
   lookupQuerystring: 'lng',
   lookupCookie: 'i18next',
   lookupLocalStorage: 'i18nextLng',
