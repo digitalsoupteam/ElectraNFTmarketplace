@@ -29,7 +29,7 @@ interface IQunatityButton {
   $isLeft: boolean;
 }
 
-const QuantityButton = styled(Button)<IQunatityButton>`
+const QuantityButton: any = styled(Button)<IQunatityButton>`
   position: absolute;
   top: 0;
   bottom: 0;

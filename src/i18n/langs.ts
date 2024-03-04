@@ -1,9 +1,10 @@
 export interface ILanguageOption {
-  value: string;
+  value: any;
   label: string;
+  options: { value: string; label: string };
 }
 
-export const langs = {
+export const langs: any = {
   en: { nativeName: 'English' },
   ru: { nativeName: 'Russian' },
 };

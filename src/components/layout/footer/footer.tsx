@@ -37,10 +37,14 @@ const Footer: React.FC = () => {
     },
   ];
 
-  const createLanguageOptions = (): ILanguageOption[] => {
+  const createLanguageOptions = (): any => {
     return Object.keys(langs).map((lang) => ({
-      value: lang,
-      label: lang.toUpperCase(),
+      options: [
+        {
+          value: lang,
+          label: lang.toUpperCase(),
+        },
+      ],
     }));
   };
 
@@ -68,7 +72,7 @@ const Footer: React.FC = () => {
             <Select
               defaultValue={i18n.language}
               value={i18n.language}
-              selectOption={i18n.language}
+              options={createLanguageOptions()}
               placeholder={i18n.language.toUpperCase()}
               isClearable={false}
               isSearchable={false}
@@ -77,9 +81,6 @@ const Footer: React.FC = () => {
                   .value;
                 i18n.changeLanguage(selectedLanguage);
                 document.documentElement.lang = selectedLanguage;
-                if (isMenuOpened) {
-                  toggleMenu();
-                }
               }}
               theme={(theme) => ({
                 ...theme,
@@ -88,6 +89,10 @@ const Footer: React.FC = () => {
                   neutral50: '#fff',
                 },
               })}
+              components={{
+                DropdownIndicator: () => null,
+                IndicatorSeparator: () => null,
+              }}
               styles={{
                 control: (baseStyles) => ({
                   ...baseStyles,
@@ -109,6 +114,7 @@ const Footer: React.FC = () => {
                   borderRadius: '5px',
                   padding: '0px',
                 }),
+
                 option: (styles, { isDisabled, isFocused, isSelected }) => {
                   return {
                     ...styles,
@@ -125,11 +131,6 @@ const Footer: React.FC = () => {
                   };
                 },
               }}
-              components={{
-                DropdownIndicator: () => null,
-                IndicatorSeparator: () => null,
-              }}
-              options={createLanguageOptions()}
             />
           </div>
           <FooterButton link="https://t.me/+dGR6vwpEbRNlMTU6" target="_blank">
