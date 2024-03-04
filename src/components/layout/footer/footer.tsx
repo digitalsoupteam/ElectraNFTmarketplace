@@ -38,13 +38,9 @@ const Footer: React.FC = () => {
   ];
 
   const createLanguageOptions = (): any => {
-    return Object.keys(langs).map((lang) => ({
-      options: [
-        {
-          value: lang,
-          label: lang.toUpperCase(),
-        },
-      ],
+    return Object.keys(langs).map((lang): any => ({
+      value: lang,
+      label: lang.toUpperCase(),
     }));
   };
 
@@ -70,7 +66,6 @@ const Footer: React.FC = () => {
           <Socials currentColor={'#000'} light />
           <div style={{ margin: 'auto 0' }}>
             <Select
-              defaultValue={i18n.language}
               value={i18n.language}
               options={createLanguageOptions()}
               placeholder={i18n.language.toUpperCase()}

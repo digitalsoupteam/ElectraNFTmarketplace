@@ -7,12 +7,15 @@ import MyElectra from '../../pages/my-electra/my-electra';
 import Footer from '../../layout/footer/footer';
 import { useAccount } from 'wagmi';
 import Exchange from '../../pages/exchange/exchange';
+import { useTranslation } from 'react-i18next';
 
 interface IPageWrapper {
   connectWallet: () => void;
 }
 
 const PageWrapper: React.FC<IPageWrapper> = ({ connectWallet }) => {
+  useTranslation();
+
   const { address, isConnected } = useAccount();
 
   return (
