@@ -28,6 +28,7 @@ const getHeroImg = (isLoggedIn: boolean, mob: boolean) => {
 };
 
 const StyledHero = styled.section<IStyledHero>`
+  box-sizing: border-box;
   position: relative;
   /* box-sizing: border-box; */
   background-color: ${(props) => props.theme.blackPrimary};
@@ -43,7 +44,6 @@ const StyledHero = styled.section<IStyledHero>`
   }
 
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
-    /* height: calc(100vh - 177px); */
     padding: ${(props) =>
       props.$isLoggedIn ? '92px 0 493px' : '125px 0 554px'};
   }

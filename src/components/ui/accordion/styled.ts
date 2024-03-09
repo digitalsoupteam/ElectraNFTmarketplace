@@ -20,6 +20,7 @@ interface IAccordionButton {
 
 const AccordionButton = styled(Button)<IAccordionButton>`
   color: ${(props) => props.theme.blackPrimary};
+  text-align: start;
   padding: 13px 13px;
   border-radius: ${(props) => props.theme.borderRadiusMobileSmall};
   background-color: ${(props) => props.theme.lightGrey};

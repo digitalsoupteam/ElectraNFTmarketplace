@@ -33,6 +33,7 @@ const DropdownToggler = styled(Button)<IDropdownToggler>`
   background-color: ${(props) =>
     props.isExchange ? 'transparent' : props.theme.white};
   justify-content: space-between;
+  text-align: start;
 
   &::after {
     content: '';

@@ -46,6 +46,7 @@ const ItemText = styled(P)`
   font-weight: 400;
   line-height: 130%;
   white-space: pre-wrap;
+  padding-right: 100px;
 `;
 
 export { ExchangeList, Item, ItemTitle, ItemText };

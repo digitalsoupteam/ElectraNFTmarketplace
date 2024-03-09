@@ -43,12 +43,12 @@ const FlexibleInvestmentList = styled(Ul)`
   margin-bottom: 23px;
 
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
+    /* display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 20px; */
     display: block;
     columns: 2;
-    column-fill: auto;
     column-gap: 87px;
-    height: 418px;
-    margin: 0;
   }
 `;
 
@@ -74,6 +74,7 @@ const FlexibleInvestmentItem = styled.li`
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
     font-size: 24px;
     padding-left: 62px;
+    margin-bottom: 0;
     break-inside: avoid;
 
     &:not(:last-child) {
@@ -90,13 +91,7 @@ const FlexibleInvestmentItem = styled.li`
 const ButtonContainer = styled.div`
   display: flex;
   gap: 8px;
-
-  @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
-    position: absolute;
-    right: 156px;
-    bottom: 44px;
-    gap: 12px;
-  }
+  justify-content: flex-start;
 `;
 
 const StyledBuyButton = styled(Button)`

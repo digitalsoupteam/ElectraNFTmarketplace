@@ -106,10 +106,7 @@ const IncomeChoices: React.FC = () => {
             <PlansList>
               <PlansItem>
                 <PlanItemHeader>
-                  <PlanTitle>
-                    2 <br />
-                    {t('years')}
-                  </PlanTitle>
+                  <PlanTitle>2 {t('years')}</PlanTitle>
                   <PlanSubTitle>{t('gives-you')}</PlanSubTitle>
                 </PlanItemHeader>
                 <PlanAnnum>
@@ -119,9 +116,7 @@ const IncomeChoices: React.FC = () => {
               </PlansItem>
               <PlansItem>
                 <PlanItemHeader>
-                  <PlanTitle>
-                    3 <br /> {t('years')}
-                  </PlanTitle>
+                  <PlanTitle>3 {t('years')}</PlanTitle>
                   <PlanSubTitle>{t('gives-you')}</PlanSubTitle>
                 </PlanItemHeader>
                 <PlanAnnum>
@@ -131,9 +126,7 @@ const IncomeChoices: React.FC = () => {
               </PlansItem>
               <PlansItem>
                 <PlanItemHeader>
-                  <PlanTitle>
-                    5 <br /> {t('years-five')}
-                  </PlanTitle>
+                  <PlanTitle>5 {t('years-five')}</PlanTitle>
                   <PlanSubTitle>{t('gives-you')}</PlanSubTitle>
                 </PlanItemHeader>
                 <PlanAnnum>

@@ -42,6 +42,7 @@ interface ISlide {
   imgMobile: string;
   imgDesktop?: string;
   isDark?: boolean;
+  isWide?: boolean;
 }
 
 const HowItWorks: React.FC = () => {
@@ -62,12 +63,14 @@ const HowItWorks: React.FC = () => {
       imgMobile: SlideImg2,
       imgDesktop: SlideImg2Desktop,
       isDark: true,
+      isWide: true,
     },
     {
       title: t('how-it-works.block3.t'),
       text: t('how-it-works.block3.d'),
       imgMobile: SlideImg3,
       imgDesktop: SlideImg3Desktop,
+      isWide: true,
     },
     {
       title: t('how-it-works.block4.t'),
@@ -120,6 +123,7 @@ const HowItWorks: React.FC = () => {
                     $imgMobile={item.imgMobile}
                     $imgDesktop={item.imgDesktop}
                     key={index}
+                    $isWide={item.isWide}
                   >
                     <CardTitle size={TitleSize.SMALL} $isDark={item.isDark}>
                       {item.title}

@@ -3,6 +3,7 @@ import BottomCtaBgMobTop from '../../../assets/bottom-cta-bg--top-mob.png';
 import BottomCtaBgMobBottom from '../../../assets/bottom-cta-bg--bottom-mob.png';
 import BottomCtaBg from '../../../assets/bottom-cta-bg.png';
 import { Title } from '../../ui/title/title';
+import Button from '../../ui/button/button';
 import StarIco from '../../../assets/star-green.svg';
 import Ul from '../../../elements/ul';
 
@@ -14,7 +15,7 @@ const StyledBottomCta = styled.section`
   background-position: top 126px center, bottom center;
   background-size: contain, contain;
 
-  @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
+  @media screen and (min-width: ${(props) => props.theme.tabletWidth}) {
     padding: 110px 0 495px;
     background-image: url(${BottomCtaBg});
     background-position: bottom center;
@@ -113,4 +114,15 @@ const CtaItemTitle = styled(Title)`
   white-space: pre-wrap;
 `;
 
-export { StyledBottomCta, BottomCtaTitle, CtaList, CtaItem, CtaItemTitle };
+const StyledCtaButton = styled(Button)`
+  width: max-content;
+`;
+
+export {
+  StyledBottomCta,
+  BottomCtaTitle,
+  CtaList,
+  CtaItem,
+  CtaItemTitle,
+  StyledCtaButton,
+};

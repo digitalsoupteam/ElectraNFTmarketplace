@@ -147,6 +147,7 @@ const Lifespan = styled.div`
   }
 
   @media screen and (min-width: ${(props) => props.theme.tabletWidth}) {
+    padding-bottom: 180px;
     max-width: ${(props) => props.theme.contentTabletWidth};
   }
 
