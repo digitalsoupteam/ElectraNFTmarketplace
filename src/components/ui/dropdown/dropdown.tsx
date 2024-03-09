@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import {
   StyledDropdown,
+  Descriptor,
   DropdownToggler,
   DropwonListWrapper,
   DropdownList,
@@ -8,12 +9,13 @@ import {
 } from './styled';
 
 interface IDropdownItem {
-  type: string;
+  name: string;
   onClick: () => void;
 }
 
 interface IDropdown {
-  toggler: React.ReactNode;
+  toggler?: React.ReactNode;
+  isExchange?: boolean;
   items: IDropdownItem[];
   isValid: boolean;
   className?: string;
@@ -24,10 +26,13 @@ const Dropdown: React.FC<IDropdown> = ({
   items,
   isValid,
   className,
+  isExchange,
 }) => {
   const [isOpened, setIsOpened] = useState(false);
   const [height, setHeight] = useState(0);
-  const [currentText, setCurrentText] = useState(toggler);
+  const [currentText, setCurrentText] = useState(
+    toggler ? toggler : items[0].name
+  );
   const openContent = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,11 +42,13 @@ const Dropdown: React.FC<IDropdown> = ({
   }, [isOpened, height]);
 
   return (
-    <StyledDropdown className={className}>
+    <StyledDropdown className={className} isExchange={isExchange}>
+      {isExchange ? <Descriptor>From</Descriptor> : null}
       <DropdownToggler
         $isOpened={isOpened}
         onClick={() => setIsOpened(!isOpened)}
         isValid={isValid}
+        isExchange={isExchange}
       >
         {currentText}
       </DropdownToggler>
@@ -51,14 +58,15 @@ const Dropdown: React.FC<IDropdown> = ({
             items.length &&
             items.map((item, index) => (
               <DropdownItem
+                isExchange={isExchange}
                 onClick={() => {
                   setIsOpened(false);
-                  setCurrentText(item.type);
+                  setCurrentText(item.name);
                   item.onClick();
                 }}
                 key={index}
               >
-                {item.type}
+                {item.name}
               </DropdownItem>
             ))}
         </DropdownList>
