@@ -117,8 +117,6 @@ const Exchanger: React.FC = () => {
     args: [BigInt(ELCTAmount * 1e18), filteredTokens[activeTokenIndex].address],
     watch: true,
     onSuccess: () => {
-      console.log('fetchedPayTokenAmount', fetchedPayTokenAmount);
-
       if (typeof fetchedPayTokenAmount === 'bigint') {
         setPayTokenAmount(Number(fetchedPayTokenAmount) / 1e18);
 
@@ -127,7 +125,7 @@ const Exchanger: React.FC = () => {
           fetchedPayTokenAmount +
           (fetchedPayTokenAmount / BigInt(100)) *
             (BigInt(slippage * 1e18) / BigInt(1e18));
-        console.log('maxPayTokenAmount', maxPayTokenAmount);
+
         setMaxPayTokenAmount(maxPaytokenAmount);
 
         const estimatedPrice =
@@ -176,19 +174,15 @@ const Exchanger: React.FC = () => {
   });
 
   const handlerPayTokenInput = (evt: any) => {
-    console.log('pay input');
     const target = evt.target;
     const value = parseFloat(target.value);
 
     setPayTokenAmount(value);
     const newELCTAmount = value / currentPrice;
-    console.log('newELCTAmount', newELCTAmount, typeof newELCTAmount);
-    console.log(value, currentPrice, value / currentPrice);
     setELCTAmount(newELCTAmount);
   };
 
   const handlerELCTAmountInput = (evt: any) => {
-    console.log('elct input');
     const target = evt.target;
     const value = parseFloat(target.value);
 
