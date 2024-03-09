@@ -132,7 +132,7 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
           {
             address: strategyAddress as `0x${string}`,
             abi: strategyAbi,
-            functionName: 'withdrawnRewards',
+            functionName: 'totalWithdrawn',
             args: [Moped.address, tokenId.result],
           },
           {
@@ -181,7 +181,6 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
     (data: ITokensDataItem[] | []) => IMyElectraItem[][]
   >(
     (data: any) => {
-      // Разбиваем на массивы по 6 объектов
       const reducedData = data?.reduce((acc: any, curr: any, index: any) => {
         const groupSize = 6;
         const chunkIndex = Math.floor(index / groupSize);
@@ -195,7 +194,6 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
         return acc;
       }, [] as any[][]);
 
-      // Структурируем объекты
       const structuredData: any = [];
 
       reducedData?.forEach((item: any, index: any) => {
@@ -214,7 +212,6 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
         structuredData.push(structuredItem);
       });
 
-      // группируем нфт по дате и стратегии стекинга
       const stackedData: any = [];
       const stackedIDs: any = [];
 
@@ -286,7 +283,6 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
 
     setTotalEarnings(total);
     // setTotalForClaim(estimateTotalClaim());
-    console.log(sortedData);
 
     // const getStakingStrategyABI = (address: string): any[] => {
     //   const findedItem = StakingStrategies.find((itemStrategy) =>
