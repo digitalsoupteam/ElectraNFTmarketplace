@@ -1,5 +1,25 @@
 {
   "t": "Welcome to your personal Electra account",
   "d": "In this section you can track your income and collect profits from your NFTs",
-  "connect-button": "Connect wallet"
+  "connect-button": "Connect wallet",
+  "availability": "Availability",
+  "per": "per",
+  "total-earnings": "Общий заработок",
+  "no-nfts": "You have no NFts yet",
+  "go-market": "Go to market",
+  "item": {
+    "price": "price",
+    "selling": "Selling",
+    "sell": "Sell",
+    "claiming": "Claiming",
+    "claim": "Claim"
+  },
+  "list": {
+    "date": "Date",
+    "quantity": "Quantity",
+    "NFT": "NFT",
+    "investment-type": "Investment type",
+    "earned": "Earned",
+    "claim": "You can claim"
+  }
 }

@@ -16,6 +16,7 @@ const StyledGuarantee = styled.section`
 const GuaranteeInner = styled.div`
   position: relative;
   display: flex;
+  align-items: center;
   flex-direction: column;
   padding: 196px 32px 29px;
   border-radius: ${(props) => props.theme.borderRadiusMobileSmall};
@@ -37,6 +38,7 @@ const GuaranteeInner = styled.div`
   }
 
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
+    gap: 350px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -86,6 +88,10 @@ const GuranteeText = styled(P)`
 `;
 
 const GuarenteeButton = styled(Button)`
+  flex-shrink: 0;
+  flex-grow: 1;
+  width: max-content;
+
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
     font-size: 24px;
     padding: 16px 36px;

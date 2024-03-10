@@ -20,7 +20,7 @@ const StyledHowItWorks = styled.section`
   background-size: contain, contain;
   background-position: top center, bottom center;
 
-  @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
+  @media screen and (min-width: ${(props) => props.theme.tabletWidth}) {
     background-image: url(${HowItWorksBgTopDesktop}),
       url(${HowItWorksBgBottomDesktop});
   }
@@ -61,9 +61,11 @@ const StyledSwiper = styled(Swiper)`
 interface ICard {
   $imgMobile: string;
   $imgDesktop?: string;
+  $isWide?: boolean;
 }
 
 const Card = styled.div<ICard>`
+  grid-column: ${(props) => (props.$isWide ? 'span 2' : 'auto')};
   border-radius: ${(props) => props.theme.borderRadiusMobileSmall};
   margin: 0 38px;
   box-sizing: border-box;
@@ -126,15 +128,17 @@ const SliderContainer = styled.div`
     &:nth-child(1) {
       ${CardText} {
         padding-right: 113px;
+        padding-bottom: 80px;
       }
     }
 
     &:nth-child(2) {
       ${Card} {
         min-height: 337px;
-      }
-      ${CardText} {
-        padding-right: 87px;
+
+        ${CardText} {
+          padding-bottom: 165px;
+        }
       }
     }
 
@@ -144,6 +148,7 @@ const SliderContainer = styled.div`
       }
       ${CardText} {
         padding-right: 0;
+        padding-bottom: 180px;
       }
     }
 
@@ -165,6 +170,7 @@ const SliderContainer = styled.div`
       }
       ${CardText} {
         padding-right: 95px;
+        padding-bottom: 80px;
       }
     }
   }
@@ -172,7 +178,10 @@ const SliderContainer = styled.div`
 
 const CardContainer = styled.div`
   position: relative;
-  height: 679px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* grid-template-rows: 100px, 80px, 100px; */
+  gap: 40px 60px;
   padding-top: 35px;
   margin-bottom: 61px;
 
@@ -192,32 +201,23 @@ const CardContainer = styled.div`
 
   ${Card} {
     &:nth-child(1) {
-      position: absolute;
-      top: 35px;
-      left: 0;
       min-height: 375px;
       max-width: 366px;
 
       ${CardText} {
         padding-right: 150px;
+        padding-bottom: 80px;
       }
     }
 
     &:nth-child(2) {
-      position: absolute;
-      top: 35px;
-      right: 0;
       min-height: 264px;
       max-width: 731px;
       padding-right: 455px;
     }
 
     &:nth-child(3) {
-      position: absolute;
-      bottom: 0;
-      left: 0;
       min-height: 261px;
-      max-width: 731px;
 
       ${CardText} {
         padding-right: 365px;
@@ -225,19 +225,10 @@ const CardContainer = styled.div`
     }
 
     &:nth-child(4) {
-      position: absolute;
-      bottom: 0;
-      right: 0;
       min-height: 375px;
-      max-width: 375px;
 
       &::before {
         content: '';
-        position: absolute;
-        top: 100px;
-        right: -29px;
-        width: 130px;
-        height: 142px;
         background-image: url(${MoneyImg});
         background-repeat: no-repeat;
         background-size: contain;
@@ -245,6 +236,7 @@ const CardContainer = styled.div`
       }
       ${CardText} {
         padding-right: 100px;
+        padding-bottom: 150px;
       }
     }
   }

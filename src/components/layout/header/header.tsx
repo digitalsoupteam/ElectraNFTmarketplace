@@ -14,8 +14,6 @@ import { SocialIcons } from '../../ui/socials/socials';
 import ConnectWallet from '../../ui/connect-wallet/connect-wallet';
 import { MetaMaskAvatar } from 'react-metamask-avatar';
 import { useTranslation } from 'react-i18next';
-import langs, { ILanguageOption } from '../../../i18n/langs';
-import Select from 'react-select';
 
 interface IMenuItems {
   title: string;
@@ -30,7 +28,7 @@ interface IHeader {
 }
 
 const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const formateAddress = (address: string) => {
     return `${address.slice(0, 4)}...${address.slice(-4)}`;
@@ -68,7 +66,7 @@ const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
     },
   ];
 
-  const socials = [
+  const socials: any = [
     {
       img: SocialIcons.TELEGRAM,
       link: 'https://t.me/electra_nft',
@@ -120,13 +118,6 @@ const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
       {address ? formateAddress(address) : t('menu:c-w')}
     </ConnectWallet>
   );
-
-  const createLanguageOptions = (): ILanguageOption[] => {
-    return Object.keys(langs).map((lang) => ({
-      value: lang,
-      label: lang.toUpperCase(),
-    }));
-  };
 
   return (
     <StyledHeader>

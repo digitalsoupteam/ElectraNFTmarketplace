@@ -1,30 +1,22 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import {
   StyledMyElectraTokensList,
   TokensList,
   TokenListHeader,
   TokenListHeaderItem,
-  HeaderCheckbox,
+  // HeaderCheckbox,
 } from './styled';
-import MyElectraNftItem from '../../ui/my-electra-nft-item/my-electra-nft-item';
-
-interface IMyElectraItem {
-  date: number;
-  nft: string;
-  tokenId: number;
-  investmentType: string;
-  earned: number;
-  canClaim: any[];
-  canSell: boolean;
-  sellingPrice: number;
-}
+import MyElectraNftItem, {
+  IMyElectraItem,
+} from '../../ui/my-electra-nft-item/my-electra-nft-item';
+import { t } from 'i18next';
 
 interface IMyElectraTokensList {
   items: IMyElectraItem[][];
 }
 
 const MyElectraTokensList: React.FC<IMyElectraTokensList> = ({ items }) => {
-  const [checked, setCkecked] = useState(false);
+  // const [checked, setCkecked] = useState(false);
 
   return (
     <StyledMyElectraTokensList>
@@ -32,20 +24,32 @@ const MyElectraTokensList: React.FC<IMyElectraTokensList> = ({ items }) => {
         <TokenListHeader>
           <tr>
             <TokenListHeaderItem>
-              <HeaderCheckbox checked={checked}>
+              {/* <HeaderCheckbox checked={checked}>
                 <input
                   type={'checkbox'}
                   onChange={() => setCkecked(!checked)}
                 ></input>
                 Select all
-              </HeaderCheckbox>
+              </HeaderCheckbox> */}
             </TokenListHeaderItem>
-            <TokenListHeaderItem>Date </TokenListHeaderItem>
-            <TokenListHeaderItem>Quantity </TokenListHeaderItem>
-            <TokenListHeaderItem>NFT </TokenListHeaderItem>
-            <TokenListHeaderItem>Investment type </TokenListHeaderItem>
-            <TokenListHeaderItem>Earned </TokenListHeaderItem>
-            <TokenListHeaderItem>You can claim </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.date')}
+            </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.quantity')}
+            </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.NFT')}
+            </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.investment-type')}
+            </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.earned')}
+            </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.claim')}
+            </TokenListHeaderItem>
           </tr>
         </TokenListHeader>
         <tbody>

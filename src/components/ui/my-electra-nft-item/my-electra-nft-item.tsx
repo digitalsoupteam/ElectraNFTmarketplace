@@ -2,7 +2,7 @@ import {
   StyledMyElectraNftItem,
   ItemCell,
   ItemImg,
-  ItemCheckbox,
+  // ItemCheckbox,
   Reward,
   ClaimButton,
   SellButton,
@@ -16,16 +16,17 @@ import Moped from '../../../contracts/moped.json';
 import Tokens from '../../../contracts/tokens.json';
 import { encodeFunctionData } from 'viem';
 import MopedMini from '../../../assets/moped-nft-mini.png';
+import { t } from 'i18next';
 
-interface IMyElectraItem {
+export interface IMyElectraItem {
   date: number;
   nft: string;
   tokenId: number;
   investmentType: string;
   earned: number;
-  canClaim: any[];
+  canClaim: bigint[];
   canSell: boolean;
-  sellingPrice: number;
+  sellingPrice: bigint;
 }
 
 interface IMyElectraNftItem {
@@ -62,7 +63,7 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
   const [encodedMulicallSellData, setEncodedMulicallSellData] = useState<
     string | `0x${string}`[]
   >('');
-  const [checked, setCkecked] = useState(false);
+  // const [checked, setCkecked] = useState(false);
 
   const { data: walletClient } = useWalletClient();
 
@@ -117,11 +118,24 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
     return findedABI ? findedABI : [];
   };
 
+  const claimAmount = item[0].canClaim[0];
+
+  const slippage =
+    BigInt(import.meta.env.VITE_USDT_SLIPPAGE * 1e18) / BigInt(1e18);
+
+  const minWidthdrawAmountSingleClaim =
+    claimAmount - (claimAmount / BigInt(100)) * slippage;
+
   const { write: singleClaim, isLoading: claiming } = useContractWrite({
     address: item[0].investmentType as `0x${string}`,
     abi: getStakingStrategyABI(item[0].investmentType),
     functionName: 'claim',
-    args: [Moped.address, item[0].tokenId, Tokens[0].address],
+    args: [
+      Moped.address,
+      item[0].tokenId,
+      Tokens[0].address,
+      minWidthdrawAmountSingleClaim,
+    ],
   });
 
   const { write: multicallClaim, isLoading: multicallClaiming } =
@@ -133,11 +147,19 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
       args: [encodedMulicallClaimData],
     });
 
+  const minWidthdrawAmountSell =
+    item[0].sellingPrice - (item[0].sellingPrice / BigInt(100)) * slippage;
+
   const { write: singleSell, isLoading: selling } = useContractWrite({
     address: item[0].investmentType as `0x${string}`,
     abi: getStakingStrategyABI(item[0].investmentType),
     functionName: 'sell',
-    args: [Moped.address, item[0].tokenId, Tokens[0].address],
+    args: [
+      Moped.address,
+      item[0].tokenId,
+      Tokens[0].address,
+      minWidthdrawAmountSell,
+    ],
   });
 
   const { write: multicallSell, isLoading: multicallSelling } =
@@ -152,19 +174,31 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
   useEffect(() => {
     if (item.length > 1) {
       const encodedClaimMulticallArray = item.map((item) => {
+        const itemAddress = Moped.address;
+        const tokenId = item.tokenId;
+        const tokenAddress = Tokens[0].address;
+        const minWithdrawAmount =
+          item.canClaim[0] - (item.canClaim[0] / BigInt(100)) * slippage;
+
         return encodeFunctionData({
           abi: getStakingStrategyABI(item.investmentType),
           functionName: 'claim',
-          args: [Moped.address, item.tokenId, Tokens[0].address],
+          args: [itemAddress, tokenId, tokenAddress, minWithdrawAmount],
         });
       });
       setEncodedMulicallClaimData(encodedClaimMulticallArray);
 
       const encodedSellMulticallArray = item.map((item) => {
+        const itemAddress = Moped.address;
+        const tokenId = item.tokenId;
+        const tokenAddress = Tokens[0].address;
+        const minWithdrawAmount =
+          item.sellingPrice - (item.sellingPrice / BigInt(100)) * slippage;
+
         return encodeFunctionData({
           abi: getStakingStrategyABI(item.investmentType),
           functionName: 'sell',
-          args: [Moped.address, item.tokenId, Tokens[0].address],
+          args: [itemAddress, tokenId, tokenAddress, minWithdrawAmount],
         });
       });
       setEncodedMulicallSellData(encodedSellMulticallArray);
@@ -208,13 +242,13 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
       {item.length === 1 ? (
         <>
           <ItemCell>
-            <ItemCheckbox checked={checked}>
-              <input
+            {/* <ItemCheckbox checked={checked}> */}
+            {/* <input
                 type={'checkbox'}
                 onChange={() => setCkecked(!checked)}
-              ></input>
-              <ItemImg src={NftImages[item[0].nft as keyof typeof NftImages]} />
-            </ItemCheckbox>
+              ></input> */}
+            <ItemImg src={NftImages[item[0].nft as keyof typeof NftImages]} />
+            {/* </ItemCheckbox> */}
           </ItemCell>
           <ItemCell>
             {item[0].date ? formateDate(Number(item[0].date)) : ''}
@@ -241,12 +275,16 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
               disabled={item[0].canClaim[0] === 0n}
               onClick={handleClaim}
             >
-              {claiming ? 'Claiming...' : 'Claim'}
+              {claiming
+                ? t('my-electra:item.claiming') + '...'
+                : t('my-electra:item.claim')}
             </ClaimButton>
             <SellButton disabled={!item[0].canSell} onClick={handleSell}>
-              {selling ? 'Selling..' : 'Sell'}
+              {selling
+                ? t('my-electra:item.selling') + '...'
+                : t('my-electra:item.sell')}
               <SellingPriceContainer>
-                price
+                {t('my-electra:item.price')}
                 <SellingPriceAmount>
                   {item[0].sellingPrice
                     ? Number(item[0].sellingPrice) / 1e18
@@ -260,13 +298,13 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
       ) : (
         <>
           <ItemCell>
-            <ItemCheckbox checked={checked}>
-              <input
+            {/* <ItemCheckbox checked={checked}> */}
+            {/* <input
                 type={'checkbox'}
                 onChange={() => setCkecked(!checked)}
-              ></input>
-              <ItemImg src={NftImages[item[0].nft as keyof typeof NftImages]} />
-            </ItemCheckbox>
+              ></input> */}
+            <ItemImg src={NftImages[item[0].nft as keyof typeof NftImages]} />
+            {/* </ItemCheckbox> */}
           </ItemCell>
           <ItemCell>
             {item[0].date ? formateDate(Number(item[0].date)) : ''}
@@ -291,12 +329,16 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
               disabled={item[0].canClaim[0] === 0n}
               onClick={handleClaim}
             >
-              {multicallClaiming ? 'Claiming...' : 'Claim'}
+              {multicallClaiming
+                ? t('my-electra:item.claiming') + '...'
+                : t('my-electra:item.claim')}
             </ClaimButton>
             <SellButton disabled={!item[0].canSell} onClick={handleSell}>
-              {multicallSelling ? 'Selling...' : 'Sell'}
+              {multicallSelling
+                ? t('my-electra:item.selling') + '...'
+                : t('my-electra:item.sell')}
               <SellingPriceContainer>
-                price
+                {t('my-electra:item.price')}
                 <SellingPriceAmount>
                   {item[0].sellingPrice ? estimateSellingPrice(item) : ''}
                   {'$'}

@@ -7,6 +7,7 @@ interface IStyledButton {
 }
 
 const StyledButton = styled.a<IStyledButton>`
+  text-align: center;
   color: ${(props) =>
     props.$isAlt ? props.theme.diamond : props.theme.blackPrimary};
   display: inline-flex;

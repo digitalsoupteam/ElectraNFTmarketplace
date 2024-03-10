@@ -4,6 +4,7 @@ import {
   CtaList,
   CtaItem,
   CtaItemTitle,
+  StyledCtaButton,
 } from './styled';
 import Wrapper from '../../layout/wrapper/wrapper';
 import { TitleSize } from '../../ui/title/title';
@@ -11,7 +12,6 @@ import TextGradient from '../../ui/text-gradient/text-gradient';
 import ScooterIco from '../../../assets/scooter-ico.png';
 import PuzzleIco from '../../../assets/puzzle-ico.png';
 import MoonIco from '../../../assets/moon-ico.png';
-import Button from '../../ui/button/button';
 import { t } from 'i18next';
 
 interface ICtaItems {
@@ -64,14 +64,14 @@ const BottomCta: React.FC = () => {
                 <CtaItemTitle size={TitleSize.SMALL} as={'h3'}>
                   {item.title}
                 </CtaItemTitle>
-                <Button
+                <StyledCtaButton
                   isSmall={true}
                   {...(index === 1
                     ? { link: buttonsLinks[index] }
                     : { to: buttonsLinks[index] })}
                 >
                   {item.button_text}
-                </Button>
+                </StyledCtaButton>
               </CtaItem>
             ))}
         </CtaList>

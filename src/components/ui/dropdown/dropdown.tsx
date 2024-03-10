@@ -1,19 +1,22 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useTransition } from 'react';
 import {
   StyledDropdown,
+  Descriptor,
   DropdownToggler,
-  DropwonListWrapper,
+  DropwonListWrapper as DropdownListWrapper,
   DropdownList,
   DropdownItem,
 } from './styled';
+import { t } from 'i18next';
 
 interface IDropdownItem {
-  type: string;
+  name: string;
   onClick: () => void;
 }
 
 interface IDropdown {
-  toggler: React.ReactNode;
+  toggler?: React.ReactNode;
+  isExchange?: boolean;
   items: IDropdownItem[];
   isValid: boolean;
   className?: string;
@@ -24,10 +27,12 @@ const Dropdown: React.FC<IDropdown> = ({
   items,
   isValid,
   className,
+  isExchange,
 }) => {
+  useTransition();
   const [isOpened, setIsOpened] = useState(false);
   const [height, setHeight] = useState(0);
-  const [currentText, setCurrentText] = useState(toggler);
+  const [currentText, setCurrentText] = useState(toggler ?? items[0].name);
   const openContent = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,32 +42,34 @@ const Dropdown: React.FC<IDropdown> = ({
   }, [isOpened, height]);
 
   return (
-    <StyledDropdown className={className}>
+    <StyledDropdown className={className} isExchange={isExchange}>
+      {isExchange ? <Descriptor>{t('main:from')}</Descriptor> : null}
       <DropdownToggler
         $isOpened={isOpened}
         onClick={() => setIsOpened(!isOpened)}
         isValid={isValid}
+        isExchange={isExchange}
       >
         {currentText}
       </DropdownToggler>
-      <DropwonListWrapper $height={height}>
+
+      <DropdownListWrapper $height={height}>
         <DropdownList ref={openContent}>
-          {items &&
-            items.length &&
-            items.map((item, index) => (
-              <DropdownItem
-                onClick={() => {
-                  setIsOpened(false);
-                  setCurrentText(item.type);
-                  item.onClick();
-                }}
-                key={index}
-              >
-                {item.type}
-              </DropdownItem>
-            ))}
+          {items?.map((item) => (
+            <DropdownItem
+              isExchange={isExchange}
+              onClick={() => {
+                setIsOpened(false);
+                setCurrentText(item.name);
+                item.onClick();
+              }}
+              key={item.name}
+            >
+              {item.name}
+            </DropdownItem>
+          ))}
         </DropdownList>
-      </DropwonListWrapper>
+      </DropdownListWrapper>
     </StyledDropdown>
   );
 };

@@ -340,6 +340,11 @@
           "type": "address"
         },
         {
+          "internalType": "uint256",
+          "name": "_maxPayTokenAmount",
+          "type": "uint256"
+        },
+        {
           "internalType": "bytes",
           "name": "_payload",
           "type": "bytes"
@@ -347,7 +352,7 @@
       ],
       "name": "mint",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "payable",
       "type": "function"
     },
     {

@@ -86,6 +86,7 @@ const CardTitle = styled(Title)<ICardTitle>`
   margin-bottom: 9px;
 
   &:before {
+    flex-shrink: 0;
     content: '';
     width: 40px;
     height: 44px;

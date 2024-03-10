@@ -1,5 +1,5 @@
 {
-  "address": "0xF451FF6499d6e39e2b8eA34926E3BB6010D114f2",
+  "address": "0xC326829b88d6D62C62Db254f118d35E34c7b02Fb",
   "abi": [
     {
       "inputs": [],
@@ -57,11 +57,17 @@
         {
           "indexed": true,
           "internalType": "address",
-          "name": "implementation",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
           "type": "address"
         }
       ],
-      "name": "Upgraded",
+      "name": "OwnershipTransferred",
       "type": "event"
     },
     {
@@ -70,29 +76,11 @@
         {
           "indexed": true,
           "internalType": "address",
-          "name": "from",
+          "name": "implementation",
           "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
         }
       ],
-      "name": "Withdraw",
+      "name": "Upgraded",
       "type": "event"
     },
     {
@@ -109,8 +97,86 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_payToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_payTokenPricer",
+          "type": "address"
+        }
+      ],
+      "name": "addPayToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_elctAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_payToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_maxPayTokenAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "buy",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_payToken",
+          "type": "address"
+        }
+      ],
+      "name": "deletePayToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [],
-      "name": "USD_DECIMALS",
+      "name": "elct",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_elctAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "elctAmountToToken",
       "outputs": [
         {
           "internalType": "uint256",
@@ -122,26 +188,8 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_token",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_pricer",
-          "type": "address"
-        }
-      ],
-      "name": "addToken",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [],
-      "name": "addressBook",
+      "name": "elctPricer",
       "outputs": [
         {
           "internalType": "address",
@@ -156,34 +204,28 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_token",
+          "name": "_owner",
           "type": "address"
-        }
-      ],
-      "name": "deleteToken",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
+        },
         {
           "internalType": "address",
-          "name": "_token",
+          "name": "_elct",
           "type": "address"
-        }
-      ],
-      "name": "enforceIsSupportedToken",
-      "outputs": [],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
+        },
         {
           "internalType": "address",
-          "name": "_addressBook",
+          "name": "_elctPricer",
           "type": "address"
+        },
+        {
+          "internalType": "address[]",
+          "name": "_payTokens",
+          "type": "address[]"
+        },
+        {
+          "internalType": "address[]",
+          "name": "_payTokensPricers",
+          "type": "address[]"
         }
       ],
       "name": "initialize",
@@ -192,32 +234,13 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "bytes[]",
-          "name": "data",
-          "type": "bytes[]"
-        }
-      ],
-      "name": "multicall",
-      "outputs": [
-        {
-          "internalType": "bytes[]",
-          "name": "results",
-          "type": "bytes[]"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [],
-      "name": "onlyGovernanceWithdrawn",
+      "name": "owner",
       "outputs": [
         {
-          "internalType": "bool",
+          "internalType": "address",
           "name": "",
-          "type": "bool"
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -227,15 +250,15 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "",
+          "name": "token",
           "type": "address"
         }
       ],
-      "name": "pricers",
+      "name": "payTokensPricers",
       "outputs": [
         {
           "internalType": "address",
-          "name": "",
+          "name": "pricer",
           "type": "address"
         }
       ],
@@ -256,14 +279,8 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "bool",
-          "name": "_value",
-          "type": "bool"
-        }
-      ],
-      "name": "setOnlyProductOwnerWithdrawn",
+      "inputs": [],
+      "name": "renounceOwnership",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -272,16 +289,11 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_token",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_pricer",
+          "name": "newOwner",
           "type": "address"
         }
       ],
-      "name": "updateTokenPricer",
+      "name": "transferOwnership",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -320,30 +332,6 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "_usdAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "_token",
-          "type": "address"
-        }
-      ],
-      "name": "usdAmountToToken",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "address",
           "name": "_token",
           "type": "address"
@@ -352,21 +340,12 @@
           "internalType": "uint256",
           "name": "_amount",
           "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "_recipient",
-          "type": "address"
         }
       ],
       "name": "withdraw",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
-    },
-    {
-      "stateMutability": "payable",
-      "type": "receive"
     }
   ]
 }

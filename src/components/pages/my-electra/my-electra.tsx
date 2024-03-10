@@ -29,6 +29,7 @@ import Button from '../../ui/button/button';
 // import { encodeFunctionData } from 'viem';
 // import StakingStrategies from '../../../contracts/stakingStrategies.json';
 import Moped from '../../../contracts/moped.json';
+import { t } from 'i18next';
 // import Tokens from '../../../contracts/tokens.json';
 
 interface IMyElectra {
@@ -132,7 +133,7 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
           {
             address: strategyAddress as `0x${string}`,
             abi: strategyAbi,
-            functionName: 'withdrawnRewards',
+            functionName: 'totalWithdrawn',
             args: [Moped.address, tokenId.result],
           },
           {
@@ -181,7 +182,6 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
     (data: ITokensDataItem[] | []) => IMyElectraItem[][]
   >(
     (data: any) => {
-      // Разбиваем на массивы по 6 объектов
       const reducedData = data?.reduce((acc: any, curr: any, index: any) => {
         const groupSize = 6;
         const chunkIndex = Math.floor(index / groupSize);
@@ -195,7 +195,6 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
         return acc;
       }, [] as any[][]);
 
-      // Структурируем объекты
       const structuredData: any = [];
 
       reducedData?.forEach((item: any, index: any) => {
@@ -214,7 +213,6 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
         structuredData.push(structuredItem);
       });
 
-      // группируем нфт по дате и стратегии стекинга
       const stackedData: any = [];
       const stackedIDs: any = [];
 
@@ -286,7 +284,6 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
 
     setTotalEarnings(total);
     // setTotalForClaim(estimateTotalClaim());
-    console.log(sortedData);
 
     // const getStakingStrategyABI = (address: string): any[] => {
     //   const findedItem = StakingStrategies.find((itemStrategy) =>
@@ -328,11 +325,11 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
               <TitleLogo src={ElectraLogo} alt="Electra" />
             </MyElectraTitle>
             {isTokensDataLoading ? (
-              'Loading..'
+              'Loading...'
             ) : sortedData && sortedData.length ? (
               <>
                 <TotalEarnings>
-                  Total earnings:{' '}
+                  {t('my-electra:total-earnings')}:{' '}
                   <TotalEarningsAmount>
                     {totalEarnings.toFixed(2)} $
                   </TotalEarningsAmount>
@@ -352,9 +349,9 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
               </>
             ) : (
               <NoNfts>
-                <NoNftsText>You have no NFts yet</NoNftsText>
+                <NoNftsText>{t('my-electra:no-nfts')}</NoNftsText>
                 <Button to={'/market'} isSmall={true}>
-                  Go to market
+                  {t('my-electra:go-market')}
                 </Button>
               </NoNfts>
             )}

@@ -41,8 +41,10 @@ const ItemCell = styled.td`
     padding-left: 34px;
   }
 
-  &:last-child {
-    text-align: start;
+  @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
+    &:last-child {
+      text-align: end;
+    }
   }
 `;
 
@@ -91,7 +93,11 @@ const ItemCheckbox = styled.label<IItemCheckbox>`
 const Reward = styled.span`
   color: ${(props) => props.theme.diamond};
   font-weight: 600;
-  margin-right: 34px;
+  margin: 0;
+
+  @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
+    margin-right: 34px;
+  }
 `;
 
 interface IClaimButton {
@@ -142,6 +148,7 @@ const SellButton = styled(Button)`
   background-color: ${(props) => props.theme.diamond};
   padding: 10px 18px;
   font-size: 18px;
+  margin-right: 6px;
 
   &:hover ${SellingPriceContainer} {
     display: flex;

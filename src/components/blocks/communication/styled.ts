@@ -7,9 +7,12 @@ import CommunicationBgDesktop from '../../../assets/communication-desktop.png';
 
 const StyledCommunication = styled.section`
   padding: 40px 0 30px;
+  max-width: 445px;
+  margin: 0 auto;
 
-  @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
+  @media screen and (min-width: ${(props) => props.theme.tabletWidth}) {
     padding: 83px 0 55px;
+    max-width: 100%;
   }
 `;
 
@@ -63,6 +66,7 @@ const StyledSocials = styled(Socials)`
 `;
 
 const CommunicationBottomText = styled(P)`
+  color: ${(props) => props.theme.darkGrey};
   font-size: 10px;
   line-height: 130%;
   text-align: center;

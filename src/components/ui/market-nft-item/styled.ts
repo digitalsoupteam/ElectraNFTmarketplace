@@ -164,6 +164,7 @@ const USTax = styled.label<IUStax>`
   }
 
   &::before {
+    flex-shrink: 0;
     ${(props) =>
       props.$isUSTaxChecked
         ? css`

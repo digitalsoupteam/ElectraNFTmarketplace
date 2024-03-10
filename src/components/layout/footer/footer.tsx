@@ -37,8 +37,8 @@ const Footer: React.FC = () => {
     },
   ];
 
-  const createLanguageOptions = (): ILanguageOption[] => {
-    return Object.keys(langs).map((lang) => ({
+  const createLanguageOptions = (): any => {
+    return Object.keys(langs).map((lang): any => ({
       value: lang,
       label: lang.toUpperCase(),
     }));
@@ -66,9 +66,8 @@ const Footer: React.FC = () => {
           <Socials currentColor={'#000'} light />
           <div style={{ margin: 'auto 0' }}>
             <Select
-              defaultValue={i18n.language}
               value={i18n.language}
-              selectOption={i18n.language}
+              options={createLanguageOptions()}
               placeholder={i18n.language.toUpperCase()}
               isClearable={false}
               isSearchable={false}
@@ -77,9 +76,9 @@ const Footer: React.FC = () => {
                   .value;
                 i18n.changeLanguage(selectedLanguage);
                 document.documentElement.lang = selectedLanguage;
-                if (isMenuOpened) {
-                  toggleMenu();
-                }
+                window.location.reload();
+                window.scrollTo({ top: 0, behavior: 'instant' });
+
               }}
               theme={(theme) => ({
                 ...theme,
@@ -88,6 +87,10 @@ const Footer: React.FC = () => {
                   neutral50: '#fff',
                 },
               })}
+              components={{
+                DropdownIndicator: () => null,
+                IndicatorSeparator: () => null,
+              }}
               styles={{
                 control: (baseStyles) => ({
                   ...baseStyles,
@@ -109,6 +112,7 @@ const Footer: React.FC = () => {
                   borderRadius: '5px',
                   padding: '0px',
                 }),
+
                 option: (styles, { isDisabled, isFocused, isSelected }) => {
                   return {
                     ...styles,
@@ -125,11 +129,6 @@ const Footer: React.FC = () => {
                   };
                 },
               }}
-              components={{
-                DropdownIndicator: () => null,
-                IndicatorSeparator: () => null,
-              }}
-              options={createLanguageOptions()}
             />
           </div>
           <FooterButton link="https://t.me/+dGR6vwpEbRNlMTU6" target="_blank">

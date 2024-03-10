@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Ul from '../../../elements/ul';
 
-const StyledMainNav = styled(Ul)<{ $isHeader: boolean }>`
+const StyledMainNav: any = styled(Ul)<{ $isHeader: boolean }>`
   display: flex;
   margin: 0 auto;
   flex-direction: column;

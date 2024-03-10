@@ -15,8 +15,8 @@ const detectionOptions = {
     'subdomain',
   ],
   lookupQuerystring: 'lng',
-  lookupCookie: 'i18next',
-  lookupLocalStorage: 'i18nextLng',
+  lookupCookie: 'lng',
+  lookupLocalStorage: 'lng',
   caches: ['localStorage'],
 };
 
@@ -25,11 +25,11 @@ i18next
   .use(initReactI18next)
   .init({
     resources,
-    ns: ['main', 'menu', 'footer', 'my-electra', 'exchange', 'nft'],
-    defaultNS: ['main'],
-    detection: detectionOptions,
-    fallbackLng: ['en'],
+    defaultNS: 'main',
+    fallbackLng: 'en',
     supportedLngs: ['en', 'ru'],
+    ns: ['main', 'menu', 'footer', 'my-electra', 'exchange', 'nft'],
+    detection: detectionOptions,
     interpolation: {
       escapeValue: false,
     },
