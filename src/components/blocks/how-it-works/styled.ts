@@ -61,7 +61,7 @@ const StyledSwiper = styled(Swiper)`
 interface ICard {
   $imgMobile: string;
   $imgDesktop?: string;
-  $isWide: boolean;
+  $isWide?: boolean;
 }
 
 const Card = styled.div<ICard>`
