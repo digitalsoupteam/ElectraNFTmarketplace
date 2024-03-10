@@ -31,12 +31,12 @@ const Exchange: React.FC<IExchange> = () => {
     },
     {
       title: t('exchange:list.i2.t'),
-      text: t('exchange:list.i2.t'),
+      text: t('exchange:list.i2.d'),
       ico: ExchangeIco,
     },
     {
       title: t('exchange:list.i3.t'),
-      text: t('exchange:list.i3.t'),
+      text: t('exchange:list.i3.d'),
       ico: StakeIco,
     },
   ];

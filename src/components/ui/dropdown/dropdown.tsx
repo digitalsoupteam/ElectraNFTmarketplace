@@ -1,12 +1,13 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useTransition } from 'react';
 import {
   StyledDropdown,
   Descriptor,
   DropdownToggler,
-  DropwonListWrapper,
+  DropwonListWrapper as DropdownListWrapper,
   DropdownList,
   DropdownItem,
 } from './styled';
+import { t } from 'i18next';
 
 interface IDropdownItem {
   name: string;
@@ -28,11 +29,10 @@ const Dropdown: React.FC<IDropdown> = ({
   className,
   isExchange,
 }) => {
+  useTransition();
   const [isOpened, setIsOpened] = useState(false);
   const [height, setHeight] = useState(0);
-  const [currentText, setCurrentText] = useState(
-    toggler ? toggler : items[0].name
-  );
+  const [currentText, setCurrentText] = useState(toggler ?? items[0].name);
   const openContent = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const Dropdown: React.FC<IDropdown> = ({
 
   return (
     <StyledDropdown className={className} isExchange={isExchange}>
-      {isExchange ? <Descriptor>From</Descriptor> : null}
+      {isExchange ? <Descriptor>{t('main:from')}</Descriptor> : null}
       <DropdownToggler
         $isOpened={isOpened}
         onClick={() => setIsOpened(!isOpened)}
@@ -52,25 +52,24 @@ const Dropdown: React.FC<IDropdown> = ({
       >
         {currentText}
       </DropdownToggler>
-      <DropwonListWrapper $height={height}>
+
+      <DropdownListWrapper $height={height}>
         <DropdownList ref={openContent}>
-          {items &&
-            items.length &&
-            items.map((item, index) => (
-              <DropdownItem
-                isExchange={isExchange}
-                onClick={() => {
-                  setIsOpened(false);
-                  setCurrentText(item.name);
-                  item.onClick();
-                }}
-                key={index}
-              >
-                {item.name}
-              </DropdownItem>
-            ))}
+          {items?.map((item) => (
+            <DropdownItem
+              isExchange={isExchange}
+              onClick={() => {
+                setIsOpened(false);
+                setCurrentText(item.name);
+                item.onClick();
+              }}
+              key={item.name}
+            >
+              {item.name}
+            </DropdownItem>
+          ))}
         </DropdownList>
-      </DropwonListWrapper>
+      </DropdownListWrapper>
     </StyledDropdown>
   );
 };

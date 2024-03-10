@@ -76,6 +76,9 @@ const Footer: React.FC = () => {
                   .value;
                 i18n.changeLanguage(selectedLanguage);
                 document.documentElement.lang = selectedLanguage;
+                window.location.reload();
+                window.scrollTo({ top: 0, behavior: 'instant' });
+
               }}
               theme={(theme) => ({
                 ...theme,

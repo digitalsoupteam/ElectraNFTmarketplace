@@ -9,6 +9,7 @@ import {
 import MyElectraNftItem, {
   IMyElectraItem,
 } from '../../ui/my-electra-nft-item/my-electra-nft-item';
+import { t } from 'i18next';
 
 interface IMyElectraTokensList {
   items: IMyElectraItem[][];
@@ -31,12 +32,24 @@ const MyElectraTokensList: React.FC<IMyElectraTokensList> = ({ items }) => {
                 Select all
               </HeaderCheckbox> */}
             </TokenListHeaderItem>
-            <TokenListHeaderItem>Date </TokenListHeaderItem>
-            <TokenListHeaderItem>Quantity </TokenListHeaderItem>
-            <TokenListHeaderItem>NFT </TokenListHeaderItem>
-            <TokenListHeaderItem>Investment type </TokenListHeaderItem>
-            <TokenListHeaderItem>Earned </TokenListHeaderItem>
-            <TokenListHeaderItem>You can claim </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.date')}
+            </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.quantity')}
+            </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.NFT')}
+            </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.investment-type')}
+            </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.earned')}
+            </TokenListHeaderItem>
+            <TokenListHeaderItem>
+              {t('my-electra:list.claim')}
+            </TokenListHeaderItem>
           </tr>
         </TokenListHeader>
         <tbody>

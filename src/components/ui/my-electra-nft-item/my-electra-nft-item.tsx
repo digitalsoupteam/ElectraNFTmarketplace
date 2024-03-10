@@ -16,6 +16,7 @@ import Moped from '../../../contracts/moped.json';
 import Tokens from '../../../contracts/tokens.json';
 import { encodeFunctionData } from 'viem';
 import MopedMini from '../../../assets/moped-nft-mini.png';
+import { t } from 'i18next';
 
 export interface IMyElectraItem {
   date: number;
@@ -274,12 +275,16 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
               disabled={item[0].canClaim[0] === 0n}
               onClick={handleClaim}
             >
-              {claiming ? 'Claiming...' : 'Claim'}
+              {claiming
+                ? t('my-electra:item.claiming') + '...'
+                : t('my-electra:item.claim')}
             </ClaimButton>
             <SellButton disabled={!item[0].canSell} onClick={handleSell}>
-              {selling ? 'Selling..' : 'Sell'}
+              {selling
+                ? t('my-electra:item.selling') + '...'
+                : t('my-electra:item.sell')}
               <SellingPriceContainer>
-                price
+                {t('my-electra:item.price')}
                 <SellingPriceAmount>
                   {item[0].sellingPrice
                     ? Number(item[0].sellingPrice) / 1e18
@@ -324,12 +329,16 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
               disabled={item[0].canClaim[0] === 0n}
               onClick={handleClaim}
             >
-              {multicallClaiming ? 'Claiming...' : 'Claim'}
+              {multicallClaiming
+                ? t('my-electra:item.claiming') + '...'
+                : t('my-electra:item.claim')}
             </ClaimButton>
             <SellButton disabled={!item[0].canSell} onClick={handleSell}>
-              {multicallSelling ? 'Selling...' : 'Sell'}
+              {multicallSelling
+                ? t('my-electra:item.selling') + '...'
+                : t('my-electra:item.sell')}
               <SellingPriceContainer>
-                price
+                {t('my-electra:item.price')}
                 <SellingPriceAmount>
                   {item[0].sellingPrice ? estimateSellingPrice(item) : ''}
                   {'$'}

@@ -29,6 +29,7 @@ import Button from '../../ui/button/button';
 // import { encodeFunctionData } from 'viem';
 // import StakingStrategies from '../../../contracts/stakingStrategies.json';
 import Moped from '../../../contracts/moped.json';
+import { t } from 'i18next';
 // import Tokens from '../../../contracts/tokens.json';
 
 interface IMyElectra {
@@ -324,11 +325,11 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
               <TitleLogo src={ElectraLogo} alt="Electra" />
             </MyElectraTitle>
             {isTokensDataLoading ? (
-              'Loading..'
+              'Loading...'
             ) : sortedData && sortedData.length ? (
               <>
                 <TotalEarnings>
-                  Total earnings:{' '}
+                  {t('my-electra:total-earnings')}:{' '}
                   <TotalEarningsAmount>
                     {totalEarnings.toFixed(2)} $
                   </TotalEarningsAmount>
@@ -348,9 +349,9 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
               </>
             ) : (
               <NoNfts>
-                <NoNftsText>You have no NFts yet</NoNftsText>
+                <NoNftsText>{t('my-electra:no-nfts')}</NoNftsText>
                 <Button to={'/market'} isSmall={true}>
-                  Go to market
+                  {t('my-electra:go-market')}
                 </Button>
               </NoNfts>
             )}

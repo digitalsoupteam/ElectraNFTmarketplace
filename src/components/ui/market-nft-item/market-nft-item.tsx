@@ -29,6 +29,7 @@ import Treasury from '../../../contracts/treasury.json';
 import StakingStrategies from '../../../contracts/stakingStrategies.json';
 import { encodeFunctionData } from 'viem';
 import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 interface IMarketNftItem {
   image: string;
@@ -49,6 +50,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
   isLoggedIn,
   connectWalltet,
 }) => {
+  useTranslation();
   const BNB_PLACEHOLDER = '0x0000000000000000000000000000000000000000';
 
   const [currentIvnestmentType, setCurrentIvnestmentType] = useState('');
@@ -136,44 +138,6 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
 
   const handlerQuantity = (quantity: number) => {
     setQuantity(quantity);
-  };
-
-  const investmentTypes = {
-    toggler: t('nft:type-placeholder'),
-    items: [
-      {
-        name: t('nft:types.t1'),
-        address: StakingStrategies[3].address,
-        onClick: () => {
-          setIsInvestmentTypeValid(true);
-          setCurrentIvnestmentType(StakingStrategies[3].address);
-        },
-      },
-      {
-        name: t('nft:types.t2'),
-        address: StakingStrategies[0].address,
-        onClick: () => {
-          setIsInvestmentTypeValid(true);
-          setCurrentIvnestmentType(StakingStrategies[0].address);
-        },
-      },
-      {
-        name: t('nft:types.t3'),
-        address: StakingStrategies[1].address,
-        onClick: () => {
-          setIsInvestmentTypeValid(true);
-          setCurrentIvnestmentType(StakingStrategies[1].address);
-        },
-      },
-      {
-        name: t('nft:types.t4'),
-        address: StakingStrategies[2].address,
-        onClick: () => {
-          setIsInvestmentTypeValid(true);
-          setCurrentIvnestmentType(StakingStrategies[2].address);
-        },
-      },
-    ],
   };
 
   const { data: price } = useContractRead({
@@ -363,6 +327,44 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
     }
   };
 
+  const investmentTypes = {
+    toggler: t('nft:type-placeholder'),
+    items: [
+      {
+        name: t('nft:types.t1'),
+        address: StakingStrategies[3].address,
+        onClick: () => {
+          setIsInvestmentTypeValid(true);
+          setCurrentIvnestmentType(StakingStrategies[3].address);
+        },
+      },
+      {
+        name: t('nft:types.t2'),
+        address: StakingStrategies[0].address,
+        onClick: () => {
+          setIsInvestmentTypeValid(true);
+          setCurrentIvnestmentType(StakingStrategies[0].address);
+        },
+      },
+      {
+        name: t('nft:types.t3'),
+        address: StakingStrategies[1].address,
+        onClick: () => {
+          setIsInvestmentTypeValid(true);
+          setCurrentIvnestmentType(StakingStrategies[1].address);
+        },
+      },
+      {
+        name: t('nft:types.t4'),
+        address: StakingStrategies[2].address,
+        onClick: () => {
+          setIsInvestmentTypeValid(true);
+          setCurrentIvnestmentType(StakingStrategies[2].address);
+        },
+      },
+    ],
+  };
+
   return (
     <StyledNft>
       <NftImage src={image} $outOfStock={!!disabled} />
@@ -378,7 +380,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
               <PropertiesItem>
                 <PropertiesItemTitle>{t('nft:i-type')}</PropertiesItemTitle>
                 <StyledDropdown
-                  toggler={investmentTypes.toggler}
+                  toggler={investmentTypes?.toggler}
                   items={investmentTypes.items}
                   isValid={mintButtonFirstClick ? isInvestmentTypeValid : true}
                 />

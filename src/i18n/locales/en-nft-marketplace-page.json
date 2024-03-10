@@ -19,8 +19,11 @@
     "t3": "8% stable for 3 years",
     "t4": "12% stable for 5 years"
   },
-  "type-stable": "Stable - Provides a consistent income based on the investment duration. The longer the duration, the higher the annual percentage yield. After the investment term ends, you receive 100% of the NFT value you purchased. You can withdraw your earnings every month",
-  "type-offers": "Flex - Offers 12% annual returns for the first four months. During this period, the equipment is deployed in cities, and 50% of its income is paid to you every month.You can purchase different types of equipment and various investment types simultaneously, each providing its own income stream in your personal account",
+  "stable": "Stable",
+  "type-stable": "Provides a consistent income based on the investment duration. The longer the duration, the higher the annual percentage yield. After the investment term ends, you receive 100% of the NFT value you purchased. You can withdraw your earnings every month",
+  "flex": "Flex",
+
+  "type-offers": "Offers 12% annual returns for the first four months. During this period, the equipment is deployed in cities, and 50% of its income is paid to you every month.You can purchase different types of equipment and various investment types simultaneously, each providing its own income stream in your personal account",
   "income-details": "The level of income depends on the number of NFTs, the type of NFT, and the investment duration (for stable investments)",
   "p-summary-details": "We created this business and now invite people to become a part of it. Essentially, by buying NFTs, you invest in the purchase of a new electric vehicle that will operate and generate income for you while we handle its maintenance"
 }

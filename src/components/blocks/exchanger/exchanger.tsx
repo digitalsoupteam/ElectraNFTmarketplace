@@ -215,7 +215,7 @@ const Exchanger: React.FC = () => {
   return (
     <StyledExchanger>
       <ExchangeInner>
-        <ExchangeTitle>Exchange</ExchangeTitle>
+        <ExchangeTitle>{t('menu:exchange')}</ExchangeTitle>
         <ExchanerList>
           <ExchangerItem>
             <ExchangerItemRow>
@@ -246,7 +246,8 @@ const Exchanger: React.FC = () => {
               </InputContainer>
             </ExchangerItemRow>
             <Availability>
-              Availability: <span>{balance.data?.formatted} </span>
+              {t('my-electra:availability')}:{' '}
+              <span>{balance.data?.formatted} </span>
               <span>{filteredTokens[activeTokenIndex].name}</span>
             </Availability>
           </ExchangerItem>
@@ -269,18 +270,18 @@ const Exchanger: React.FC = () => {
         </ExchanerList>
         <PriceContainer>
           <div>
-            <span style={{ fontWeight: '600' }}>Price: </span>
+            <span style={{ fontWeight: '600' }}>{t('nft:t-price')}: </span>
           </div>
           <div>
             <span style={{ fontWeight: '600' }}>
               {getNormalizedPrice(currentPrice)}{' '}
             </span>
             <span>{filteredTokens[activeTokenIndex].name} </span>
-            <span>per ELCT</span>
+            <span>{t('my-electra:per')} ELCT</span>
           </div>
         </PriceContainer>
         <OrderButton isSmall={true} onClick={handleOrderButton}>
-          Exchange
+          {t('menu:exchange')}
         </OrderButton>
         <USTax
           $isUSTaxChecked={isUSTaxChecked}
