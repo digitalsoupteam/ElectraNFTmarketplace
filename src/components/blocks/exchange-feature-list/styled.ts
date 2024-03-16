@@ -27,6 +27,7 @@ const Item = styled.li<IItem>`
   background-image: url(${(props) => props.$ico});
   background-repeat: no-repeat;
   background-position: right center;
+  background-size: 120px auto;
 
   @media (min-width: ${(props) => props.theme.desktopWidth}) {
     width: 100%;
