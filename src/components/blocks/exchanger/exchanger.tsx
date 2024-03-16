@@ -151,7 +151,7 @@ const Exchanger: React.FC = () => {
     abi: filteredTokens[activeTokenIndex].abi,
     functionName: 'approve',
     account: walletClient?.account,
-    args: ['0xC326829b88d6D62C62Db254f118d35E34c7b02Fb', maxPayTokenAmount],
+    args: [Presale.address, maxPayTokenAmount],
     onSuccess: () => {
       buy();
     },

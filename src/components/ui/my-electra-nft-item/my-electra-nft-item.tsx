@@ -10,10 +10,11 @@ import {
   SellingPriceAmount,
 } from './styled';
 import { useState, useEffect } from 'react';
-import { useWalletClient, useContractWrite } from 'wagmi';
+import { useWalletClient, useContractRead, useContractWrite } from 'wagmi';
 import StakingStrategies from '../../../contracts/stakingStrategies.json';
 import Moped from '../../../contracts/moped.json';
 import Tokens from '../../../contracts/tokens.json';
+import Treasury from '../../../contracts/treasury.json';
 import { encodeFunctionData } from 'viem';
 import MopedMini from '../../../assets/moped-nft-mini.png';
 import { t } from 'i18next';
@@ -30,6 +31,7 @@ export interface IMyElectraItem {
 }
 
 interface IMyElectraNftItem {
+  activeTokenIndex: number;
   item: IMyElectraItem[];
 }
 
@@ -56,7 +58,10 @@ const NftImages = {
   Moped: MopedMini,
 };
 
-const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
+const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
+  item,
+  activeTokenIndex,
+}) => {
   const [encodedMulicallClaimData, setEncodedMulicallClaimData] = useState<
     string | `0x${string}`[]
   >('');
@@ -118,13 +123,36 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
     return findedABI ? findedABI : [];
   };
 
-  const claimAmount = item[0].canClaim[0];
+  const claimAmountUSD = item[0].canClaim[0];
 
   const slippage =
     BigInt(import.meta.env.VITE_USDT_SLIPPAGE * 1e18) / BigInt(1e18);
 
-  const minWidthdrawAmountSingleClaim =
-    claimAmount - (claimAmount / BigInt(100)) * slippage;
+  const { data: claimAmount } = useContractRead({
+    address: Treasury.address as `0x${string}`,
+    abi: Treasury.abi,
+    functionName: 'usdAmountToToken',
+    args: [claimAmountUSD, Tokens[activeTokenIndex].address],
+    watch: true,
+  });
+
+  const { data: sellAmount } = useContractRead({
+    address: Treasury.address as `0x${string}`,
+    abi: Treasury.abi,
+    functionName: 'usdAmountToToken',
+    args: [item[0].sellingPrice, Tokens[activeTokenIndex].address],
+    watch: true,
+  });
+
+  const getMinWidthdrawAmountSingleClaim = () => {
+    if (typeof claimAmount === 'bigint') {
+      const minWidthdrawAmountSingleClaim =
+        claimAmount - (claimAmount / BigInt(100)) * slippage;
+
+      console.log('min w C', Number(minWidthdrawAmountSingleClaim) / 1e18);
+      return minWidthdrawAmountSingleClaim;
+    }
+  };
 
   const { write: singleClaim, isLoading: claiming } = useContractWrite({
     address: item[0].investmentType as `0x${string}`,
@@ -133,8 +161,8 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
     args: [
       Moped.address,
       item[0].tokenId,
-      Tokens[0].address,
-      minWidthdrawAmountSingleClaim,
+      Tokens[activeTokenIndex].address,
+      getMinWidthdrawAmountSingleClaim(),
     ],
   });
 
@@ -147,8 +175,16 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
       args: [encodedMulicallClaimData],
     });
 
-  const minWidthdrawAmountSell =
-    item[0].sellingPrice - (item[0].sellingPrice / BigInt(100)) * slippage;
+  const getMinWidthdrawAmountSell = () => {
+    if (typeof sellAmount === 'bigint') {
+      const minWidthdrawAmountSell =
+        sellAmount - (sellAmount / BigInt(100)) * slippage;
+
+      console.log('min w s', Number(minWidthdrawAmountSell) / 1e18);
+
+      return minWidthdrawAmountSell;
+    }
+  };
 
   const { write: singleSell, isLoading: selling } = useContractWrite({
     address: item[0].investmentType as `0x${string}`,
@@ -157,8 +193,8 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
     args: [
       Moped.address,
       item[0].tokenId,
-      Tokens[0].address,
-      minWidthdrawAmountSell,
+      Tokens[activeTokenIndex].address,
+      getMinWidthdrawAmountSell(),
     ],
   });
 
@@ -176,9 +212,8 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
       const encodedClaimMulticallArray = item.map((item) => {
         const itemAddress = Moped.address;
         const tokenId = item.tokenId;
-        const tokenAddress = Tokens[0].address;
-        const minWithdrawAmount =
-          item.canClaim[0] - (item.canClaim[0] / BigInt(100)) * slippage;
+        const tokenAddress = Tokens[activeTokenIndex].address;
+        const minWithdrawAmount = getMinWidthdrawAmountSingleClaim();
 
         return encodeFunctionData({
           abi: getStakingStrategyABI(item.investmentType),
@@ -191,9 +226,8 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
       const encodedSellMulticallArray = item.map((item) => {
         const itemAddress = Moped.address;
         const tokenId = item.tokenId;
-        const tokenAddress = Tokens[0].address;
-        const minWithdrawAmount =
-          item.sellingPrice - (item.sellingPrice / BigInt(100)) * slippage;
+        const tokenAddress = Tokens[activeTokenIndex].address;
+        const minWithdrawAmount = getMinWidthdrawAmountSell();
 
         return encodeFunctionData({
           abi: getStakingStrategyABI(item.investmentType),
@@ -242,13 +276,7 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
       {item.length === 1 ? (
         <>
           <ItemCell>
-            {/* <ItemCheckbox checked={checked}> */}
-            {/* <input
-                type={'checkbox'}
-                onChange={() => setCkecked(!checked)}
-              ></input> */}
             <ItemImg src={NftImages[item[0].nft as keyof typeof NftImages]} />
-            {/* </ItemCheckbox> */}
           </ItemCell>
           <ItemCell>
             {item[0].date ? formateDate(Number(item[0].date)) : ''}
@@ -298,13 +326,7 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({ item }) => {
       ) : (
         <>
           <ItemCell>
-            {/* <ItemCheckbox checked={checked}> */}
-            {/* <input
-                type={'checkbox'}
-                onChange={() => setCkecked(!checked)}
-              ></input> */}
             <ItemImg src={NftImages[item[0].nft as keyof typeof NftImages]} />
-            {/* </ItemCheckbox> */}
           </ItemCell>
           <ItemCell>
             {item[0].date ? formateDate(Number(item[0].date)) : ''}

@@ -1,5 +1,5 @@
 {
-  "address": "0xF451FF6499d6e39e2b8eA34926E3BB6010D114f2",
+  "address": "0x6ADe096323E998cC5D8dDF778DCc0B32B8f2cbC8",
   "abi": [
     {
       "inputs": [],
@@ -188,25 +188,6 @@
       ],
       "name": "initialize",
       "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes[]",
-          "name": "data",
-          "type": "bytes[]"
-        }
-      ],
-      "name": "multicall",
-      "outputs": [
-        {
-          "internalType": "bytes[]",
-          "name": "results",
-          "type": "bytes[]"
-        }
-      ],
       "stateMutability": "nonpayable",
       "type": "function"
     },

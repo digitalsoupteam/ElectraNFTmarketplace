@@ -8,29 +8,25 @@ import {
   StyledCommunication,
   NoNfts,
   NoNftsText,
+  SelectorEarningsWrapper,
+  TokenSelector,
+  StyledDropdown,
   // MultiClaim,
   // MultiClaimInner,
   // MultiClaimText,
   // MultiClaimAmount,
 } from './styled';
 import MyElectraHero from '../../blocks/my-electra-hero/my-electra-hero';
-import {
-  useContractRead,
-  useContractReads,
-  // useContractWrite,
-  useWalletClient,
-} from 'wagmi';
+import { useContractRead, useContractReads, useWalletClient } from 'wagmi';
 import MyElectraTokensList from '../../blocks/my-electra-tokens-list/my-electra-tokens-list';
 import StakingStrategiesData from '../../../contracts/stakingStrategies.json';
 import { TitleSize } from '../../ui/title/title';
 import ElectraLogo from '../../../assets/logo-gradient.svg';
 import Wrapper from '../../layout/wrapper/wrapper';
 import Button from '../../ui/button/button';
-// import { encodeFunctionData } from 'viem';
-// import StakingStrategies from '../../../contracts/stakingStrategies.json';
 import Moped from '../../../contracts/moped.json';
+import Tokens from '../../../contracts/tokens.json';
 import { t } from 'i18next';
-// import Tokens from '../../../contracts/tokens.json';
 
 interface IMyElectra {
   isLoggedIn: boolean;
@@ -40,13 +36,23 @@ interface IMyElectra {
 const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
   const [sortedData, setSortedData] = useState<any>([]);
   const [totalEarnings, setTotalEarnings] = useState(0);
-  // const [totalForClaim, setTotalForClaim] = useState(0);
-  // const [encodedMulicallClaimData, setEncodedMulicallClaimData] = useState<
-  //   string | `0x${string}`[]
-  // >('');
+  const [activeTokenIndex, setActiveTokenIndex] = useState(0);
+
+  interface IDropDownTokensDataItem {
+    name: string;
+    onClick: () => void;
+  }
+
+  const dropDownTokensData: IDropDownTokensDataItem[] = [];
+
+  Tokens.forEach((token, index) =>
+    dropDownTokensData.push({
+      name: token.name,
+      onClick: () => setActiveTokenIndex(index),
+    })
+  );
 
   const userWalletAddress = useWalletClient().data?.account.address;
-  // const { data: walletClient } = useWalletClient();
 
   const { data: userNFTCount } = useContractRead({
     address: Moped.address as `0x${string}`,
@@ -69,6 +75,7 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
 
   const createPropContractByCount: ICcreatePropContractByCount = (count) => {
     const contracts: IContract[] = [];
+
     for (let i = 0; i < count; i++) {
       contracts.push({
         address: Moped.address as `0x${string}`,
@@ -256,18 +263,6 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
     status: string;
   }
 
-  // const estimateTotalClaim = () => {
-  //   let total = 0;
-
-  //   sortedData.forEach((itemsGroups: IMyElectraItem[]) => {
-  //     itemsGroups.forEach((item) => {
-  //       total += Number(item.canClaim[0]) / 1e18;
-  //     });
-  //   });
-
-  //   return total;
-  // };
-
   useEffect(() => {
     const sortedData = sortTokensData(tokensData || []);
     setSortedData(sortedData);
@@ -283,37 +278,7 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
     });
 
     setTotalEarnings(total);
-    // setTotalForClaim(estimateTotalClaim());
-
-    // const getStakingStrategyABI = (address: string): any[] => {
-    //   const findedItem = StakingStrategies.find((itemStrategy) =>
-    //     itemStrategy.address === address ? itemStrategy.abi : []
-    //   );
-    //   const findedABI = findedItem?.abi;
-    //   return findedABI ? findedABI : [];
-    // };
-
-    // sortedData?.forEach((itemGroup: IMyElectraItem[]) => {
-    //   itemGroup.forEach((item: IMyElectraItem) => {
-    //     const encodedData = encodeFunctionData({
-    //       abi: getStakingStrategyABI(item.investmentType),
-    //       functionName: 'claim',
-    //       args: [Moped.address, item.tokenId, Tokens[0].address],
-    //     });
-    //     setEncodedMulicallClaimData([...encodedMulicallClaimData, encodedData]);
-    //     console.log('encMCD', encodedMulicallClaimData);
-    //   });
-    // });
   }, [sortedData]);
-
-  // const { write: multicallClaim, isLoading: multicallClaiming } =
-  //   useContractWrite({
-  //     address: item[0].investmentType as `0x${string}`,
-  //     abi: getStakingStrategyABI(item[0].investmentType),
-  //     functionName: 'multicall',
-  //     account: walletClient?.account,
-  //     args: [encodedMulicallClaimData],
-  //   });
 
   return (
     <main>
@@ -328,24 +293,22 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
               'Loading...'
             ) : sortedData && sortedData.length ? (
               <>
-                <TotalEarnings>
-                  {t('my-electra:total-earnings')}:{' '}
-                  <TotalEarningsAmount>
-                    {totalEarnings.toFixed(2)} $
-                  </TotalEarningsAmount>
-                </TotalEarnings>
-                <MyElectraTokensList items={sortedData} />
-                {/* <MultiClaim>
-                  <MultiClaimInner>
-                    <MultiClaimText>
-                      Claim all rewards from all your vehicles:
-                    </MultiClaimText>
-                    <MultiClaimAmount>
-                      {totalForClaim.toFixed(2)} $
-                    </MultiClaimAmount>
-                  </MultiClaimInner>
-                  <Button isSmall={true}>Claim</Button>
-                </MultiClaim> */}
+                <SelectorEarningsWrapper>
+                  <TokenSelector>
+                    Select token
+                    <StyledDropdown items={dropDownTokensData} isValid={true} />
+                  </TokenSelector>
+                  <TotalEarnings>
+                    {t('my-electra:total-earnings')}:{' '}
+                    <TotalEarningsAmount>
+                      {totalEarnings.toFixed(2)} $
+                    </TotalEarningsAmount>
+                  </TotalEarnings>
+                </SelectorEarningsWrapper>
+                <MyElectraTokensList
+                  items={sortedData}
+                  activeTokenIndex={activeTokenIndex}
+                />
               </>
             ) : (
               <NoNfts>

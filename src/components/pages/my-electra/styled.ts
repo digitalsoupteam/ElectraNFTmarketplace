@@ -3,6 +3,7 @@ import Communication from '../../blocks/communication/communication';
 import { Title } from '../../ui/title/title';
 import Image from '../../../elements/image';
 import P from '../../../elements/p';
+import Dropdown from '../../ui/dropdown/dropdown';
 
 const MyElectraTitle = styled(Title)`
   color: ${(props) => props.theme.blackPrimary};
@@ -31,8 +32,6 @@ const TotalEarnings = styled(P)`
   font-size: 24px;
   font-weight: 600;
   line-height: 130%;
-  margin-bottom: 23px;
-  margin-left: auto;
 `;
 
 const TotalEarningsAmount = styled.span`
@@ -100,6 +99,30 @@ const NoNftsText = styled.div`
 //   line-height: 130%;
 // `;
 
+const TokenSelector = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: ${(props) => props.theme.grey};
+  background-color: ${(props) => props.theme.lightGrey};
+  width: fit-content;
+  padding: 6px 10px 6px 20px;
+  border-radius: 8px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 130%;
+`;
+
+const SelectorEarningsWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 23px;
+`;
+
+const StyledDropdown = styled(Dropdown)``;
+
 export {
   StyledMyElectra,
   MyElectraTitle,
@@ -109,6 +132,9 @@ export {
   StyledCommunication,
   NoNfts,
   NoNftsText,
+  SelectorEarningsWrapper,
+  TokenSelector,
+  StyledDropdown,
   // MultiClaim,
   // MultiClaimInner,
   // MultiClaimText,

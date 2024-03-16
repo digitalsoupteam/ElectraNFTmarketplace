@@ -13,9 +13,13 @@ import { t } from 'i18next';
 
 interface IMyElectraTokensList {
   items: IMyElectraItem[][];
+  activeTokenIndex: number;
 }
 
-const MyElectraTokensList: React.FC<IMyElectraTokensList> = ({ items }) => {
+const MyElectraTokensList: React.FC<IMyElectraTokensList> = ({
+  items,
+  activeTokenIndex,
+}) => {
   // const [checked, setCkecked] = useState(false);
 
   return (
@@ -56,7 +60,11 @@ const MyElectraTokensList: React.FC<IMyElectraTokensList> = ({ items }) => {
           {items &&
             items.length &&
             items.map((item, index) => (
-              <MyElectraNftItem item={item} key={index} />
+              <MyElectraNftItem
+                item={item}
+                activeTokenIndex={activeTokenIndex}
+                key={index}
+              />
             ))}
         </tbody>
       </TokensList>
