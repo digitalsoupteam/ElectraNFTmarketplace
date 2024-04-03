@@ -357,10 +357,10 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
                       ? Math.floor(Number(ELECTTotalPrice) / 1e18)
                       : null}
                     {token.name === 'BNB'
-                      ? Math.floor(Number(BNBTotalPrice) / 1e18)
+                      ? (Number(BNBTotalPrice) / 1e18).toFixed(2)
                       : null}
                     {token.name === 'WBNB'
-                      ? Math.floor(Number(WBNBTotalPrice) / 1e18)
+                      ? (Number(WBNBTotalPrice) / 1e18).toFixed(2)
                       : null}
                     <PriceButtonToken>{token.name}</PriceButtonToken>
                   </PriceButton>
