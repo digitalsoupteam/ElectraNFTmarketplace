@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useContractRead,
   useContractWrite,
@@ -116,23 +116,6 @@ const Exchanger: React.FC = () => {
     functionName: 'elctAmountToToken',
     args: [BigInt(ELCTAmount * 1e18), filteredTokens[activeTokenIndex].address],
     watch: true,
-    onSuccess: () => {
-      if (typeof fetchedPayTokenAmount === 'bigint') {
-        setPayTokenAmount(Number(fetchedPayTokenAmount) / 1e18);
-
-        const slippage = getSlippage();
-        const maxPaytokenAmount =
-          fetchedPayTokenAmount +
-          (fetchedPayTokenAmount / BigInt(100)) *
-            (BigInt(slippage * 1e18) / BigInt(1e18));
-
-        setMaxPayTokenAmount(maxPaytokenAmount);
-
-        const estimatedPrice =
-          Number(fetchedPayTokenAmount) / Number(BigInt(ELCTAmount * 1e18));
-        setCurrentPrice(Number(estimatedPrice));
-      }
-    },
   });
 
   const { data: checkAllowance } = useContractRead({
@@ -175,11 +158,17 @@ const Exchanger: React.FC = () => {
 
   const handlerPayTokenInput = (evt: any) => {
     const target = evt.target;
-    const value = parseFloat(target.value);
+    const enteredValue = target.value;
+    const clearedValue = enteredValue.replace(/[^0-9.]/g, '');
+    const value = parseFloat(clearedValue);
 
-    setPayTokenAmount(value);
-    const newELCTAmount = value / currentPrice;
-    setELCTAmount(newELCTAmount);
+    if (value > 0) {
+      setPayTokenAmount(value);
+      const newELCTAmount = value / currentPrice;
+      setELCTAmount(newELCTAmount);
+    } else {
+      setPayTokenAmount(0.01);
+    }
   };
 
   const handlerELCTAmountInput = (evt: any) => {
@@ -211,6 +200,26 @@ const Exchanger: React.FC = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (typeof fetchedPayTokenAmount === 'bigint') {
+      const normalizedPayTokenAmount = Number(fetchedPayTokenAmount) / 1e18;
+      const fixedPayTokenAmount = normalizedPayTokenAmount.toFixed(6);
+      setPayTokenAmount(Number(fixedPayTokenAmount));
+
+      const slippage = getSlippage();
+      const maxPaytokenAmount =
+        fetchedPayTokenAmount +
+        (fetchedPayTokenAmount / BigInt(100)) *
+          (BigInt(slippage * 1e18) / BigInt(1e18));
+
+      setMaxPayTokenAmount(maxPaytokenAmount);
+
+      const estimatedPrice =
+        Number(fetchedPayTokenAmount) / Number(BigInt(ELCTAmount * 1e18));
+      setCurrentPrice(Number(estimatedPrice));
+    }
+  }, [fetchedPayTokenAmount]);
 
   return (
     <StyledExchanger>
