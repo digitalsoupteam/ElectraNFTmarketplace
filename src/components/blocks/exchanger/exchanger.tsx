@@ -279,7 +279,7 @@ const Exchanger: React.FC = () => {
         </ExchanerList>
         <PriceContainer>
           <div>
-            <span style={{ fontWeight: '600' }}>{t('nft:t-price')}: </span>
+            <span style={{ fontWeight: '600' }}>{t('exchange:price')}: </span>
           </div>
           <div>
             <span style={{ fontWeight: '600' }}>
