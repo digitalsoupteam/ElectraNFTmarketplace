@@ -1,5 +1,5 @@
 {
-  "address": "0xF9fbA049FA8A1C3b49CFAD803b4F5f76b810f9D1",
+  "address": "0x09C92b0bF1FAf0d45b2aA94818bb5fe79008621F",
   "abi": [
     {
       "inputs": [],
@@ -330,6 +330,11 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "_mintAmount",
+          "type": "uint256"
+        },
+        {
           "internalType": "address",
           "name": "_stakingStrategy",
           "type": "address"
@@ -340,6 +345,11 @@
           "type": "address"
         },
         {
+          "internalType": "uint256",
+          "name": "_maxPayTokenAmount",
+          "type": "uint256"
+        },
+        {
           "internalType": "bytes",
           "name": "_payload",
           "type": "bytes"
@@ -347,26 +357,7 @@
       ],
       "name": "mint",
       "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes[]",
-          "name": "data",
-          "type": "bytes[]"
-        }
-      ],
-      "name": "multicall",
-      "outputs": [
-        {
-          "internalType": "bytes[]",
-          "name": "results",
-          "type": "bytes[]"
-        }
-      ],
-      "stateMutability": "nonpayable",
+      "stateMutability": "payable",
       "type": "function"
     },
     {
