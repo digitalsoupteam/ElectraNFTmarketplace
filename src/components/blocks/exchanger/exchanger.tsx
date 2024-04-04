@@ -172,7 +172,8 @@ const Exchanger: React.FC = () => {
     const clearedValue = enteredValue.replace(/[^0-9.,]/g, '');
 
     setPayTokenAmountValue(clearedValue);
-    setELCTAmountValue(String(Number(clearedValue) / Number(currentPrice)));
+    const ELCTAmount = (Number(clearedValue) / Number(currentPrice)).toFixed(2);
+    setELCTAmountValue(String(ELCTAmount));
   };
 
   const handlerELCTAmountInput = (evt: any) => {
