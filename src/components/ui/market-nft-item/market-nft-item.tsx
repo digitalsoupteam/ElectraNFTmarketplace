@@ -215,6 +215,9 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
       getMaxPayTokenAmount(),
       '0x',
     ],
+    onError: (error) => {
+      alert(error);
+    },
   });
 
   const { data: checkAllowance } = useContractRead({

@@ -101,7 +101,15 @@ const InputContainer = styled.div`
   width: 100%;
 `;
 
-const Input = styled.input`
+interface IInputProps {
+  inputmode?: string;
+  autocomplete?: string;
+  autocorrect?: string;
+  spellcheck?: string;
+  placeholder?: string;
+}
+
+const Input = styled.input<IInputProps>`
   padding: 26px 13px;
   font-size: 24px;
   line-height: 130%;

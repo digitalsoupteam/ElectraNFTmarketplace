@@ -37,12 +37,13 @@ import {
 const Exchanger: React.FC = () => {
   const BNB_PLACEHOLDER = '0x0000000000000000000000000000000000000000';
   const [activeTokenIndex, setActiveTokenIndex] = useState(0);
-  const [payTokenAmount, setPayTokenAmount] = useState(0);
-  const [ELCTAmount, setELCTAmount] = useState(1000);
+  const [payTokenAmountValue, setPayTokenAmountValue] = useState('0');
+  const [ELCTAmountValue, setELCTAmountValue] = useState('1000');
   const [currentPrice, setCurrentPrice] = useState(0);
   const [maxPayTokenAmount, setMaxPayTokenAmount] = useState(0n);
   const [isUSTaxChecked, setIsUSTaxChecked] = useState(false);
   const [isStartValidation, setIsStartValidation] = useState(false);
+  const [isPaytokenFocused, setIsPaytokenFocused] = useState(false);
 
   const { data: walletClient } = useWalletClient();
 
@@ -114,12 +115,18 @@ const Exchanger: React.FC = () => {
     address: Presale.address as `0x${string}`,
     abi: Presale.abi,
     functionName: 'elctAmountToToken',
-    args: [BigInt(ELCTAmount * 1e18), filteredTokens[activeTokenIndex].address],
+    args: [
+      BigInt(Number(ELCTAmountValue) * 1e18),
+      filteredTokens[activeTokenIndex].address,
+    ],
     watch: true,
   });
 
   const { data: checkAllowance } = useContractRead({
-    address: filteredTokens[activeTokenIndex].address as `0x${string}`,
+    address:
+      filteredTokens[activeTokenIndex].name === 'BNB'
+        ? undefined
+        : (filteredTokens[activeTokenIndex].address as `0x${string}`),
     abi: filteredTokens[activeTokenIndex].abi,
     functionName: 'allowance',
     args: [walletClient?.account.address, Presale.address],
@@ -146,7 +153,7 @@ const Exchanger: React.FC = () => {
     functionName: 'buy',
     account: walletClient?.account,
     args: [
-      BigInt(ELCTAmount * 1e18),
+      BigInt(Number(ELCTAmountValue) * 1e18),
       filteredTokens[activeTokenIndex].address,
       maxPayTokenAmount,
     ],
@@ -154,30 +161,34 @@ const Exchanger: React.FC = () => {
       filteredTokens[activeTokenIndex].address === BNB_PLACEHOLDER
         ? maxPayTokenAmount
         : undefined,
+    onError: (error) => {
+      alert(error);
+    },
   });
 
   const handlerPayTokenInput = (evt: any) => {
     const target = evt.target;
     const enteredValue = target.value;
-    const clearedValue = enteredValue.replace(/[^0-9.]/g, '');
-    const value = parseFloat(clearedValue);
+    const clearedValue = enteredValue.replace(/[^0-9.,]/g, '');
 
-    if (value > 0) {
-      setPayTokenAmount(value);
-      const newELCTAmount = value / currentPrice;
-      setELCTAmount(newELCTAmount);
-    } else {
-      setPayTokenAmount(0.01);
-    }
+    setPayTokenAmountValue(clearedValue);
+    setELCTAmountValue(String(Number(clearedValue) / Number(currentPrice)));
   };
 
   const handlerELCTAmountInput = (evt: any) => {
     const target = evt.target;
-    const value = parseFloat(target.value);
+    const enteredValue = target.value;
+    const clearedValue = enteredValue.replace(/[^0-9.,]/g, '');
 
-    if (value > 0) {
-      setELCTAmount(value);
-    }
+    setELCTAmountValue(clearedValue);
+  };
+
+  const handlePaytokenFocus = () => {
+    setIsPaytokenFocused(true);
+  };
+
+  const handlePaytokenBlur = () => {
+    setIsPaytokenFocused(false);
   };
 
   const handleOrderButton = () => {
@@ -203,11 +214,16 @@ const Exchanger: React.FC = () => {
 
   useEffect(() => {
     if (typeof fetchedPayTokenAmount === 'bigint') {
-      const normalizedPayTokenAmount = Number(fetchedPayTokenAmount) / 1e18;
-      const fixedPayTokenAmount = normalizedPayTokenAmount.toFixed(6);
-      setPayTokenAmount(Number(fixedPayTokenAmount));
+      const normalizedPayTokenAmount = getNormalizedPrice(
+        Number(fetchedPayTokenAmount) / 1e18
+      );
+
+      if (!isPaytokenFocused) {
+        setPayTokenAmountValue(normalizedPayTokenAmount);
+      }
 
       const slippage = getSlippage();
+
       const maxPaytokenAmount =
         fetchedPayTokenAmount +
         (fetchedPayTokenAmount / BigInt(100)) *
@@ -216,8 +232,12 @@ const Exchanger: React.FC = () => {
       setMaxPayTokenAmount(maxPaytokenAmount);
 
       const estimatedPrice =
-        Number(fetchedPayTokenAmount) / Number(BigInt(ELCTAmount * 1e18));
-      setCurrentPrice(Number(estimatedPrice));
+        Number(fetchedPayTokenAmount) /
+        Number(BigInt(Number(ELCTAmountValue) * 1e18));
+
+      if (estimatedPrice) {
+        setCurrentPrice(Number(estimatedPrice));
+      }
     }
   }, [fetchedPayTokenAmount]);
 
@@ -238,8 +258,15 @@ const Exchanger: React.FC = () => {
               </div>
               <InputContainer>
                 <Input
-                  type={'number'}
-                  value={payTokenAmount}
+                  type="number"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  autocorrect="off"
+                  spellcheck="false"
+                  placeholder="0.0"
+                  value={payTokenAmountValue}
+                  onFocus={handlePaytokenFocus}
+                  onBlur={handlePaytokenBlur}
                   onChange={handlerPayTokenInput}
                 ></Input>
                 {/* <MaxBuuton
@@ -271,8 +298,13 @@ const Exchanger: React.FC = () => {
               </ELCTLabel>
               <Input
                 type={'number'}
+                inputmode="decimal"
+                autocomplete="off"
+                autocorrect="off"
+                spellcheck="false"
+                placeholder="0.0"
                 onChange={handlerELCTAmountInput}
-                value={ELCTAmount}
+                value={ELCTAmountValue}
               ></Input>
             </ExchangerItemRow>
           </ExchangerItem>
@@ -289,6 +321,9 @@ const Exchanger: React.FC = () => {
             <span>{t('my-electra:per')} ELCT</span>
           </div>
         </PriceContainer>
+        <div style={{ color: '#000', marginBottom: '20px' }}>
+          Slippage: {getSlippage()}%
+        </div>
         <OrderButton isSmall={true} onClick={handleOrderButton}>
           {t('menu:exchange')}
         </OrderButton>
