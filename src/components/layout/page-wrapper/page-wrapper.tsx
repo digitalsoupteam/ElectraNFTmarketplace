@@ -8,6 +8,7 @@ import Footer from '../../layout/footer/footer';
 import { useAccount } from 'wagmi';
 import Exchange from '../../pages/exchange/exchange';
 import { useTranslation } from 'react-i18next';
+import SwitchChain from '../../blocks/switch-chain/switch-chain';
 
 interface IPageWrapper {
   connectWallet: () => void;
@@ -48,6 +49,7 @@ const PageWrapper: React.FC<IPageWrapper> = ({ connectWallet }) => {
           }
         />
       </Routes>
+      <SwitchChain />
       <Footer />
     </BrowserRouter>
   );
