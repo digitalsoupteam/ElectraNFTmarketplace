@@ -34,7 +34,12 @@ import {
   USTax,
 } from './styled';
 
-const Exchanger: React.FC = () => {
+interface IExchanger {
+  isLoggedIn: boolean;
+  connectWallet: () => void;
+}
+
+const Exchanger: React.FC<IExchanger> = ({ isLoggedIn, connectWallet }) => {
   const BNB_PLACEHOLDER = '0x0000000000000000000000000000000000000000';
   const [activeTokenIndex, setActiveTokenIndex] = useState(0);
   const [payTokenAmountValue, setPayTokenAmountValue] = useState('0');
@@ -325,7 +330,10 @@ const Exchanger: React.FC = () => {
         <div style={{ color: '#000', marginBottom: '20px' }}>
           Slippage: {getSlippage()}%
         </div>
-        <OrderButton isSmall={true} onClick={handleOrderButton}>
+        <OrderButton
+          isSmall={true}
+          onClick={isLoggedIn ? handleOrderButton : connectWallet}
+        >
           {t('menu:exchange')}
         </OrderButton>
         <USTax

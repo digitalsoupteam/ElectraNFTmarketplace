@@ -20,7 +20,7 @@ interface IExchange {
   connectWallet: () => void;
 }
 
-const Exchange: React.FC<IExchange> = () => {
+const Exchange: React.FC<IExchange> = ({ isLoggedIn, connectWallet }) => {
   const { t } = useTranslation();
 
   const features = [
@@ -54,7 +54,7 @@ const Exchange: React.FC<IExchange> = () => {
             </Button>
           </ExchangeHeader>
           <ExchangeFeatureList features={features} />
-          <Exchanger />
+          <Exchanger isLoggedIn={isLoggedIn} connectWallet={connectWallet} />
         </StyledExchange>
       </Wrapper>
     </main>
