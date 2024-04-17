@@ -14,6 +14,7 @@ import ExchangeIco from '../../../assets/exchange-ico.png';
 import StakeIco from '../../../assets/stake-ico.png';
 import Exchanger from '../../blocks/exchanger/exchanger';
 import { useTranslation } from 'react-i18next';
+import { useWalletClient } from 'wagmi';
 
 interface IExchange {
   isLoggedIn: boolean;
@@ -41,6 +42,19 @@ const Exchange: React.FC<IExchange> = ({ isLoggedIn, connectWallet }) => {
     },
   ];
 
+  const client = useWalletClient();
+
+  const handleAddToken = () => {
+    client?.data?.watchAsset({
+      type: 'ERC20',
+      options: {
+        address: '0x2f1ea586bf45Bd8A7C61137eF6616965EF616574',
+        decimals: 18,
+        symbol: 'ELCT',
+      },
+    });
+  };
+
   return (
     <main>
       <Wrapper>
@@ -49,6 +63,7 @@ const Exchange: React.FC<IExchange> = ({ isLoggedIn, connectWallet }) => {
             <ExchangeTitle size={TitleSize.BIG}>
               <TitleLogo src={ElectraLogo} /> {t('exchange:t')}
             </ExchangeTitle>
+            <button onClick={handleAddToken}>Add token to wallet</button>
             <Button isSmall={true} to={'/market'}>
               {t('menu:nft-marketplace')}
             </Button>

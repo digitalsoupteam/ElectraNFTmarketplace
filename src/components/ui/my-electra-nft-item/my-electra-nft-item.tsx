@@ -12,7 +12,8 @@ import {
 import { useState, useEffect } from 'react';
 import { useWalletClient, useContractRead, useContractWrite } from 'wagmi';
 import StakingStrategies from '../../../contracts/stakingStrategies.json';
-import Moped from '../../../contracts/moped.json';
+// import Moped from '../../../contracts/moped.json';
+import MopedTest from '../../../contracts/mopedTest.json';
 import Tokens from '../../../contracts/tokens.json';
 import Treasury from '../../../contracts/treasury.json';
 import { encodeFunctionData } from 'viem';
@@ -55,7 +56,7 @@ const tokenStakingStrategies = [
 ];
 
 const NftImages = {
-  Moped: MopedMini,
+  MopedTest: MopedMini,
 };
 
 const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
@@ -159,7 +160,7 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
     abi: getStakingStrategyABI(item[0].investmentType),
     functionName: 'claim',
     args: [
-      Moped.address,
+      MopedTest.address,
       item[0].tokenId,
       Tokens[activeTokenIndex].address,
       getMinWidthdrawAmountSingleClaim(),
@@ -191,7 +192,7 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
     abi: getStakingStrategyABI(item[0].investmentType),
     functionName: 'sell',
     args: [
-      Moped.address,
+      MopedTest.address,
       item[0].tokenId,
       Tokens[activeTokenIndex].address,
       getMinWidthdrawAmountSell(),
@@ -210,7 +211,7 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
   useEffect(() => {
     if (item.length > 1) {
       const encodedClaimMulticallArray = item.map((item) => {
-        const itemAddress = Moped.address;
+        const itemAddress = MopedTest.address;
         const tokenId = item.tokenId;
         const tokenAddress = Tokens[activeTokenIndex].address;
         const minWithdrawAmount = getMinWidthdrawAmountSingleClaim();
@@ -224,7 +225,7 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
       setEncodedMulicallClaimData(encodedClaimMulticallArray);
 
       const encodedSellMulticallArray = item.map((item) => {
-        const itemAddress = Moped.address;
+        const itemAddress = MopedTest.address;
         const tokenId = item.tokenId;
         const tokenAddress = Tokens[activeTokenIndex].address;
         const minWithdrawAmount = getMinWidthdrawAmountSell();

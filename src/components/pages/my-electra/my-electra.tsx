@@ -24,7 +24,8 @@ import { TitleSize } from '../../ui/title/title';
 import ElectraLogo from '../../../assets/logo-gradient.svg';
 import Wrapper from '../../layout/wrapper/wrapper';
 import Button from '../../ui/button/button';
-import Moped from '../../../contracts/moped.json';
+// import Moped from '../../../contracts/moped.json';
+import MopedTest from '../../../contracts/mopedTest.json';
 import Tokens from '../../../contracts/tokens.json';
 import { t } from 'i18next';
 
@@ -55,8 +56,8 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
   const userWalletAddress = useWalletClient().data?.account.address;
 
   const { data: userNFTCount } = useContractRead({
-    address: Moped.address as `0x${string}`,
-    abi: Moped.abi,
+    address: MopedTest.address as `0x${string}`,
+    abi: MopedTest.abi,
     functionName: 'balanceOf',
     args: [userWalletAddress],
     watch: true,
@@ -78,8 +79,8 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
 
     for (let i = 0; i < count; i++) {
       contracts.push({
-        address: Moped.address as `0x${string}`,
-        abi: Moped.abi,
+        address: MopedTest.address as `0x${string}`,
+        abi: MopedTest.abi,
         functionName: 'tokenOfOwnerByIndex',
         args: [userWalletAddress as `0x${string}`, i],
       });
@@ -95,8 +96,8 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
     const contractSettings: IContract[] =
       userTokens?.map((tokenId) => {
         return {
-          address: Moped.address as `0x${string}`,
-          abi: Moped.abi,
+          address: MopedTest.address as `0x${string}`,
+          abi: MopedTest.abi,
           functionName: 'tokenStakingStrategy',
           args: [tokenId.result],
         };
@@ -130,36 +131,36 @@ const MyElectra: React.FC<IMyElectra> = ({ isLoggedIn, connectWallet }) => {
             address: strategyAddress as `0x${string}`,
             abi: strategyAbi,
             functionName: 'initialTimestamp',
-            args: [Moped.address, tokenId.result],
+            args: [MopedTest.address, tokenId.result],
           },
           {
-            address: Moped.address as `0x${string}`,
-            abi: Moped.abi,
+            address: MopedTest.address as `0x${string}`,
+            abi: MopedTest.abi,
             functionName: 'name',
           },
           {
             address: strategyAddress as `0x${string}`,
             abi: strategyAbi,
             functionName: 'totalWithdrawn',
-            args: [Moped.address, tokenId.result],
+            args: [MopedTest.address, tokenId.result],
           },
           {
             address: strategyAddress as `0x${string}`,
             abi: strategyAbi,
             functionName: 'estimateRewards',
-            args: [Moped.address, tokenId.result],
+            args: [MopedTest.address, tokenId.result],
           },
           {
             address: strategyAddress as `0x${string}`,
             abi: strategyAbi,
             functionName: 'canSell',
-            args: [Moped.address, tokenId.result],
+            args: [MopedTest.address, tokenId.result],
           },
           {
             address: strategyAddress as `0x${string}`,
             abi: strategyAbi,
             functionName: 'estimateSell',
-            args: [Moped.address, tokenId.result],
+            args: [MopedTest.address, tokenId.result],
           },
         ];
       }) || [];

@@ -7,8 +7,8 @@ import { WagmiConfig } from 'wagmi';
 import PageWrapper from '../layout/page-wrapper/page-wrapper';
 import GlobalStyle from './styled';
 
-// if you need[hardhat, bsc] - just import here...
-// for example: import { hardhat, bsc } from 'wagmi/chains';
+// if you need[localhost, bsc] - just import here...
+// for example: import { localhost, bsc } from 'wagmi/chains';
 import { bsc } from 'wagmi/chains';
 import { Suspense, StrictMode } from 'react';
 
@@ -24,7 +24,7 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/37784886'],
 };
 const projectId = import.meta.env.VITE_WEB_3_MODAL_KEY;
-const chains = [bsc]; // [hardhat, bsc];
+const chains = [bsc]; // [localhost, bsc];
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 
 createWeb3Modal({ wagmiConfig, projectId, chains });
