@@ -5,6 +5,7 @@ import {
   ExchangeHeader,
   ExchangeTitle,
   TitleLogo,
+  AddToken,
 } from './styled';
 import ElectraLogo from '../../../assets/logo-gradient.svg';
 import Button from '../../ui/button/button';
@@ -63,12 +64,16 @@ const Exchange: React.FC<IExchange> = ({ isLoggedIn, connectWallet }) => {
             <ExchangeTitle size={TitleSize.BIG}>
               <TitleLogo src={ElectraLogo} /> {t('exchange:t')}
             </ExchangeTitle>
-            <button onClick={handleAddToken}>Add token to wallet</button>
             <Button isSmall={true} to={'/market'}>
               {t('menu:nft-marketplace')}
             </Button>
           </ExchangeHeader>
           <ExchangeFeatureList features={features} />
+          <AddToken>
+            <Button onClick={handleAddToken} isSmall={true}>
+              Add token to wallet
+            </Button>
+          </AddToken>
           <Exchanger isLoggedIn={isLoggedIn} connectWallet={connectWallet} />
         </StyledExchange>
       </Wrapper>

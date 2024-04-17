@@ -33,4 +33,10 @@ const TitleLogo = styled(Image)`
   top: 7px;
 `;
 
-export { StyledExchange, ExchangeHeader, ExchangeTitle, TitleLogo };
+const AddToken = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+`;
+
+export { StyledExchange, ExchangeHeader, ExchangeTitle, TitleLogo, AddToken };
