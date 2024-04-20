@@ -49,7 +49,7 @@ const Exchange: React.FC<IExchange> = ({ isLoggedIn, connectWallet }) => {
     client?.data?.watchAsset({
       type: 'ERC20',
       options: {
-        address: '0x2f1ea586bf45Bd8A7C61137eF6616965EF616574',
+        address: '0xa21Ce34938E896422C35016d6ed66dbb8bD1a47B',
         decimals: 18,
         symbol: 'ELCT',
       },

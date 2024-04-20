@@ -1,7 +1,7 @@
 [
   {
     "name": "TwoYearsFixStakingStrategy",
-    "address": "0x2eA25BE5F44e469384D0bA0C5a246E5744851EB8",
+    "address": "0x43FabE9cb7B2700968502CdCB54A61eDC67d6b91",
     "abi": [
       {
         "inputs": [],
@@ -716,7 +716,7 @@
   },
   {
     "name": "ThreeYearsFixStakingStrategy",
-    "address": "0x0b44b63da7e96cba77f0a84bE3ca029D403e5041",
+    "address": "0x2305cAc88375FEd79089F8934ae0d90D1D343c56",
     "abi": [
       {
         "inputs": [],
@@ -1431,7 +1431,7 @@
   },
   {
     "name": "FiveYearsFixStakingStrategy",
-    "address": "0x39B6c9ece042d4E60ca6680d95f160F0B095b6e3",
+    "address": "0xB7cD124A172D018Ed487f27726B1293D1FE9e04B",
     "abi": [
       {
         "inputs": [],
@@ -2146,7 +2146,7 @@
   },
   {
     "name": "FiveYearsFlexStakingStrategy",
-    "address": "0x2B40B7B2dc72D9656f44891C1b3A1ED52Ca16Cd9",
+    "address": "0xe5062302205F5837e5F6f0CE3344Df0986cC89fB",
     "abi": [
       {
         "inputs": [],
