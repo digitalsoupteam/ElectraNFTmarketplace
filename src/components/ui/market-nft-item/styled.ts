@@ -92,30 +92,22 @@ interface IPriceButton {
 }
 
 const PriceButton = styled(Button)<IPriceButton>`
-  color: ${(props) =>
-    props.isActive ? props.theme.diamond : props.theme.grey};
+  color: ${(props) => (props.isActive ? props.theme.white : props.theme.grey)};
   font-weight: 600;
   font-size: 20px;
   line-height: 130%;
   background-color: transparent;
   padding: 0;
   gap: 5px;
+  background-color: ${(props) =>
+    props.isActive ? props.theme.diamond : props.theme.white};
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border-radius: 8px;
 
   &:not(:last-of-type) {
-    margin-right: 30px;
+    margin-right: 10px;
     position: relative;
-
-    &::after {
-      content: '/';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 100%;
-      color: #bababa;
-      font-size: 20px;
-      width: 30px;
-      height: 100%;
-    }
   }
 
   &:hover {
