@@ -12,15 +12,10 @@ import GlobalStyle from './styled';
 import { bsc } from 'wagmi/chains';
 import { Suspense, StrictMode } from 'react';
 
-const getUrl = () =>
-  window.location.protocol +
-  window.location.hostname +
-  (window.location.port ? `:${window.location.port}` : '');
-
 const metadata = {
   name: 'Web3Modal',
   description: '',
-  url: String(getUrl),
+  url: window.location.hostname,
   icons: ['https://avatars.githubusercontent.com/u/37784886'],
 };
 const projectId = import.meta.env.VITE_WEB_3_MODAL_KEY;
