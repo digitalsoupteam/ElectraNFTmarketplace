@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+import { useWalletClient } from 'wagmi';
 import Wrapper from '../../layout/wrapper/wrapper';
 import { TitleSize } from '../../ui/title/title';
 import {
@@ -6,6 +8,8 @@ import {
   ExchangeTitle,
   TitleLogo,
   AddToken,
+  StyledGuideLinks,
+  HelperButtons,
 } from './styled';
 import ElectraLogo from '../../../assets/logo-gradient.svg';
 import Button from '../../ui/button/button';
@@ -14,8 +18,7 @@ import EarnIco from '../../../assets/earn-ico.png';
 import ExchangeIco from '../../../assets/exchange-ico.png';
 import StakeIco from '../../../assets/stake-ico.png';
 import Exchanger from '../../blocks/exchanger/exchanger';
-import { useTranslation } from 'react-i18next';
-import { useWalletClient } from 'wagmi';
+import { WalletIcons } from '../../ui/guide-links/guide-links';
 
 interface IExchange {
   isLoggedIn: boolean;
@@ -40,6 +43,17 @@ const Exchange: React.FC<IExchange> = ({ isLoggedIn, connectWallet }) => {
       title: t('exchange:list.i3.t'),
       text: t('exchange:list.i3.d'),
       ico: StakeIco,
+    },
+  ];
+
+  const guideLinks = [
+    {
+      walletIcon: WalletIcons.METAMASK,
+      link: 'https://nft.electra.space/guides/metamask_elct/',
+    },
+    {
+      walletIcon: WalletIcons.TRUSTWALLET,
+      link: 'https://nft.electra.space/guides/trust_elct/',
     },
   ];
 
@@ -69,11 +83,19 @@ const Exchange: React.FC<IExchange> = ({ isLoggedIn, connectWallet }) => {
             </Button>
           </ExchangeHeader>
           <ExchangeFeatureList features={features} />
-          <AddToken>
-            <Button onClick={handleAddToken} isSmall={true}>
-              Add token to wallet
-            </Button>
-          </AddToken>
+          <HelperButtons>
+            <AddToken>
+              <Button onClick={handleAddToken} isSmall={true}>
+                Add token to wallet
+              </Button>
+            </AddToken>
+            <StyledGuideLinks
+              title="Token buying guide:"
+              links={guideLinks}
+              isSmall={true}
+              isLight={true}
+            />
+          </HelperButtons>
           <Exchanger isLoggedIn={isLoggedIn} connectWallet={connectWallet} />
         </StyledExchange>
       </Wrapper>

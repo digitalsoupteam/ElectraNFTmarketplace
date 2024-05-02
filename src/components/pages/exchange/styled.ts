@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Title } from '../../ui/title/title';
 import Image from '../../../elements/image';
+import GuideLinks from '../../ui/guide-links/guide-links';
 
 const StyledExchange = styled.section`
   padding: 150px 0 70px;
@@ -36,7 +37,25 @@ const TitleLogo = styled(Image)`
 const AddToken = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+const StyledGuideLinks = styled(GuideLinks)``;
+
+const HelperButtons = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
   margin-bottom: 20px;
 `;
 
-export { StyledExchange, ExchangeHeader, ExchangeTitle, TitleLogo, AddToken };
+export {
+  StyledExchange,
+  ExchangeHeader,
+  ExchangeTitle,
+  TitleLogo,
+  AddToken,
+  StyledGuideLinks,
+  HelperButtons,
+};

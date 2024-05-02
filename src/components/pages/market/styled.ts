@@ -1,8 +1,15 @@
 import styled from 'styled-components';
-import Accordion from '../../ui/accordion/accordion';
 import Communication from '../../blocks/communication/communication';
 
-const StyledAccordion: any = styled(Accordion)`
+const StyledCommunication = styled(Communication)`
+  background-color: ${(props) => props.theme.white};
+`;
+
+const SideBar = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
     position: sticky;
     top: 28px;
@@ -13,8 +20,4 @@ const StyledAccordion: any = styled(Accordion)`
   }
 `;
 
-const StyledCommunication = styled(Communication)`
-  background-color: ${(props) => props.theme.white};
-`;
-
-export { StyledAccordion, StyledCommunication };
+export { StyledCommunication, SideBar };

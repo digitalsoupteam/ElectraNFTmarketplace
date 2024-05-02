@@ -1,4 +1,4 @@
-import { StyledAccordion, StyledCommunication } from './styled';
+import { SideBar, StyledCommunication } from './styled';
 import MartketHero from '../../blocks/market-hero/market-hero';
 import MarketArchive from '../../blocks/market-archive/market-archive';
 import MarketLoop from '../../blocks/market-loop/market-loop';
@@ -10,6 +10,8 @@ import NftScooter from '../../../assets/nft-scooter.png';
 // import Moped from '../../../contracts/moped.json';
 import MopedTest from '../../../contracts/mopedTest.json';
 import { t } from 'i18next';
+import GuideLinks, { WalletIcons } from '../../ui/guide-links/guide-links';
+import Accordion from '../../ui/accordion/accordion';
 
 interface IMarket {
   isLoggedIn: boolean;
@@ -63,11 +65,25 @@ const Market: React.FC<IMarket> = ({ isLoggedIn, connectWallet }) => {
     },
   ];
 
+  const guideLinks = [
+    {
+      walletIcon: WalletIcons.METAMASK,
+      link: 'https://nft.electra.space/guides/metamask_nft/',
+    },
+    {
+      walletIcon: WalletIcons.TRUSTWALLET,
+      link: 'https://nft.electra.space/guides/trust_nft/',
+    },
+  ];
+
   return (
     <main>
       <MartketHero isLoggedIn={isLoggedIn} connectWallet={connectWallet} />
       <MarketArchive>
-        <StyledAccordion accordionItems={accordionItems} />
+        <SideBar>
+          <GuideLinks title="NFT buying guide:" links={guideLinks} />
+          <Accordion accordionItems={accordionItems} />
+        </SideBar>
         <MarketLoop
           items={marketItems}
           isLoggedIn={isLoggedIn}

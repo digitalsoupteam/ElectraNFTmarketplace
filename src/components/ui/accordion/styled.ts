@@ -60,7 +60,7 @@ const AccordionButton = styled(Button)<IAccordionButton>`
   }
 
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
-    padding: 29px 25px;
+    padding: 29px 20px;
     border-radius: ${(props) => props.theme.borderRadiusDesktopSmall};
     font-size: 24px;
   }
