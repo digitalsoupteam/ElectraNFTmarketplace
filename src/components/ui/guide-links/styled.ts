@@ -75,8 +75,8 @@ const StyledGuideLinks = styled.div<IStyledGuideLinks>`
     padding: ${(props) => (props.$isSmall ? '8px 15px' : '15px 20px')};
 
     ${StyledButton} {
-      width: ${(props) => (props.$isSmall ? '40px' : '50px')};
-      height: ${(props) => (props.$isSmall ? '40px' : '50px')};
+      width: ${(props) => (props.$isSmall ? '40px' : '48px')};
+      height: ${(props) => (props.$isSmall ? '40px' : '48px')};
     }
   }
 `;
