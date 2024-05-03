@@ -73,7 +73,7 @@ const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
     },
     {
       img: SocialIcons.DISCORD,
-      link: 'https://discord.gg/rFkgyXpB',
+      link: 'https://discord.gg/RsGyxRXQ9E',
     },
     {
       img: SocialIcons.TWITTER,
@@ -138,7 +138,5 @@ const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
     </StyledHeader>
   );
 };
-
-
 
 export default Header;

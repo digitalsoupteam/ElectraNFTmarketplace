@@ -27,7 +27,7 @@ const socials: ISocialItem[] = [
   },
   {
     img: SocialIcons.DISCORD,
-    link: 'https://discord.gg/rFkgyXpB',
+    link: 'https://discord.gg/RsGyxRXQ9E',
   },
 ];
 

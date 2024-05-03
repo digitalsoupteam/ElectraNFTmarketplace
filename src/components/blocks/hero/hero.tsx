@@ -30,7 +30,7 @@ const socials: ISocialItem[] = [
   },
   {
     img: SocialIcons.DISCORD,
-    link: 'https://discord.gg/PgpMjgTJ',
+    link: 'https://discord.gg/RsGyxRXQ9E',
   },
 ];
 

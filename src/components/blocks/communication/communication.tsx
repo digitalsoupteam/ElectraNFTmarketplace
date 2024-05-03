@@ -32,7 +32,7 @@ const Communication: React.FC<ICommunication> = ({ className }) => {
     },
     {
       img: SocialIcons.DISCORD,
-      link: 'https://discord.gg/PgpMjgTJ',
+      link: 'https://discord.gg/RsGyxRXQ9E',
     },
   ];
 

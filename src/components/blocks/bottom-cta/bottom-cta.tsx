@@ -24,7 +24,7 @@ interface ICtaItems {
 const BottomCta: React.FC = () => {
   const buttonsLinks = [
     '/market',
-    'https://discord.com/invite/PgpMjgTJ',
+    'https://discord.gg/RsGyxRXQ9E',
     '/exchange',
   ];
 
