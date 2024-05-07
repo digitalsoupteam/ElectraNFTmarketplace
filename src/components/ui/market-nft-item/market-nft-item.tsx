@@ -15,8 +15,14 @@ import {
   NftBuyButton,
   USTax,
   OutOfStock,
+  Notification,
 } from './styled';
-import { useContractRead, useContractWrite, useWalletClient } from 'wagmi';
+import {
+  useContractRead,
+  useContractWrite,
+  useWaitForTransaction,
+  useWalletClient,
+} from 'wagmi';
 import { TitleSize } from '../title/title';
 import Quantity from '../quantity/quantity';
 import Tokens from '../../../contracts/tokens.json';
@@ -62,6 +68,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
   const [WBNBTotalPrice, setWBNBTotalPrice] = useState(0n);
   const [quantity, setQuantity] = useState(1);
   const [currentTokenIndex, setCurrentTokenIndex] = useState(0);
+  const [mintedTxData, setMintedTxData] = useState<any>(null);
 
   const { data: walletClient } = useWalletClient();
 
@@ -197,6 +204,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
 
   const {
     write: mintWrite,
+    data: mintTxData,
     isLoading: isMinting,
     isSuccess: mintSuccess,
   } = useContractWrite({
@@ -318,8 +326,55 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
     ],
   };
 
+  const addTokensToWallet = (tokensIDs: number[]) => {
+    tokensIDs.forEach((token) => {
+      walletClient?.request({
+        method: 'wallet_watchAsset',
+        //@ts-ignore
+        params: {
+          type: 'ERC721',
+          options: {
+            address: address,
+            tokenId: String(token),
+          },
+        },
+      });
+    });
+  };
+
+  const { isLoading: waitingForTransaction } = useWaitForTransaction({
+    hash: mintTxData?.hash,
+    confirmations: 3,
+    onSuccess: (data) => {
+      setMintedTxData(data);
+    },
+  });
+
+  useEffect(() => {
+    if (mintedTxData) {
+      const mintLogs = mintedTxData.logs;
+      const mintedTokensIDs: number[] = [];
+
+      if (mintLogs) {
+        for (let index = 0; index < mintLogs.length; index += 3) {
+          const topicIndex = Tokens[currentTokenIndex].name === 'BNB' ? 3 : 2;
+          const hexedTokenID = mintLogs[index].topics[topicIndex];
+          const tokenID = parseInt(String(hexedTokenID), 16);
+          mintedTokensIDs.push(tokenID);
+        }
+      }
+
+      if (mintedTokensIDs) {
+        addTokensToWallet(mintedTokensIDs);
+      }
+    }
+  }, [mintedTxData]);
+
   return (
     <StyledNft>
+      <Notification $isShow={waitingForTransaction}>
+        Adding token to wallet
+      </Notification>
       <NftImage src={image} $outOfStock={!!disabled} />
       <NftTitle size={TitleSize.MEDIUM} as={'h3'}>
         {title}

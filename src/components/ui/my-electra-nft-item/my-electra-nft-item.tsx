@@ -150,7 +150,6 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
       const minWidthdrawAmountSingleClaim =
         claimAmount - (claimAmount / BigInt(100)) * slippage;
 
-      console.log('min w C', Number(minWidthdrawAmountSingleClaim) / 1e18);
       return minWidthdrawAmountSingleClaim;
     }
   };
@@ -180,8 +179,6 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
     if (typeof sellAmount === 'bigint') {
       const minWidthdrawAmountSell =
         sellAmount - (sellAmount / BigInt(100)) * slippage;
-
-      console.log('min w s', Number(minWidthdrawAmountSell) / 1e18);
 
       return minWidthdrawAmountSell;
     }

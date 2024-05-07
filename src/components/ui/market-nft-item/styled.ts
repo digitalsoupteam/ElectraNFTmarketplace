@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import Image from '../../../elements/image';
 import { Title } from '../title/title';
 import Button from '../button/button';
@@ -187,6 +187,42 @@ const OutOfStock = styled(P)`
   margin-bottom: 17px;
 `;
 
+const loading = keyframes`
+  from {
+    width: 0;
+  } to {
+    width: 100%;
+  }
+`;
+
+interface INotificationProps {
+  $isShow: boolean;
+}
+
+const Notification = styled.div<INotificationProps>`
+  position: absolute;
+  display: ${(props) => (props.$isShow ? 'block' : 'none')};
+  text-align: center;
+  bottom: 1px;
+  left: 1px;
+  right: 1px;
+  color: black;
+  background-color: white;
+  padding: 15px 10px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 5px;
+    background-color: ${(props) => props.theme.diamond};
+    animation: ${(props) => (props.$isShow ? loading : 'none')} 10s ease-in-out;
+  }
+`;
+
 export {
   StyledNft,
   NftImage,
@@ -203,4 +239,5 @@ export {
   NftBuyButton,
   USTax,
   OutOfStock,
+  Notification,
 };
