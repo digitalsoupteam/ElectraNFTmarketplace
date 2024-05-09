@@ -26,7 +26,11 @@ const SwitchChain: FC = () => {
         {chains &&
           chains.length &&
           chains.map((item) => (
-            <Button isSmall={true} onClick={() => switchNetwork?.(item.id)}>
+            <Button
+              isSmall={true}
+              onClick={() => switchNetwork?.(item.id)}
+              key={item.id}
+            >
               {isLoading
                 ? 'Switching.. (check your wallet)'
                 : `Switch to ${item.name}`}

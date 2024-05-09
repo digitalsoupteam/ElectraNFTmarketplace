@@ -57,14 +57,9 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
   const [isInvestmentTypeValid, setIsInvestmentTypeValid] = useState(false);
   const [isUSTaxChecked, setIsUSTaxChecked] = useState(false);
   const [mintButtonFirstClick, setMintButtonFirstClick] = useState(false);
-  const [USDPrice, setUSDPrice] = useState(0n);
-  const [USDTPrice, setUSDTPrice] = useState(0n);
   const [USDTTotalPrice, setUSDTotalPrice] = useState(0n);
-  const [ELECTPrice, setELECTPrice] = useState(0n);
   const [ELECTTotalPrice, setELECTotalPrice] = useState(0n);
-  const [BNBPrice, setBNBPrice] = useState(0n);
   const [BNBTotalPrice, setBNBTotalPrice] = useState(0n);
-  const [WBNBPrice, setWBNBPrice] = useState(0n);
   const [WBNBTotalPrice, setWBNBTotalPrice] = useState(0n);
   const [quantity, setQuantity] = useState(1);
   const [currentTokenIndex, setCurrentTokenIndex] = useState(0);
@@ -127,13 +122,6 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
     return maxPayTokenAmount;
   };
 
-  useEffect(() => {
-    setUSDTotalPrice(BigInt(quantity) * USDTPrice);
-    setELECTotalPrice(BigInt(quantity) * ELECTPrice);
-    setBNBTotalPrice(BigInt(quantity) * BNBPrice);
-    setWBNBTotalPrice(BigInt(quantity) * WBNBPrice);
-  }, [quantity, USDTPrice, ELECTPrice, BNBPrice, WBNBPrice]);
-
   const handlerQuantity = (quantity: number) => {
     setQuantity(quantity);
   };
@@ -142,65 +130,56 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
     address: address,
     abi: abi,
     functionName: 'price',
-    watch: true,
-    onSuccess: () => {
-      if (typeof price === 'bigint') {
-        setUSDPrice(price);
-      }
-    },
   });
 
   const { data: fetchedUSDTPrice } = useContractRead({
     address: Treasury.address as `0x${string}`,
     abi: Treasury.abi,
     functionName: 'usdAmountToToken',
-    args: [USDPrice, Tokens[0].address],
-    watch: true,
-    onSuccess: () => {
-      if (typeof fetchedUSDTPrice === 'bigint') {
-        setUSDTPrice(fetchedUSDTPrice);
-      }
-    },
+    args: [price, Tokens[0].address],
   });
 
   const { data: fetchedELECTPrice } = useContractRead({
     address: Treasury.address as `0x${string}`,
     abi: Treasury.abi,
     functionName: 'usdAmountToToken',
-    args: [USDPrice, Tokens[1].address],
-    watch: true,
-    onSuccess: () => {
-      if (typeof fetchedELECTPrice === 'bigint') {
-        setELECTPrice(fetchedELECTPrice);
-      }
-    },
+    args: [price, Tokens[1].address],
   });
 
   const { data: fetchedBNBPrice } = useContractRead({
     address: Treasury.address as `0x${string}`,
     abi: Treasury.abi,
     functionName: 'usdAmountToToken',
-    args: [USDPrice, Tokens[2].address],
-    watch: true,
-    onSuccess: () => {
-      if (typeof fetchedBNBPrice === 'bigint') {
-        setBNBPrice(fetchedBNBPrice);
-      }
-    },
+    args: [price, Tokens[2].address],
   });
 
   const { data: fetchedWBNBPrice } = useContractRead({
     address: Treasury.address as `0x${string}`,
     abi: Treasury.abi,
     functionName: 'usdAmountToToken',
-    args: [USDPrice, Tokens[3].address],
-    watch: true,
-    onSuccess: () => {
-      if (typeof fetchedWBNBPrice === 'bigint') {
-        setWBNBPrice(fetchedWBNBPrice);
-      }
-    },
+    args: [price, Tokens[3].address],
   });
+
+  useEffect(() => {
+    if (typeof fetchedUSDTPrice === 'bigint') {
+      setUSDTotalPrice(BigInt(quantity) * fetchedUSDTPrice);
+    }
+    if (typeof fetchedELECTPrice === 'bigint') {
+      setELECTotalPrice(BigInt(quantity) * fetchedELECTPrice);
+    }
+    if (typeof fetchedBNBPrice === 'bigint') {
+      setBNBTotalPrice(BigInt(quantity) * fetchedBNBPrice);
+    }
+    if (typeof fetchedWBNBPrice === 'bigint') {
+      setWBNBTotalPrice(BigInt(quantity) * fetchedWBNBPrice);
+    }
+  }, [
+    quantity,
+    fetchedUSDTPrice,
+    fetchedELECTPrice,
+    fetchedBNBPrice,
+    fetchedWBNBPrice,
+  ]);
 
   const {
     write: mintWrite,
@@ -233,6 +212,8 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
     abi: Tokens[currentTokenIndex].abi,
     functionName: 'allowance',
     args: [walletClient?.account.address, address],
+    enabled:
+      Tokens[currentTokenIndex].name !== 'BNB' && (address ? true : false),
     onError: (error) => {
       console.error(error);
     },
@@ -363,8 +344,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
           mintedTokensIDs.push(tokenID);
         }
       }
-      console.log(mintLogs);
-      console.log(mintedTokensIDs);
+
       if (mintedTokensIDs) {
         addTokensToWallet(mintedTokensIDs);
       }

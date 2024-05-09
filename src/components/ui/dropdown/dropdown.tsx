@@ -16,7 +16,7 @@ interface IDropdownItem {
 
 interface IDropdown {
   toggler?: React.ReactNode;
-  isExchange?: boolean;
+  $isExchange?: boolean;
   items: IDropdownItem[];
   isValid: boolean;
   className?: string;
@@ -27,7 +27,7 @@ const Dropdown: React.FC<IDropdown> = ({
   items,
   isValid,
   className,
-  isExchange,
+  $isExchange,
 }) => {
   useTransition();
   const [isOpened, setIsOpened] = useState(false);
@@ -42,13 +42,13 @@ const Dropdown: React.FC<IDropdown> = ({
   }, [isOpened, height]);
 
   return (
-    <StyledDropdown className={className} isExchange={isExchange}>
-      {isExchange ? <Descriptor>{t('main:from')}</Descriptor> : null}
+    <StyledDropdown className={className} $isExchange={$isExchange}>
+      {$isExchange ? <Descriptor>{t('main:from')}</Descriptor> : null}
       <DropdownToggler
         $isOpened={isOpened}
         onClick={() => setIsOpened(!isOpened)}
         isValid={isValid}
-        isExchange={isExchange}
+        $isExchange={$isExchange}
       >
         {currentText}
       </DropdownToggler>
@@ -57,7 +57,7 @@ const Dropdown: React.FC<IDropdown> = ({
         <DropdownList ref={openContent}>
           {items?.map((item) => (
             <DropdownItem
-              isExchange={isExchange}
+              $isExchange={$isExchange}
               onClick={() => {
                 setIsOpened(false);
                 setCurrentText(item.name);

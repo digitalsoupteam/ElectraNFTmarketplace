@@ -4,19 +4,19 @@ import DropdownTogglerIco from '../../../assets/triangle.svg';
 import Arrow from '../../../assets/arrow-thin.svg';
 
 interface IStyledDropdown {
-  isExchange?: boolean;
+  $isExchange?: boolean;
 }
 
 const StyledDropdown = styled.div<IStyledDropdown>`
   position: relative;
   background-color: ${(props) =>
-    props.isExchange ? 'transparent' : props.theme.white};
+    props.$isExchange ? 'transparent' : props.theme.white};
 `;
 
 interface IDropdownToggler {
   $isOpened: boolean;
   isValid: boolean;
-  isExchange?: boolean;
+  $isExchange?: boolean;
 }
 
 const Descriptor = styled.span`
@@ -27,11 +27,11 @@ const Descriptor = styled.span`
 const DropdownToggler = styled(Button)<IDropdownToggler>`
   color: ${(props) => (props.isValid ? 'initial' : props.theme.crimson)};
   border-radius: ${(props) => props.theme.borderRadiusMobileSmall};
-  padding: ${(props) => (props.isExchange ? '1px 20px' : '12px 20px')};
+  padding: ${(props) => (props.$isExchange ? '1px 20px' : '12px 20px')};
   font-size: 16px;
   width: 100%;
   background-color: ${(props) =>
-    props.isExchange ? 'transparent' : props.theme.white};
+    props.$isExchange ? 'transparent' : props.theme.white};
   justify-content: space-between;
   text-align: start;
 
@@ -42,7 +42,7 @@ const DropdownToggler = styled(Button)<IDropdownToggler>`
     height: 13px;
     // eslint-disable-next-line no-use-before-define
     background-image: url(${(props) =>
-      props.isExchange ? Arrow : DropdownTogglerIco});
+      props.$isExchange ? Arrow : DropdownTogglerIco});
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -51,7 +51,7 @@ const DropdownToggler = styled(Button)<IDropdownToggler>`
   }
 
   ${(props) =>
-    props.isExchange
+    props.$isExchange
       ? css`
           &::after {
             position: absolute;
@@ -70,7 +70,7 @@ const DropdownToggler = styled(Button)<IDropdownToggler>`
 
   &:hover {
     background-color: ${(props) =>
-      props.isExchange ? 'transparent' : props.theme.white};
+      props.$isExchange ? 'transparent' : props.theme.white};
   }
 
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {
@@ -102,12 +102,12 @@ const DropdownList = styled.div`
 `;
 
 interface IDropdownItem {
-  isExchange?: boolean;
+  $isExchange?: boolean;
 }
 
 const DropdownItem = styled(Button)<IDropdownItem>`
   background-color: ${(props) =>
-    props.isExchange ? 'transparent' : props.theme.white};
+    props.$isExchange ? 'transparent' : props.theme.white};
   border-radius: ${(props) => props.theme.borderRadiusMobileSmall};
   padding: 12px 20px;
   font-size: 16px;
@@ -116,7 +116,7 @@ const DropdownItem = styled(Button)<IDropdownItem>`
 
   &:hover {
     background-color: ${(props) =>
-      props.isExchange ? 'transparent' : props.theme.white};
+      props.$isExchange ? 'transparent' : props.theme.white};
   }
 
   @media screen and (min-width: ${(props) => props.theme.desktopWidth}) {

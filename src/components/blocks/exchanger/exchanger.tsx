@@ -259,16 +259,16 @@ const Exchanger: React.FC<IExchanger> = ({ isLoggedIn, connectWallet }) => {
                 <StyledDropdown
                   items={items}
                   isValid={true}
-                  isExchange={true}
+                  $isExchange={true}
                 />
               </div>
               <InputContainer>
                 <Input
                   type="number"
-                  inputmode="decimal"
-                  autocomplete="off"
-                  autocorrect="off"
-                  spellcheck="false"
+                  inputMode="decimal"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck="false"
                   placeholder="0.0"
                   value={payTokenAmountValue}
                   onFocus={handlePaytokenFocus}
@@ -304,10 +304,10 @@ const Exchanger: React.FC<IExchanger> = ({ isLoggedIn, connectWallet }) => {
               </ELCTLabel>
               <Input
                 type={'number'}
-                inputmode="decimal"
-                autocomplete="off"
-                autocorrect="off"
-                spellcheck="false"
+                inputMode="decimal"
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck="false"
                 placeholder="0.0"
                 onChange={handlerELCTAmountInput}
                 value={ELCTAmountValue}
