@@ -152,6 +152,8 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
 
       return minWidthdrawAmountSingleClaim;
     }
+
+    return 0n;
   };
 
   const { write: singleClaim, isLoading: claiming } = useContractWrite({
@@ -182,6 +184,8 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
 
       return minWidthdrawAmountSell;
     }
+
+    return 0n;
   };
 
   const { write: singleSell, isLoading: selling } = useContractWrite({
@@ -212,13 +216,13 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
         const tokenId = item.tokenId;
         const tokenAddress = Tokens[activeTokenIndex].address;
         const minWithdrawAmount = getMinWidthdrawAmountSingleClaim();
-
         return encodeFunctionData({
           abi: getStakingStrategyABI(item.investmentType),
           functionName: 'claim',
           args: [itemAddress, tokenId, tokenAddress, minWithdrawAmount],
         });
       });
+
       setEncodedMulicallClaimData(encodedClaimMulticallArray);
 
       const encodedSellMulticallArray = item.map((item) => {
@@ -226,7 +230,6 @@ const MyElectraNftItem: React.FC<IMyElectraNftItem> = ({
         const tokenId = item.tokenId;
         const tokenAddress = Tokens[activeTokenIndex].address;
         const minWithdrawAmount = getMinWidthdrawAmountSell();
-
         return encodeFunctionData({
           abi: getStakingStrategyABI(item.investmentType),
           functionName: 'sell',

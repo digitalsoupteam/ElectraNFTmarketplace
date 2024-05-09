@@ -344,7 +344,7 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
 
   const { isLoading: waitingForTransaction } = useWaitForTransaction({
     hash: mintTxData?.hash,
-    confirmations: 3,
+    confirmations: 4,
     onSuccess: (data) => {
       setMintedTxData(data);
     },
@@ -356,14 +356,15 @@ const MarketNftItem: React.FC<IMarketNftItem> = ({
       const mintedTokensIDs: number[] = [];
 
       if (mintLogs) {
-        for (let index = 0; index < mintLogs.length; index += 3) {
-          const topicIndex = Tokens[currentTokenIndex].name === 'BNB' ? 3 : 2;
-          const hexedTokenID = mintLogs[index].topics[topicIndex];
+        const topicIndex = Tokens[currentTokenIndex].name === 'BNB' ? 0 : 2;
+        for (let index = topicIndex; index < mintLogs.length; index += 3) {
+          const hexedTokenID = mintLogs[index].topics[3];
           const tokenID = parseInt(String(hexedTokenID), 16);
           mintedTokensIDs.push(tokenID);
         }
       }
-
+      console.log(mintLogs);
+      console.log(mintedTokensIDs);
       if (mintedTokensIDs) {
         addTokensToWallet(mintedTokensIDs);
       }

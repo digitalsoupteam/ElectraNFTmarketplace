@@ -7,8 +7,6 @@ import { WagmiConfig } from 'wagmi';
 import PageWrapper from '../layout/page-wrapper/page-wrapper';
 import GlobalStyle from './styled';
 
-// if you need[localhost, bsc] - just import here...
-// for example: import { localhost, bsc } from 'wagmi/chains';
 import { bsc } from 'wagmi/chains';
 import { Suspense, StrictMode } from 'react';
 
@@ -18,6 +16,7 @@ const metadata = {
   url: window.location.hostname,
   icons: ['https://avatars.githubusercontent.com/u/37784886'],
 };
+
 const projectId = import.meta.env.VITE_WEB_3_MODAL_KEY;
 const chains = [bsc]; // [localhost, bsc];
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
