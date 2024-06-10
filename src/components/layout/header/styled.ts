@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import BurgerButton from '../../ui/burger-button/burger-button';
 import { Socials } from '../../ui/socials/socials';
+import Button from '../../ui/button/button.tsx';
 
 const StyledHeader = styled.header`
   z-index: 2;
@@ -85,4 +86,23 @@ const HeaderSocials = styled(Socials)<IHeaderSocials>`
   }
 `;
 
-export { StyledHeader, HeaderInner, HeaderBurger, HeaderMenu, HeaderSocials };
+const UserNav = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+`;
+
+const StyledMyElectra = styled(Button)`
+  padding: 10px;
+`;
+
+export {
+  StyledHeader,
+  HeaderInner,
+  HeaderBurger,
+  HeaderMenu,
+  HeaderSocials,
+  UserNav,
+  StyledMyElectra,
+};

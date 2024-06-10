@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import {
   StyledHeader,
   HeaderInner,
   HeaderBurger,
   HeaderMenu,
   HeaderSocials,
+  UserNav,
+  StyledMyElectra,
 } from './styled';
 import Wrapper from '../wrapper/wrapper';
 import Logo from '../../ui/logo/logo';
@@ -12,8 +14,8 @@ import MainNav from '../../ui/main-nav/main-nav';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { SocialIcons } from '../../ui/socials/socials';
 import ConnectWallet from '../../ui/connect-wallet/connect-wallet';
-import { MetaMaskAvatar } from 'react-metamask-avatar';
 import { useTranslation } from 'react-i18next';
+import User from '../../../assets/user.svg?react';
 
 interface IMenuItems {
   title: string;
@@ -27,15 +29,12 @@ interface IHeader {
   address: string;
 }
 
-const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
+const Header: FC<IHeader> = ({ handlerConnect, address }) => {
   const { t } = useTranslation();
   const [isMenuOpened, setIsMenuOpened] = useState(false);
-  const formateAddress = (address: string) => {
-    return `${address.slice(0, 4)}...${address.slice(-4)}`;
-  };
 
   const [isDesktop, setIsDesktop] = useState<boolean>(
-    window.matchMedia('(min-width: 1400px)').matches
+    window.matchMedia('(min-width: 1400px)').matches,
   );
 
   const closeMenu = () => {
@@ -56,8 +55,8 @@ const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
       to: 'exchange',
     },
     {
-      title: 'MyElectra',
-      to: '/my-electra',
+      title: 'Roadmap',
+      to: 'roadmap',
     },
     {
       title: t('menu:contact'),
@@ -109,15 +108,13 @@ const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
     };
   }, []);
 
-  const connectWallet = (
-    <ConnectWallet
-      onClick={handlerConnect}
-      isConnected={address ? true : false}
-    >
-      {address ? <MetaMaskAvatar address={address} size={46} /> : null}
-      {address ? formateAddress(address) : t('menu:c-w')}
-    </ConnectWallet>
-  );
+  const MyElectra: FC = () => {
+    return (
+      <StyledMyElectra to={'my-electra'} onClick={closeMenu}>
+        <User />
+      </StyledMyElectra>
+    );
+  };
 
   return (
     <StyledHeader>
@@ -127,11 +124,21 @@ const Header: React.FC<IHeader> = ({ handlerConnect, address }) => {
             <Logo isLink />
             <HeaderBurger onClick={toggleMenu} />
             <HeaderMenu $isMenuOpened={isMenuOpened}>
-              {isDesktop ? null : connectWallet}
+              {!isDesktop && (
+                <UserNav>
+                  {address && <MyElectra />}
+                  <ConnectWallet onClick={handlerConnect} address={address} />
+                </UserNav>
+              )}
               <MainNav onClick={closeMenu} menuItems={menuItems} />
               <HeaderSocials socials={socials} currentColor={'#323232'} />
             </HeaderMenu>
-            {isDesktop ? connectWallet : null}
+            {isDesktop && (
+              <UserNav>
+                {address && <MyElectra />}
+                <ConnectWallet onClick={handlerConnect} address={address} />
+              </UserNav>
+            )}
           </HeaderInner>
         </OutsideClickHandler>
       </Wrapper>
