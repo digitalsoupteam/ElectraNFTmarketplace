@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Swiper } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/mousewheel';
+import 'swiper/css/free-mode';
 
 import RoadmapBg1 from '../../../assets/roadmap-bg.svg';
 import RoadmapBg2 from '../../../assets/roadmap-bg2.png';

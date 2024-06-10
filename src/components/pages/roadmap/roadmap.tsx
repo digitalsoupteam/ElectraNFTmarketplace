@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { SwiperSlide } from 'swiper/react';
-import { Mousewheel } from 'swiper/modules';
+import { FreeMode, Mousewheel } from 'swiper/modules';
 
 import {
   StyledRoadmap,
@@ -24,7 +24,8 @@ const Roadmap: FC = () => {
       <StyledSwiper
         spaceBetween={55}
         slidesPerView={'auto'}
-        modules={[Mousewheel]}
+        modules={[FreeMode, Mousewheel]}
+        freeMode={{ enabled: true }}
         mousewheel={true}
       >
         {RoadmapData &&
